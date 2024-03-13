@@ -144,6 +144,11 @@ class Connection extends IlluminateConnection
         return $this->arangoClient;
     }
 
+    public function setArangoClient(ArangoClient $arangoClient): void
+    {
+        $this->arangoClient = $arangoClient;
+    }
+
     /**
      * Set the name of the connected database.
      *
