@@ -14,8 +14,8 @@ use LaravelFreelancerNL\Aranguent\Schema\Grammar;
 use Mockery as M;
 use Tests\Setup\ClassStubs\CustomBlueprint;
 
-//use TiMacDonald\Log\LogEntry;
-//use TiMacDonald\Log\LogFake;
+use TiMacDonald\Log\LogEntry;
+use TiMacDonald\Log\LogFake;
 
 afterEach(function () {
     M::close();
@@ -63,7 +63,7 @@ test('drop all tables', function () {
 
     $tables = Schema::getAllTables();
 
-    expect(count($initialTables))->toEqual(10);
+    expect(count($initialTables))->toEqual(15);
     expect(count($tables))->toEqual(0);
 
     refreshDatabase();
@@ -310,14 +310,14 @@ test('Silently fails unsupported functions', function () {
 })->throwsNoExceptions();
 
 // Removed the log fake dependency for now as it usually lags behind new Laravel releases
-//test('Unsupported functions are logged', function () {
-//    $this->skipTestOn('laravel', '>', '3.10');
-//
-//    LogFake::bind();
-//
-//    Schema::nonExistingFunction('none-existing-analyzer');
-//
-//    Log::assertLogged(
-//        fn(LogEntry $log) => $log->level === 'warning'
-//    );
-//});
+test('Unsupported functions are logged', function () {
+    $this->skipTestOn('laravel', '>', '3.10');
+
+    LogFake::bind();
+
+    Schema::nonExistingFunction('none-existing-analyzer');
+
+    Log::assertLogged(
+        fn(LogEntry $log) => $log->level === 'warning'
+    );
+});

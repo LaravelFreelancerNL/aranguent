@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\QueryException as IlluminateQueryException;
 
 beforeEach(function () {
     $this->schemaManager = $this->connection->getArangoClient()->schema();
@@ -46,8 +45,8 @@ test('migrate:rollback --database=arangodb', function () {
     refreshDatabase();
 });
 
-test('migrate:rollback --database=sqlite', function () {
+test('migrate:rollback --database=none', function () {
     $this->artisan('migrate:rollback', [
-        '--database' => 'sqlite',
+        '--database' => 'none',
     ])->assertExitCode(0);
-})->throws(IlluminateQueryException::class);
+})->throws(InvalidArgumentException::class);

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\QueryException as IlluminateQueryException;
 use Database\Seeders\DatabaseSeeder;
 
 beforeEach(function () {
@@ -25,7 +24,7 @@ test('migrate:refresh', function () {
     ])->assertExitCode(0);
 
     $collections = $this->schemaManager->getCollections(true);
-    expect(count($collections))->toBe(10);
+    expect(count($collections))->toBe(15);
 });
 
 test('migrate:refresh --database=arangodb', function () {
@@ -46,11 +45,11 @@ test('migrate:refresh --database=arangodb', function () {
     ])->assertExitCode(0);
 
     $collections = $this->schemaManager->getCollections(true);
-    expect(count($collections))->toBe(10);
+    expect(count($collections))->toBe(15);
 });
 
-test('migrate:refresh --database=sqlite', function () {
+test('migrate:refresh --database=none', function () {
     $this->artisan('migrate:refresh', [
-        '--database' => 'sqlite',
+        '--database' => 'none',
     ])->assertExitCode(0);
-})->throws(IlluminateQueryException::class);
+})->throws(InvalidArgumentException::class);

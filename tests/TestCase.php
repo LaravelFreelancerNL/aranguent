@@ -4,18 +4,29 @@ namespace Tests;
 
 use ArangoClient\Schema\SchemaManager;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTruncation;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\LazyCollection;
 use LaravelFreelancerNL\Aranguent\AranguentServiceProvider;
+use LaravelFreelancerNL\Aranguent\Testing\Concerns\InteractsWithDatabase;
+use LaravelFreelancerNL\Aranguent\Testing\Concerns\PreparesTestingTransactions;
+use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
+use LaravelFreelancerNL\Aranguent\Testing\RefreshDatabase;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Tests\Setup\TestConfig;
-use LaravelFreelancerNL\Aranguent\Testing\TestCase as AranguentTestCase;
 
-class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contracts\TestCase
+class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use OrchestraTestbenchTesting;
+    use interactsWithDatabase;
+    use PreparesTestingTransactions;
 
     protected ?ConnectionInterface $connection;
 
     protected bool $dropViews = true;
+
 
     /**
      * The base URL to use while testing the application.
@@ -64,7 +75,6 @@ class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contrac
         ];
     }
 
-
     /**
      * Setup the test environment.
      *
@@ -72,13 +82,20 @@ class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contrac
      */
     protected function setUp(): void
     {
-
         $this->setTransactionCollections([
             'write' => [
+                'cache',
+                'cache_locks',
                 'characters',
                 'children',
+                'failed_jobs',
                 'houses',
+                'job_batches',
+                'jobs',
                 'locations',
+                'migrations',
+                'password_reset_tokens',
+                'sessions',
                 'tags',
                 'taggables',
                 'users'
@@ -93,18 +110,75 @@ class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contrac
             'convert:migrations',
             ['--realpath' => true, '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/']
         )->run();
-
-        $this->setTransactionCollections([
-            'write' => [
-                'characters',
-                'children',
-                'houses',
-                'locations',
-                'tags',
-                'taggables',
-            ]
-        ]);
     }
+
+    /**
+     * Boot the testing helper traits.
+     *
+     * @internal
+     *
+     * @param  array<class-string, class-string>  $uses
+     * @return array<class-string, class-string>
+     */
+    protected function setUpTheTestEnvironmentTraits(array $uses): array
+    {
+        if (isset($uses[WithWorkbench::class])) {
+            $this->setUpWithWorkbench(); // @phpstan-ignore-line
+        }
+
+        $this->setUpDatabaseRequirements(function () use ($uses) {
+            if (isset($uses[RefreshDatabase::class])) {
+                $this->refreshDatabase(); // @phpstan-ignore-line
+            }
+
+            if (isset($uses[DatabaseMigrations::class])) {
+                $this->runDatabaseMigrations(); // @phpstan-ignore-line
+            }
+
+            if (isset($uses[DatabaseTruncation::class])) {
+                $this->truncateDatabaseTables(); // @phpstan-ignore-line
+            }
+        });
+
+        if (isset($uses[DatabaseTransactions::class])) {
+            $this->beginDatabaseTransaction(); // @phpstan-ignore-line
+        }
+
+        if (isset($uses[WithoutMiddleware::class])) {
+            $this->disableMiddlewareForAllTests(); // @phpstan-ignore-line
+        }
+
+        if (isset($uses[WithFaker::class])) {
+            $this->setUpFaker(); // @phpstan-ignore-line
+        }
+
+        LazyCollection::make(static function () use ($uses) {
+            foreach ($uses as $use) {
+                yield $use;
+            }
+        })
+            ->reject(function ($use) {
+                /** @var class-string $use */
+                return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
+            })->map(static function ($use) {
+                /** @var class-string $use */
+                return class_basename($use);
+            })->each(function ($traitBaseName) {
+                /** @var string $traitBaseName */
+                if (method_exists($this, $method = 'setUp' . $traitBaseName)) {
+                    $this->{$method}();
+                }
+
+                if (method_exists($this, $method = 'tearDown' . $traitBaseName)) {
+                    $this->beforeApplicationDestroyed(function () use ($method) {
+                        $this->{$method}();
+                    });
+                }
+            });
+
+        return $uses;
+    }
+
 
     /**
      * Define environment setup.
@@ -116,18 +190,19 @@ class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contrac
     {
         TestConfig::set($app);
     }
-    protected function skipTestOnArangoVersionsBefore(string $version)
-    {
-        if (version_compare(getenv('ARANGODB_VERSION'), $version, '<')) {
-            $this->markTestSkipped('This test does not support ArangoDB versions before ' . $version);
-        }
-    }
 
     public function clearDatabase()
     {
         $collections  = $this->schemaManager->getCollections(true);
         foreach($collections as $collection) {
             $this->schemaManager->deleteCollection($collection->name);
+        }
+    }
+
+    protected function skipTestOnArangoVersionsBefore(string $version)
+    {
+        if (version_compare(getenv('ARANGODB_VERSION'), $version, '<')) {
+            $this->markTestSkipped('This test does not support ArangoDB versions before ' . $version);
         }
     }
 
@@ -142,4 +217,25 @@ class TestCase extends AranguentTestCase implements \Orchestra\Testbench\Contrac
             $this->markTestSkipped('This test does not support ' . ucfirst($software) . ' versions ' . $operator . ' ' . $version);
         }
     }
+
+    /**
+     * The parameters that should be used when running "migrate:fresh".
+     *
+     * @return array
+     */
+    protected function migrateFreshUsing()
+    {
+        ray('my migrateFreshUsing');
+        return [
+            '--drop-views' => $this->shouldDropViews(),
+            '--drop-types' => $this->shouldDropTypes(),
+            '--realpath' => true,
+            '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/',
+            '--seed' => true,
+            '--seeder' => 'Tests\\Setup\\Database\\Seeds\\DatabaseSeeder',
+        ];
+    }
+
+
+
 }

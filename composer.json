@@ -20,6 +20,12 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/LaravelFreelancerNL/testbench-core"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "ext-json": "*",
@@ -27,29 +33,23 @@
         "laravel-freelancer-nl/arangodb-php-client": "^2.3.0",
         "laravel-freelancer-nl/fluentaql": "^2.0",
         "laravel/framework": "^10.0|^11.0",
-        "spatie/laravel-data": "^3.9",
+        "spatie/laravel-data": "^4.4.0",
         "vlucas/phpdotenv": "^5.4"
     },
     "require-dev": {
         "laravel/pint": "^1.10",
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^7.8|^8.0",
-        "nunomaduro/larastan": "^2.0",
-        "orchestra/testbench": "^8.5.5|^9.0",
+        "larastan/larastan": "^2.0",
+        "orchestra/testbench": "^8.5|^9.0",
         "pestphp/pest": "^2.6.1",
         "pestphp/pest-plugin-faker": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
-        "pestphp/pest-plugin-mock": "^2.0",
         "phpmd/phpmd": "2.13",
         "phpstan/phpstan": "^1.0",
-        "spatie/laravel-ray": "^1.32"
+        "spatie/laravel-ray": "^1.32",
+        "timacdonald/log-fake": "^2.2.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/laravel-shift/log-fake.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "LaravelFreelancerNL\\Aranguent\\": "src/",
@@ -74,8 +74,8 @@
     },
     "scripts": {
         "analyse": "./vendor/bin/phpstan analyse",
-        "test": "./vendor/bin/pest",
-        "test-coverage": "./vendor/bin/pest --coverage",
+        "test": "./vendor/bin/pest tests",
+        "test-coverage": "./vendor/bin/pest --coverage tests",
         "tests:migrate":  "./vendor/bin/testbench migrate",
         "tests:seed":  "./vendor/bin/testbench db:seed",
         "style": "vendor/bin/pint",
