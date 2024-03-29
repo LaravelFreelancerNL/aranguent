@@ -19,8 +19,8 @@ jobs:
         php: ['8.2', '8.3']
         laravel: ['^11.0']
         include:
-          - laravel: '11.0'
-            testbench: '9.0'
+          - laravel: '^11.0'
+            testbench: '^9.0'
 
 
     name:  QA L ${{ matrix.laravel }} / P ${{ matrix.php }} / A ${{ matrix.arangodb }} - ${{ matrix.dependency-version }}
