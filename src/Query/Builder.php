@@ -181,11 +181,13 @@ class Builder extends IlluminateQueryBuilder
      */
     public function delete($id = null)
     {
+        $table = (string) $this->grammar->getValue($this->from);
+
         // If an ID is passed to the method, we will set the where clause to check the
         // ID to let developers to simply and quickly remove a single row from this
         // database without manually specifying the "where" clauses on the query.
         if (!is_null($id)) {
-            $this->where($this->from . '._key', '=', $id);
+            $this->where($table . '._key', '=', $id);
         }
 
         $this->applyBeforeQueryCallbacks();

@@ -124,12 +124,11 @@ trait HandlesAqlGrammar
      * Wrap a value in keyword identifiers.
      *
      * @param  Array<mixed>|Expression|string  $value
-     * @param  bool  $prefixAlias
      * @return array<mixed>|float|int|string
      *
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    public function wrap($value, $prefixAlias = false)
+    public function wrap($value)
     {
         if ($value instanceof Expression) {
             return $value->getValue($this);
@@ -137,7 +136,7 @@ trait HandlesAqlGrammar
 
         if (is_array($value)) {
             foreach($value as $key => $subvalue) {
-                $value[$key] = $this->wrap($subvalue, $prefixAlias);
+                $value[$key] = $this->wrap($subvalue);
             }
             return $value;
         }
@@ -146,7 +145,7 @@ trait HandlesAqlGrammar
         // the pieces so we can wrap each of the segments of the expression on its
         // own, and then join these both back together using the "as" connector.
         if (is_string($value) && stripos($value, ' as ') !== false) {
-            return $this->wrapAliasedValue($value, $prefixAlias);
+            return $this->wrapAliasedValue($value);
         }
 
         return $this->wrapSegments(explode('.', $value));
@@ -162,7 +161,7 @@ trait HandlesAqlGrammar
     public function wrapTable($table)
     {
         if (!$table instanceof Expression) {
-            $wrappedTable = $this->wrap($this->tablePrefix . $table, true);
+            $wrappedTable = $this->wrap($this->tablePrefix . $table);
 
             assert(!is_array($wrappedTable));
 

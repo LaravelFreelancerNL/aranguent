@@ -148,7 +148,7 @@ trait BuildsGroups
             $query->groups[] = $alias;
 
         }
-        return $query->from($this->from);
+        return $query->from((string) $this->grammar->getValue($this->from));
     }
 
     /**

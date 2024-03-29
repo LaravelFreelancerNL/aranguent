@@ -143,9 +143,9 @@ class Grammar extends IlluminateQueryGrammar
         return $operator;
     }
 
-    protected function prefixTable(string $table): string
+    protected function prefixTable(Expression|bool|float|int|string|null $table): string
     {
-        return $this->tablePrefix . $table;
+        return $this->tablePrefix . $this->getValue($table);
     }
 
 
@@ -237,7 +237,7 @@ class Grammar extends IlluminateQueryGrammar
      * Compile the "from" portion of the query -> FOR in AQL.
      *
      * @param IlluminateQueryBuilder $query
-     * @param string  $table
+     * @param Expression|string  $table
      *
      * @return string
      */
@@ -246,7 +246,7 @@ class Grammar extends IlluminateQueryGrammar
         assert($query instanceof Builder);
 
         // FIXME: wrapping/quoting
-        $table = $this->prefixTable($table);
+        $table = $this->prefixTable($this->getValue($table));
 
         $alias = $query->registerTableAlias($table);
 

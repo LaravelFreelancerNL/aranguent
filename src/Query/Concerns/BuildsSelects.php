@@ -122,10 +122,12 @@ trait BuildsSelects
      */
     protected function addColumns(array $columns): void
     {
+        $table = (string) $this->grammar->getValue($this->from);
+
         foreach ($columns as $as => $column) {
             if (is_string($as) && $this->isQueryable($column)) {
                 if (empty($this->columns)) {
-                    $this->select($this->from . '.*');
+                    $this->select($table. '.*');
                 }
 
                 $this->selectSub($column, $as);
