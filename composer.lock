@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d009fe9716fa035944d8e0dbd3f575a1",
+    "content-hash": "ab925d41982723ccb40247fcad3dd938",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5948,6 +5948,66 @@
             "time": "2024-01-25T10:15:50+00:00"
         },
         {
+            "name": "stevebauman/unfinalize",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevebauman/unfinalize.git",
+                "reference": "d3bdf3e254a2c4548d7aecf064dd679b5b57a94d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevebauman/unfinalize/zipball/d3bdf3e254a2c4548d7aecf064dd679b5b57a94d",
+                "reference": "d3bdf3e254a2c4548d7aecf064dd679b5b57a94d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.16",
+                "laravel-zero/framework": "^10.0.2",
+                "laravel/pint": "^1.8",
+                "mockery/mockery": "^1.5.1",
+                "nunomaduro/termwind": "^1.15.1",
+                "pestphp/pest": "^2.5",
+                "spatie/ray": "^1.39"
+            },
+            "bin": [
+                "builds/unfinalize"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "app/",
+                    "Database\\Seeders\\": "database/seeders/",
+                    "Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Bauman",
+                    "email": "steven_bauman@outlook.com"
+                }
+            ],
+            "description": "Permanently remove final keywords from vendor packages.",
+            "keywords": [
+                "final",
+                "fixer",
+                "php-cs-fixer",
+                "unfinalize"
+            ],
+            "support": {
+                "issues": "https://github.com/stevebauman/unfinalize/issues",
+                "source": "https://github.com/stevebauman/unfinalize"
+            },
+            "time": "2023-12-26T12:35:48+00:00"
+        },
+        {
             "name": "symfony/clock",
             "version": "v7.0.5",
             "source": {
@@ -9921,16 +9981,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "9.x-dev",
+            "version": "v9.0.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/LaravelFreelancerNL/testbench-core.git",
-                "reference": "0249c5eabc97309a161e452bc072d4e1f95ebe66"
+                "url": "https://github.com/orchestral/testbench-core.git",
+                "reference": "052b2f17051a57d46c54e6e56ebaa791c58f675a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelFreelancerNL/testbench-core/zipball/0249c5eabc97309a161e452bc072d4e1f95ebe66",
-                "reference": "0249c5eabc97309a161e452bc072d4e1f95ebe66",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/052b2f17051a57d46c54e6e56ebaa791c58f675a",
+                "reference": "052b2f17051a57d46c54e6e56ebaa791c58f675a",
                 "shasum": ""
             },
             "require": {
@@ -9969,52 +10029,19 @@
                 "symfony/yaml": "Required for Testbench CLI (^7.0).",
                 "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
             },
-            "default-branch": true,
             "bin": [
                 "testbench"
             ],
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Orchestra\\Testbench\\": "src/"
-                },
                 "files": [
                     "src/functions.php"
-                ]
-            },
-            "autoload-dev": {
+                ],
                 "psr-4": {
-                    "Orchestra\\Testbench\\Tests\\": "tests/",
-                    "Workbench\\App\\": "workbench/app/",
-                    "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-                    "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+                    "Orchestra\\Testbench\\": "src/"
                 }
             },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@clear",
-                    "@prepare"
-                ],
-                "clear": [
-                    "@php testbench package:purge-skeleton --ansi"
-                ],
-                "prepare": [
-                    "@php testbench package:discover --ansi"
-                ],
-                "lint": [
-                    "@php vendor/bin/pint",
-                    "@php vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"
-                ],
-                "ci": [
-                    "@composer audit",
-                    "@post-autoload-dump",
-                    "@lint",
-                    "@test"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -10028,18 +10055,18 @@
             "description": "Testing Helper for Laravel Development",
             "homepage": "https://packages.tools/testbench",
             "keywords": [
-                "bdd",
+                "BDD",
+                "TDD",
                 "dev",
                 "laravel",
                 "laravel-packages",
-                "tdd",
                 "testing"
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2024-03-28T21:55:23+00:00"
+            "time": "2024-03-26T23:21:46+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -12493,16 +12520,16 @@
         },
         {
             "name": "spatie/laravel-ray",
-            "version": "1.35.1",
+            "version": "1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ray.git",
-                "reference": "f504d3787d88c7e5de7a4290658f7ad9b1352f22"
+                "reference": "f15936b5d308ae391ee67370a5628f0712537c34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/f504d3787d88c7e5de7a4290658f7ad9b1352f22",
-                "reference": "f504d3787d88c7e5de7a4290658f7ad9b1352f22",
+                "url": "https://api.github.com/repos/spatie/laravel-ray/zipball/f15936b5d308ae391ee67370a5628f0712537c34",
+                "reference": "f15936b5d308ae391ee67370a5628f0712537c34",
                 "shasum": ""
             },
             "require": {
@@ -12564,7 +12591,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-ray/issues",
-                "source": "https://github.com/spatie/laravel-ray/tree/1.35.1"
+                "source": "https://github.com/spatie/laravel-ray/tree/1.36.0"
             },
             "funding": [
                 {
@@ -12576,7 +12603,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2024-02-13T14:19:41+00:00"
+            "time": "2024-03-29T09:10:11+00:00"
         },
         {
             "name": "symfony/config",
@@ -13343,7 +13370,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2",
+        "php": "^8.1",
         "ext-json": "*"
     },
     "platform-dev": [],

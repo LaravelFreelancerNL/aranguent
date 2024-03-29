@@ -20,12 +20,7 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/LaravelFreelancerNL/testbench-core"
-        }
-    ],
+    "repositories": [],
     "require": {
         "php": "^8.1",
         "ext-json": "*",
@@ -34,6 +29,7 @@
         "laravel-freelancer-nl/fluentaql": "^2.0",
         "laravel/framework": "^10.0|^11.0",
         "spatie/laravel-data": "^4.4.0",
+        "stevebauman/unfinalize": "^2.1",
         "vlucas/phpdotenv": "^5.4"
     },
     "require-dev": {
@@ -72,7 +68,13 @@
             ]
         }
     },
+    "unfinalize": [
+        "orchestra/testbench-core"
+    ],
     "scripts": {
+        "post-update-cmd": [
+            "@php vendor/bin/unfinalize run"
+        ],
         "analyse": "./vendor/bin/phpstan analyse",
         "test": "./vendor/bin/pest tests",
         "test-coverage": "./vendor/bin/pest --coverage tests",
