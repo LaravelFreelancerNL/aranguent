@@ -79,7 +79,10 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
     protected function registerRepository()
     {
         $this->app->singleton($this->aliases['Repository'], function ($app) {
-            $table = $app['config']['database.migrations'];
+            $table = $app['config']['database.migrations.table'];
+            if (!$table) {
+                $table = $app['config']['database.migrations'];
+            }
 
             return new DatabaseMigrationRepository($app['db'], $table);
         });
