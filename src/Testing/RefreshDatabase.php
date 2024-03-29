@@ -6,7 +6,6 @@ namespace LaravelFreelancerNL\Aranguent\Testing;
 
 use Illuminate\Foundation\Testing\DatabaseTransactionsManager;
 use Illuminate\Foundation\Testing\RefreshDatabase as IlluminateRefreshDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use LaravelFreelancerNL\Aranguent\Testing\Concerns\PreparesTestingTransactions;
 
 trait RefreshDatabase
