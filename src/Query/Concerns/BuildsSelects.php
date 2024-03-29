@@ -127,7 +127,7 @@ trait BuildsSelects
         foreach ($columns as $as => $column) {
             if (is_string($as) && $this->isQueryable($column)) {
                 if (empty($this->columns)) {
-                    $this->select($table. '.*');
+                    $this->select($table . '.*');
                 }
 
                 $this->selectSub($column, $as);
