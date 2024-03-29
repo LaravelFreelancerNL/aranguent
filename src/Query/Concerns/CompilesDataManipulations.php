@@ -153,7 +153,7 @@ trait CompilesDataManipulations
     {
         assert($query instanceof Builder);
 
-        $table = $query->from;
+        $table = $this->getValue($query->from);
         $alias = $query->getTableAlias($query->from);
 
         if (!is_array($values)) {
@@ -209,7 +209,7 @@ trait CompilesDataManipulations
             . ' UPSERT ' . $searchObject
             . ' INSERT doc'
             . ' UPDATE ' . $updateObject
-            . ' IN ' . $query->from;
+            . ' IN ' . $this->getValue($query->from);
     }
 
     /**
@@ -220,7 +220,7 @@ trait CompilesDataManipulations
      */
     public function compileDelete(IlluminateQueryBuilder $query)
     {
-        $table = $query->from;
+        $table = (string) $this->getValue($query->from);
 
         $where = $this->compileWheres($query);
 

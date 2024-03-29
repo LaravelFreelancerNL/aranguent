@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\QueryException as IlluminateQueryException;
 
 test('migrate:status', function () {
     $this->artisan('migrate:status', [
@@ -31,8 +30,8 @@ test('migrate:status --database=arangodb', function () {
         ->assertExitCode(0);
 });
 
-test('migrate:status --database=sqlite', function () {
+test('migrate:status --database=none', function () {
     $this->artisan('migrate:status', [
-        '--database' => 'sqlite',
+        '--database' => 'none',
     ])->run();
-})->throws(IlluminateQueryException::class);
+})->throws(InvalidArgumentException::class);

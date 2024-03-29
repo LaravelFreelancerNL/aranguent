@@ -6,9 +6,9 @@ use LaravelFreelancerNL\Aranguent\Connection as Connection;
 use LaravelFreelancerNL\Aranguent\Query\Builder;
 use LaravelFreelancerNL\Aranguent\Query\Grammar;
 use LaravelFreelancerNL\Aranguent\Query\Processor;
+use Mockery as m;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Mockery as m;
 use Tests\TestCase;
 
 /*

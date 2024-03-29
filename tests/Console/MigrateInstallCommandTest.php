@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\QueryException as IlluminateQueryException;
 
 beforeEach(function () {
     $this->schemaManager = $this->connection->getArangoClient()->schema();
@@ -34,6 +33,6 @@ test('migrate:install --database=arangodb', function () {
     refreshDatabase();
 });
 
-test('migrate:install --database=sqlite', function () {
-    $this->artisan('migrate:install', ['--database' => 'sqlite'])->assertExitCode(0);
-})->throws(IlluminateQueryException::class);
+test('migrate:install --database=none', function () {
+    $this->artisan('migrate:install', ['--database' => 'none'])->assertExitCode(0);
+})->throws(ErrorException::class);

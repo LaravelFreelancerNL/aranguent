@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 use Illuminate\Database\Query\Expression;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
+use LaravelFreelancerNL\Aranguent\Testing\Concerns\InteractsWithDatabase;
 use Tests\Setup\Models\Character;
 use Tests\Setup\Models\Tag;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
+    InteractsWithDatabase::class,
 );
 
 test('assert database has', function () {

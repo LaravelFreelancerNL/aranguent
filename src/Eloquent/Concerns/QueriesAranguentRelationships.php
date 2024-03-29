@@ -133,8 +133,10 @@ trait QueriesAranguentRelationships
             return $this;
         }
 
+        $table = (string) $this->query->grammar->getValue($this->query->from);
+
         if (empty($this->query->columns)) {
-            $this->query->select([$this->query->from . '.*']);
+            $this->query->select([$table . '.*']);
         }
 
         $relations = is_array($relations) ? $relations : [$relations];

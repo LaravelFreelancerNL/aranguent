@@ -167,7 +167,7 @@ trait CompilesColumns
         }
 
         if ($table == null) {
-            $table = $query->from;
+            $table = (string) $this->getValue($query->from);
         }
 
         $references = explode('.', $column);
