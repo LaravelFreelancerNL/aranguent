@@ -30,10 +30,6 @@ trait RefreshDatabase
 
             $connection->setTransactionManager($transactionsManager);
 
-            if ($this->usingInMemoryDatabase()) {
-                RefreshDatabaseState::$inMemoryConnections[$name] ??= $connection->getPdo();
-            }
-
             $dispatcher = $connection->getEventDispatcher();
 
             $connection->unsetEventDispatcher();
