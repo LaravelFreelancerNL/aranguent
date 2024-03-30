@@ -86,7 +86,7 @@ trait HandlesAqlGrammar
 
     public function isBind(mixed $value): bool
     {
-        if (is_string($value) && preg_match('/^@?[0-9]{4}_' . json_encode($value) . '_[0-9_]+$/', $value)) {
+        if (is_string($value) && preg_match('/^@?[0-9]{4}_[a-zA-Z0-9_$]_[0-9_]+$/', $value)) {
             return true;
         }
 
