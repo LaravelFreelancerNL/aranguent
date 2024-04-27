@@ -18,47 +18,47 @@ class TaggablesSeeder extends Seeder
            {
               "tag_id":"A",
               "taggable_id":"winterfell",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Location"
+              "taggable_type":"TestSetup\\\Models\\\Location"
            },
           {
               "tag_id":"S",
               "taggable_id":"beyond-the-wall",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Location"
+              "taggable_type":"TestSetup\\\Models\\\Location"
            },
           {
               "tag_id":"E",
               "taggable_id":"PetyrBaelish",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"F",
               "taggable_id":"PetyrBaelish",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"G",
               "taggable_id":"PetyrBaelish",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"A",
               "taggable_id":"SandorClegane",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"F",
               "taggable_id":"SandorClegane",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"K",
               "taggable_id":"SandorClegane",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            },
           {
               "tag_id":"P",
               "taggable_id":"SandorClegane",
-              "taggable_type":"Tests\\\Setup\\\Models\\\Character"
+              "taggable_type":"TestSetup\\\Models\\\Character"
            }
         ]';
 

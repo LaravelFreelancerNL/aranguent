@@ -24,7 +24,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"DaenerysTargaryen",
               "capturable_id":"DaenerysTargaryen",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
            },
            {
               "_key":"king-s-landing",
@@ -35,7 +35,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"CerseiLannister",
               "capturable_id":"DaenerysTargaryen",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
            },
            {
               "_key":"the-red-keep",
@@ -46,7 +46,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"CerseiLannister",
               "capturable_id":"DaenerysTargaryen",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
 
            },
            {
@@ -58,7 +58,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"DaenerysTargaryen",
               "capturable_id":"DaenerysTargaryen",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
 
            },
            {
@@ -70,7 +70,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"DaenerysTargaryen",
               "capturable_id":"DaenerysTargaryen",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
 
            },
            {
@@ -82,7 +82,7 @@ class LocationsSeeder extends Seeder
               ],
               "led_by":"SansaStark",
               "capturable_id":"TheonGreyjoy",
-              "capturable_type": "Tests\\\Setup\\\Models\\\Character"
+              "capturable_type": "TestSetup\\\Models\\\Character"
 
            },
            {

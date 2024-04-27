@@ -3,6 +3,7 @@
 namespace Tests;
 
 use ArangoClient\Schema\SchemaManager;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
@@ -28,6 +29,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected bool $dropViews = true;
 
     public $seed = true;
+
+    public $seeder = DatabaseSeeder::class;
 
     /**
      * The base URL to use while testing the application.
