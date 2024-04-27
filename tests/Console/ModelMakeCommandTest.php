@@ -14,7 +14,7 @@ afterEach(function () use ($testModelData) {
 test('make:model', function () use ($testModelData) {
     $this->artisan('make:model')
         ->expectsQuestion('What should the model be named?', $testModelData['name'])
-        ->expectsQuestion('Would you like any of the following?', '')
+        ->expectsQuestion('Would you like any of the following?', [])
         ->assertExitCode(0);
 
     $contents = file_get_contents($testModelData['path']);
