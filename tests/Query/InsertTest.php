@@ -1,12 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use LaravelFreelancerNL\Aranguent\Testing\RefreshDatabase;
-
-//uses(
-//    DatabaseTransactions::class,
-//);
 
 uses(RefreshDatabase::class);
 

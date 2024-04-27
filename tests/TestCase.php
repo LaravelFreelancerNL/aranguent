@@ -28,9 +28,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected bool $dropViews = true;
 
-    public $seed = true;
+    protected bool $realPath = true;
 
-    public $seeder = DatabaseSeeder::class;
+    protected array $migrationPaths = [];
+
+    protected bool $seed = true;
+
+    protected string $seeder = DatabaseSeeder::class;
 
     /**
      * The base URL to use while testing the application.
@@ -86,6 +90,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function setUp(): void
     {
+        $this->migrationPaths = [
+            realpath(__DIR__ . '/../TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/'),
+        ];
         $this->setTransactionCollections([
             'write' => [
                 'cache',
