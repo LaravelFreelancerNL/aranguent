@@ -7,14 +7,14 @@ beforeEach(function () {
 
 test('migrate:reset', function () {
     $path = [
-        realpath(__DIR__ . '/../Setup/Database/Migrations')
+        realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
     ];
 
     $this->artisan('migrate:reset', [
         '--path' => [
             database_path('migrations'),
-            realpath(__DIR__ . '/../Setup/Database/Migrations'),
-            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/')
+            realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/'),
         ],
         '--realpath' => true,
     ])->assertExitCode(0);
@@ -27,14 +27,14 @@ test('migrate:reset', function () {
 
 test('migrate:reset --database=arangodb', function () {
     $path = [
-        realpath(__DIR__ . '/../Setup/Database/Migrations')
+        realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
     ];
 
     $this->artisan('migrate:reset', [
         '--path' => [
             database_path('migrations'),
-            realpath(__DIR__ . '/../Setup/Database/Migrations'),
-            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/')
+            realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/'),
         ],
         '--realpath' => true,
     ])->assertExitCode(0);

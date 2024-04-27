@@ -10,7 +10,7 @@ test('toAql', function () {
 
     expect($aql)->toBe(
         'FOR characterDoc IN characters FILTER `characterDoc`.`_key` == @'
-        . $query->getQueryId() . '_where_1 RETURN characterDoc'
+        . $query->getQueryId() . '_where_1 RETURN characterDoc',
     )
         ->and($result->id)->toBe('NedStark');
 });
@@ -23,7 +23,7 @@ test('toSql', function () {
 
     expect($aql)->toBe(
         'FOR characterDoc IN characters FILTER `characterDoc`.`_key` == @'
-        . $query->getQueryId() . '_where_1 RETURN characterDoc'
+        . $query->getQueryId() . '_where_1 RETURN characterDoc',
     )
         ->and($result->id)->toBe('NedStark');
 });
@@ -36,7 +36,7 @@ test('toRawSql', function () {
     $aql = $query->toRawSql();
 
     expect($aql)->toBe(
-        'FOR characterDoc IN characters FILTER `characterDoc`.`name` == "Gilly" RETURN characterDoc'
+        'FOR characterDoc IN characters FILTER `characterDoc`.`name` == "Gilly" RETURN characterDoc',
     );
 });
 
@@ -47,7 +47,7 @@ test('toRawSql with single quote', function () {
     $aql = $query->toRawSql();
 
     expect($aql)->toBe(
-        'FOR characterDoc IN characters FILTER `characterDoc`.`name` == "' . "H\'ghar" . '" RETURN characterDoc'
+        'FOR characterDoc IN characters FILTER `characterDoc`.`name` == "' . "H\'ghar" . '" RETURN characterDoc',
     );
 });
 
@@ -81,7 +81,7 @@ test('toRawSql with multiple binds', function () {
     $rawAql .= ' RETURN characterDoc';
 
     expect($aql)->toBe(
-        $rawAql
+        $rawAql,
     );
 });
 

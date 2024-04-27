@@ -30,7 +30,7 @@ trait ConvertsIdToKey
     {
         $replace = [
             "/^id$/" => '_key',
-            "/\.id$/" => '._key'
+            "/\.id$/" => '._key',
         ];
         //TODO: we probably only want to replace .id if the prefix is a table or table alias.
 
@@ -38,7 +38,7 @@ trait ConvertsIdToKey
             array_keys($replace),
             $replace,
             $data,
-            1
+            1,
         );
     }
 

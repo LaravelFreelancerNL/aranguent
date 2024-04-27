@@ -16,7 +16,7 @@ use LaravelFreelancerNL\Aranguent\Testing\Concerns\PreparesTestingTransactions;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use LaravelFreelancerNL\Aranguent\Testing\RefreshDatabase;
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Tests\Setup\TestConfig;
+use TestSetup\TestConfig;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -27,6 +27,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected bool $dropViews = true;
 
+    public $seed = true;
 
     /**
      * The base URL to use while testing the application.
@@ -98,7 +99,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
                 'sessions',
                 'tags',
                 'taggables',
-                'users'
+                'users',
             ]]);
 
         parent::setUp();
@@ -108,7 +109,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         //Convert orchestra migrations
         $this->artisan(
             'convert:migrations',
-            ['--realpath' => true, '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/']
+            ['--realpath' => true, '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/'],
         )->run();
     }
 
@@ -217,25 +218,4 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $this->markTestSkipped('This test does not support ' . ucfirst($software) . ' versions ' . $operator . ' ' . $version);
         }
     }
-
-    /**
-     * The parameters that should be used when running "migrate:fresh".
-     *
-     * @return array
-     */
-    protected function migrateFreshUsing()
-    {
-        ray('my migrateFreshUsing');
-        return [
-            '--drop-views' => $this->shouldDropViews(),
-            '--drop-types' => $this->shouldDropTypes(),
-            '--realpath' => true,
-            '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/',
-            '--seed' => true,
-            '--seeder' => 'Tests\\Setup\\Database\\Seeds\\DatabaseSeeder',
-        ];
-    }
-
-
-
 }

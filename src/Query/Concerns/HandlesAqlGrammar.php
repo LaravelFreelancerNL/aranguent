@@ -270,7 +270,7 @@ trait HandlesAqlGrammar
             $aql = (string) preg_replace(
                 $pattern,
                 $value,
-                $aql
+                $aql,
             );
         }
 

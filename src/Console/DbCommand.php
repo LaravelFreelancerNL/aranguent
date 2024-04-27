@@ -31,7 +31,7 @@ class DbCommand extends IlluminateDbCommand
         (new Process(
             array_merge([$this->getCommand($connection)], $this->commandArguments($connection)),
             null,
-            $this->commandEnvironment($connection)
+            $this->commandEnvironment($connection),
         ))->setTimeout(null)->setTty(true)->mustRun(function ($type, $buffer) {
             $this->output->write($buffer);
         });

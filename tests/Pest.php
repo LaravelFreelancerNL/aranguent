@@ -69,14 +69,31 @@ function refreshDatabase()
     Artisan::call('migrate:refresh', [
         '--path' => [
             database_path('migrations'),
-            realpath('tests/Setup/Database/Migrations'),
-            realpath(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/')
+            realpath('TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/'),
         ],
         '--realpath' => true,
         '--seed' => true,
         '--seeder' => DatabaseSeeder::class,
     ]);
 }
+
+/**
+ * The parameters that should be used when running "migrate:fresh".
+ *
+ * @return array
+ */
+//function migrateFreshUsing()
+//{
+//    ray('my migrateFreshUsing Pest.php');
+//    return [
+//        '--realpath' => true,
+//        '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/',
+//        '--seed' => true,
+//        '--seeder' => DatabaseSeeder::class,
+//    ];
+//}
+
 
 function runCommand($command, $input = [])
 {

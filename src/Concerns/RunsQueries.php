@@ -54,7 +54,7 @@ trait RunsQueries
     {
         [$query, $bindings] = $this->handleQueryBuilder(
             $query,
-            $bindings
+            $bindings,
         );
 
         return $this->run($query, $bindings, function ($query, $bindings) {
@@ -88,7 +88,7 @@ trait RunsQueries
     {
         [$query, $bindings] = $this->handleQueryBuilder(
             $query,
-            $bindings
+            $bindings,
         );
 
         return $this->run($query, $bindings, function () use ($query, $bindings) {
@@ -148,7 +148,7 @@ trait RunsQueries
     {
         [$query, $bindings] = $this->handleQueryBuilder(
             $query,
-            $bindings
+            $bindings,
         );
 
         if ($this->arangoClient === null) {
@@ -212,7 +212,7 @@ trait RunsQueries
 
         [$query, $bindings] = $this->handleQueryBuilder(
             $query,
-            $bindings
+            $bindings,
         );
 
         return $this->run($query, $bindings, function () use ($query, $bindings) {
@@ -240,7 +240,7 @@ trait RunsQueries
         return new QueryBuilder(
             $this,
             $this->getQueryGrammar(),
-            $this->getPostProcessor()
+            $this->getPostProcessor(),
         );
     }
 
@@ -273,7 +273,7 @@ trait RunsQueries
                 $e,
                 $query,
                 $bindings,
-                $callback
+                $callback,
             );
         }
 
@@ -283,7 +283,7 @@ trait RunsQueries
         $this->logQuery(
             $query,
             $bindings,
-            $this->getElapsedTime((int) $start)
+            $this->getElapsedTime((int) $start),
         );
 
         return $result;
@@ -314,7 +314,7 @@ trait RunsQueries
                 (string) $this->getName(),
                 $query,
                 $this->prepareBindings($bindings),
-                $e
+                $e,
             );
         }
     }

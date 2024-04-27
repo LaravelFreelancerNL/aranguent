@@ -17,7 +17,12 @@ trait Tables
     public function create($options = [])
     {
         $parameters = [];
-        $parameters['options'] = $options;
+        $parameters['options'] = array_merge(
+            [
+                'keyOptions' => config('arangodb.schema.keyOptions'),
+            ],
+            $options,
+        );
         $parameters['explanation'] = "Create '{$this->table}' table.";
         $parameters['handler'] = 'table';
 

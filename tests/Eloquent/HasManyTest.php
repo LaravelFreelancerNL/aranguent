@@ -4,11 +4,11 @@ use Illuminate\Support\Carbon;
 use LaravelFreelancerNL\Aranguent\Eloquent\Model;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use Mockery as M;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Location;
+use TestSetup\Models\Character;
+use TestSetup\Models\Location;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 beforeEach(function () {

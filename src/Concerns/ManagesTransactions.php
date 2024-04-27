@@ -39,7 +39,7 @@ trait ManagesTransactions
                 $this->handleTransactionException(
                     $e,
                     $currentAttempt,
-                    $attempts
+                    $attempts,
                 );
 
                 continue;
@@ -55,7 +55,7 @@ trait ManagesTransactions
                 $this->handleCommitTransactionException(
                     $e,
                     $currentAttempt,
-                    $attempts
+                    $attempts,
                 );
 
                 continue;

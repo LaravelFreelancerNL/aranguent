@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Illuminate\Database\Query\Expression;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use LaravelFreelancerNL\Aranguent\Testing\Concerns\InteractsWithDatabase;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Tag;
+use TestSetup\Models\Character;
+use TestSetup\Models\Tag;
 
 uses(
     DatabaseTransactions::class,

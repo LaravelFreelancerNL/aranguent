@@ -118,7 +118,7 @@ class Builder extends IlluminateQueryBuilder
         IlluminateConnectionInterface $connection,
         IlluminateQueryGrammar        $grammar = null,
         IlluminateProcessor           $processor = null,
-        AQB                           $aqb = null
+        AQB                           $aqb = null,
     ) {
         assert($connection instanceof IlluminateConnectionInterface);
         assert($processor instanceof IlluminateProcessor);
@@ -195,8 +195,8 @@ class Builder extends IlluminateQueryBuilder
         return $this->connection->delete(
             $this->grammar->compileDelete($this),
             $this->cleanBindings(
-                $this->grammar->prepareBindingsForDelete($this->bindings)
-            )
+                $this->grammar->prepareBindingsForDelete($this->bindings),
+            ),
         );
     }
 
@@ -212,7 +212,7 @@ class Builder extends IlluminateQueryBuilder
         $results = $this->connection->select(
             $this->grammar->compileExists($this),
             $this->getBindings(),
-            !$this->useWritePdo
+            !$this->useWritePdo,
         );
 
         // If the results have rows, we will get the row and see if the exists column is a
@@ -258,7 +258,7 @@ class Builder extends IlluminateQueryBuilder
     public function set(
         string $variable,
         IlluminateQueryBuilder|Expression|array|Boolean|Int|Float|String $value,
-        VariablePosition|string $variablePosition = VariablePosition::preIterations
+        VariablePosition|string $variablePosition = VariablePosition::preIterations,
     ): Builder {
         if (is_string($variablePosition)) {
             $variablePosition = VariablePosition::tryFrom($variablePosition) ?? VariablePosition::preIterations;
@@ -319,7 +319,7 @@ class Builder extends IlluminateQueryBuilder
             '/^\`?('
             . $variablesRegex
             . '|CURRENT|NEW|OLD)\`?(\[\`.+\`\]|\[[\d\w\*]*\])*(\.(\`.+\`|@?[\d\w]*)(\[\`.+\`\]|\[[\d\w\*]*\])*)*$/',
-            $value
+            $value,
         );
     }
 

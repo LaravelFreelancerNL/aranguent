@@ -87,7 +87,7 @@ class Builder extends IlluminateEloquentBuilder
 
         $values = array_merge(
             $timestamps,
-            $values
+            $values,
         );
 
         return $values;
@@ -112,7 +112,7 @@ class Builder extends IlluminateEloquentBuilder
 
         $values = array_merge(
             [$column => $this->model->freshTimestampString()],
-            $values
+            $values,
         );
 
         return $values;

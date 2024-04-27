@@ -32,7 +32,7 @@ test('searchView with different analyzer', function () {
 
     expect($query->toSql())->toBe(
         "FOR houseViewDoc IN house_view SEARCH ANALYZER(`houseViewDoc`.`en`.`description` IN TOKENS(@"
-        . $query->getQueryId() . "_search_1, 'text_nl'), 'text_nl') RETURN houseViewDoc"
+        . $query->getQueryId() . "_search_1, 'text_nl'), 'text_nl') RETURN houseViewDoc",
     );
 });
 
@@ -85,7 +85,7 @@ test('rawSearchView', function () {
             . '"text_en")',
             [
                 'tokens' => "westeros dragon house fire north",
-            ]
+            ],
         )
         ->orderByBestMatching();
 

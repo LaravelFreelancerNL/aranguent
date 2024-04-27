@@ -7,7 +7,7 @@ test('wrap multiple columns', function () {
 
     $this->assertSame(
         'FOR userDoc IN users RETURN {id: `userDoc`.`_key`, _id: `userDoc`.`_id`, email: `userDoc`.`email`}',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -21,6 +21,6 @@ test('wrap bypass', function () {
         'FOR userDoc IN users FILTER `userDoc`.`i``d` == @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });

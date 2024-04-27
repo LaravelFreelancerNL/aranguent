@@ -17,7 +17,7 @@ use LaravelFreelancerNL\Aranguent\Schema\Concerns\Tables;
  * Class Blueprint.
  *
  * The Schema blueprint works differently from the standard Illuminate version:
- * 1) ArangoDB is schemaless: we don't need to (and can't) create columns
+ * 1) ArangoDB is schemaless: we don't need to create columns
  * 2) ArangoDB doesn't allow DB schema actions within AQL nor within a transaction.
  *
  * This means that:
@@ -85,7 +85,7 @@ class Blueprint
      *
      * @var bool
      */
-    protected $keyGenerator = 'traditional';
+    protected $keyGenerator;
 
     protected int $incrementOffset = 0;
 
@@ -107,6 +107,8 @@ class Blueprint
         $this->grammar = $grammar;
 
         $this->schemaManager = $schemaManager;
+
+        $this->keyGenerator = config('arangodb.schema.keyOptions.type');
 
         $this->prefix = $prefix;
 

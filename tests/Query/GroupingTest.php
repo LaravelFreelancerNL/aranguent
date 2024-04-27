@@ -63,7 +63,7 @@ test('having raw', function () {
         'FOR characterDoc IN characters COLLECT surname = `characterDoc`.`surname`'
         . ' FILTER `surname` LIKE "Lannister"'
         . ' RETURN {surname: `surname`}',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($surnames)->toHaveCount(1);

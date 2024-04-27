@@ -45,8 +45,8 @@ class Grammar extends IlluminateGrammar
                     (new QueryBuilder())->for('doc', $table)
                         ->filter($filter)
                         ->limit(1)
-                        ->return('true')
-                )
+                        ->return('true'),
+                ),
             )->return($aqb->rawExpression('columnFound == true'))
                 ->get();
 
@@ -77,7 +77,7 @@ class Grammar extends IlluminateGrammar
                     $attributes['from'] => null,
                     $attributes['to'] => 'doc.' . $command->from,
                 ],
-                $table
+                $table,
             )
             ->options(['keepNull' => false])
             ->get();

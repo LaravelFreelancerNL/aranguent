@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Carbon;
 use LaravelFreelancerNL\Aranguent\Eloquent\Model;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use Mockery as M;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Tag;
+use TestSetup\Models\Character;
+use TestSetup\Models\Tag;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 beforeEach(function () {
@@ -57,7 +59,7 @@ test('attach', function () {
             'alive' => false,
             'age' => 25,
             'residence_id' => 'winterfell',
-        ]
+        ],
     );
 
     // Reload from DB
@@ -97,7 +99,7 @@ test('sync', function () {
             'alive' => false,
             'age' => 25,
             'residence_id' => 'winterfell',
-        ]
+        ],
     );
     $rhaegarTargaryen = Character::firstOrCreate(
         [
@@ -107,7 +109,7 @@ test('sync', function () {
             'alive' => false,
             'age' => 25,
             'residence_id' => 'dragonstone',
-        ]
+        ],
     );
 
     $child = Character::find('JonSnow');

@@ -237,7 +237,7 @@ class Connection extends IlluminateConnection
         return '"' . str_replace(
             ['\\', "\0", "\n", "\r", "'", '"', "\x1a"],
             ['\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'],
-            $value
+            $value,
         ) . '"';
     }
 

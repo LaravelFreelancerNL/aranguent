@@ -82,8 +82,8 @@ test('invertedIndex & dropInvertedIndex', function () {
             'inv-ind',
             [
                 'searchField' => true,
-                'includeAllFields' => true
-            ]
+                'includeAllFields' => true,
+            ],
         );
     });
     $name = 'inv-ind';

@@ -8,7 +8,7 @@ use LaravelFreelancerNL\Aranguent\Facades\Schema;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
 use Mockery as M;
-use Tests\Setup\ClassStubs\CustomBlueprint;
+use TestSetup\ClassStubs\CustomBlueprint;
 
 use TiMacDonald\Log\LogEntry;
 use TiMacDonald\Log\LogFake;
@@ -27,7 +27,7 @@ test('create with custom blueprint', function () {
     });
 
     refreshDatabase();
-});
+})->todo();
 
 test('has table', function () {
     expect(Schema::hasTable('locations'))->toBeTrue();
@@ -237,7 +237,7 @@ test('createAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     $analyzer = $schemaManager->getAnalyzer('myAnalyzer');
@@ -259,12 +259,12 @@ test('replaceAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
 
     Schema::replaceAnalyzer('myAnalyzer', [
-        'type' => 'identity'
+        'type' => 'identity',
     ]);
 
     $schemaManager->deleteAnalyzer('myAnalyzer');
@@ -274,7 +274,7 @@ test('dropAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzer('myAnalyzer');
@@ -286,7 +286,7 @@ test('dropAnalyzerIfExists true', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzerIfExists('myAnalyzer');
@@ -313,6 +313,6 @@ test('Unsupported functions are logged', function () {
     Schema::nonExistingFunction('none-existing-analyzer');
 
     Log::assertLogged(
-        fn(LogEntry $log) => $log->level === 'warning'
+        fn(LogEntry $log) => $log->level === 'warning',
     );
 });

@@ -50,7 +50,7 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MigrateMakeCommand::class,
-                MigrationsConvertCommand::class
+                MigrationsConvertCommand::class,
             ]);
         }
     }

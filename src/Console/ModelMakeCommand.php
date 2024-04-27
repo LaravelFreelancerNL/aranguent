@@ -129,13 +129,13 @@ class ModelMakeCommand extends IlluminateModelMakeCommand
         $options[] = [
             'edge-pivot',
             null,
-            InputOption::VALUE_NONE, 'The generated model uses a custom intermediate edge-collection model for ArangoDB'
+            InputOption::VALUE_NONE, 'The generated model uses a custom intermediate edge-collection model for ArangoDB',
         ];
         $options[] = [
             'edge-morph-pivot',
             null,
             InputOption::VALUE_NONE,
-            'The generated model uses a custom polymorphic intermediate edge-collection model for ArangoDB'
+            'The generated model uses a custom polymorphic intermediate edge-collection model for ArangoDB',
         ];
 
         if (!$this->arangodbIsDefaultConnection()) {
@@ -143,7 +143,7 @@ class ModelMakeCommand extends IlluminateModelMakeCommand
                 'arangodb',
                 null,
                 InputOption::VALUE_NONE,
-                'Use ArangoDB instead of the default connection.'
+                'Use ArangoDB instead of the default connection.',
             ];
         }
 

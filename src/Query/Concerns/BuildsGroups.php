@@ -29,7 +29,7 @@ trait BuildsGroups
         foreach ($groups as $group) {
             $this->groups = array_merge(
                 (array) $this->groups,
-                Arr::wrap($group)
+                Arr::wrap($group),
             );
         }
 
@@ -85,7 +85,7 @@ trait BuildsGroups
         [$value, $operator] = $this->prepareValueAndOperator(
             $value,
             $operator,
-            func_num_args() === 2
+            func_num_args() === 2,
         );
 
         /** @phpstan-ignore-next-line  */

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Location;
+use TestSetup\Models\Character;
+use TestSetup\Models\Location;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 test('first', function () {
@@ -86,7 +86,7 @@ test('firstOrCreate with nested data', function () {
 
     $model = Character::firstOrCreate(
         $char,
-        $char
+        $char,
     );
 
     expect($model->_id)->toBe($ned->_id);

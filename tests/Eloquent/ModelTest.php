@@ -1,10 +1,10 @@
 <?php
 
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
-use Tests\Setup\Models\Character;
+use TestSetup\Models\Character;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 test('update model', function () {
@@ -53,7 +53,7 @@ test('upsert', function () {
             ],
         ],
         ['name', 'surname'],
-        ['alive']
+        ['alive'],
     );
 
     $ned = Character::find('NedStark');

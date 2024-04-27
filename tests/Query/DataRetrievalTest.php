@@ -55,7 +55,7 @@ test('paginate with optional filters', function () {
             function ($query) use ($residenceId) {
                 return $query->where('residence_id', '==', $residenceId)
                     ->orWhere('residence_id', '==', $residenceId);
-            }
+            },
         )
         ->paginate(5)
         ->toArray();
