@@ -14,13 +14,7 @@ curl -X POST -u root: --header 'accept: application/json' --data-binary @- --dum
 }
 EOF
 
-echo Creating migration repository: migrations
-curl -X POST -u root: --header 'accept: application/json' --data-binary @- --dump - $DB_ENDPOINT/_db/$DB_DATABASE/_api/collection \
-<<EOF
-{
-  "name" : "migrations"
-}
-EOF
+./vendor/bin/testbench migrate:install
 
 exit 0
 

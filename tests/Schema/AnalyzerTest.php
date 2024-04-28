@@ -8,7 +8,7 @@ test('createAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     $analyzer = $schemaManager->getAnalyzer('myAnalyzer');
@@ -30,12 +30,12 @@ test('replaceAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
 
     Schema::replaceAnalyzer('myAnalyzer', [
-        'type' => 'identity'
+        'type' => 'identity',
     ]);
 
     $schemaManager->deleteAnalyzer('myAnalyzer');
@@ -45,7 +45,7 @@ test('dropAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzer('myAnalyzer');
@@ -57,7 +57,7 @@ test('dropAnalyzerIfExists true', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzerIfExists('myAnalyzer');
