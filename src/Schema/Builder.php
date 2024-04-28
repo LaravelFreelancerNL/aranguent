@@ -28,14 +28,14 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     protected $connection;
 
-    protected SchemaManager $schemaManager;
+    public SchemaManager $schemaManager;
 
     /**
      * The schema grammar instance.
      *
      * @var Grammar
      */
-    protected $grammar;
+    public $grammar;
 
     /**
      * Create a new database Schema manager.
@@ -83,6 +83,17 @@ class Builder extends \Illuminate\Database\Schema\Builder
      * @throws ArangoException
      */
     public function getAllTables(): array
+    {
+        return $this->schemaManager->getCollections(true);
+    }
+
+    /**
+     * Get the tables that belong to the database.
+     *
+     * @return array
+     * @throws ArangoException
+     */
+    public function getTables()
     {
         return $this->schemaManager->getCollections(true);
     }
@@ -210,6 +221,20 @@ class Builder extends \Illuminate\Database\Schema\Builder
         } catch (\Exception $e) {
             throw new QueryException($this->connection->getName(), $e->getMessage(), [], $e);
         }
+    }
+
+    /**
+     * Disable foreign key constraints during the execution of a callback.
+     *
+     * ArangoDB doesn't have foreign keys so this is just a dummy to keep things working
+     * for functionality that expect this method.
+     *
+     * @param  \Closure  $callback
+     * @return mixed
+     */
+    public function withoutForeignKeyConstraints(Closure $callback)
+    {
+        return $callback();
     }
 
     /**
