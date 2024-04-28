@@ -120,7 +120,7 @@ class Grammar extends IlluminateQueryGrammar
      */
     public function getDateFormat()
     {
-        return 'Y-m-d\TH:i:s.vp';
+        return  config('arangodb.datetime_format');
     }
 
     /**

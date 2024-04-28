@@ -74,16 +74,6 @@ trait HandlesAqlGrammar
 
     protected string $rangeOperator = '..';
 
-    /**
-     * Get the format for database stored dates.
-     *
-     * @return string
-     */
-    public function getDateFormat()
-    {
-        return  config('arangodb.datetime_format');
-    }
-
     public function isBind(mixed $value): bool
     {
         if (is_string($value) && preg_match('/^@?[0-9]{4}_[a-zA-Z0-9_$]_[0-9_]+$/', $value)) {
