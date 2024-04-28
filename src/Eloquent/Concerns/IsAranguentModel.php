@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace LaravelFreelancerNL\Aranguent\Eloquent\Concerns;
 
-use Closure;
 use Illuminate\Database\Eloquent\Builder as IlluminateEloquentBuilder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Eloquent\Builder;
 use LaravelFreelancerNL\Aranguent\Query\Builder as QueryBuilder;
-use LaravelFreelancerNL\FluentAQL\QueryBuilder as ArangoQueryBuilder;
 
 trait IsAranguentModel
 {
+    use HasAttributes;
     use HasAranguentRelationships;
 
     /**
@@ -137,19 +135,6 @@ trait IsAranguentModel
 
         return Str::snake(class_basename($this)) . $keyName;
     }
-
-    // TODO: see if we can get this working.
-    //    public static function fromAqb(ArangoQueryBuilder|Closure $aqb): Collection
-    //    {
-    //        if ($aqb instanceof Closure) {
-    //            /** @phpstan-ignore-next-line */
-    //            $aqb = $aqb(new ArangoQueryBuilder());
-    //        }
-    //        $connection = static::resolveConnection(self::$connection);
-    //        $results = $connection->execute($aqb->get());
-    //
-    //        return self::hydrate($results);
-    //    }
 
     /**
      * Get the database connection for the model.
