@@ -15,6 +15,7 @@ curl -X POST -u root: --header 'accept: application/json' --data-binary @- --dum
 EOF
 
 ./vendor/bin/testbench migrate:install
+./vendor/bin/testbench convert:migrations
 
 exit 0
 
