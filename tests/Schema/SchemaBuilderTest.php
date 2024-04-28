@@ -304,10 +304,7 @@ test('Silently fails unsupported functions', function () {
     Schema::nonExistingFunction('none-existing-analyzer');
 })->throwsNoExceptions();
 
-// Removed the log fake dependency for now as it usually lags behind new Laravel releases
 test('Unsupported functions are logged', function () {
-    $this->skipTestOn('laravel', '>', '3.10');
-
     LogFake::bind();
 
     Schema::nonExistingFunction('none-existing-analyzer');
