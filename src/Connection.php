@@ -144,6 +144,11 @@ class Connection extends IlluminateConnection
         return $this->arangoClient;
     }
 
+    public function setArangoClient(ArangoClient $arangoClient): void
+    {
+        $this->arangoClient = $arangoClient;
+    }
+
     /**
      * Set the name of the connected database.
      *
@@ -232,7 +237,7 @@ class Connection extends IlluminateConnection
         return '"' . str_replace(
             ['\\', "\0", "\n", "\r", "'", '"', "\x1a"],
             ['\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'],
-            $value
+            $value,
         ) . '"';
     }
 

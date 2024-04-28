@@ -48,9 +48,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LaravelFreelancerNL\\Aranguent\\": "src/",
-            "Tests\\": "tests/",
-            "Database\\Seeders\\": "tests/Setup/Database/Seeds"
+            "LaravelFreelancerNL\\Aranguent\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -58,7 +56,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "TestSetup\\": "TestSetup/",
+            "Database\\Seeders\\": "TestSetup/Database/Seeders"
         }
     },
     "extra": {

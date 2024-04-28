@@ -128,9 +128,9 @@ class MigrateMakeCommand extends IlluminateMigrateMakeCommand
                 $this->getMigrationPath(),
                 $table,
                 $create,
-                $edge
+                $edge,
             ),
-            PATHINFO_FILENAME
+            PATHINFO_FILENAME,
         );
 
         $this->line("<info>Created Migration:</info> {$file}");

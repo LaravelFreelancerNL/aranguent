@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Tests\Setup\Models\Character;
+use TestSetup\Models\Character;
 
 test('output conversion with whole document', function () {
     $result = DB::table('characters')->first();
@@ -29,7 +29,7 @@ test('get id conversion single attribute', function () {
 
     $this->assertSame(
         'FOR userDoc IN users RETURN {id: `userDoc`.`_key`}',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -40,7 +40,7 @@ test('get id conversion multiple attributes', function () {
 
     $this->assertSame(
         'FOR characterDoc IN characters LIMIT 1 RETURN {id: `characterDoc`.`_key`, name: `characterDoc`.`name`}',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($result)->not->toHaveProperty('_key');
@@ -55,7 +55,7 @@ test('get id conversion with alias', function () {
 
     $this->assertSame(
         'FOR characterDoc IN characters LIMIT 1 RETURN {i: `characterDoc`.`_key`, name: `characterDoc`.`name`}',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($result)->not->toHaveProperty('_key');
@@ -70,7 +70,7 @@ test('get id conversion with multiple ids', function () {
 
     $this->assertSame(
         'FOR characterDoc IN characters LIMIT 1 RETURN {id: `characterDoc`.`_key`, i: `characterDoc`.`_key`, name: `characterDoc`.`name`}',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($result)->not->toHaveProperty('_key');
@@ -85,7 +85,7 @@ test('get id conversion with multiple aliases', function () {
 
     $this->assertSame(
         'FOR characterDoc IN characters LIMIT 1 RETURN {i: `characterDoc`.`_key`, i2: `characterDoc`.`_key`, name: `characterDoc`.`name`}',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($result)->not->toHaveProperty('_key');
@@ -102,7 +102,7 @@ test('get id conversion with wheres', function () {
     $this->assertSame(
         'FOR characterDoc IN characters FILTER `characterDoc`.`_key` == @' . $query->getQueryId() . '_where_1'
         . ' LIMIT 1 RETURN characterDoc',
-        $query->toSql()
+        $query->toSql(),
     );
 
     expect($result)->not->toHaveProperty('_key');

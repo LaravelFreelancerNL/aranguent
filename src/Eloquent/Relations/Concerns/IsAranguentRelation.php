@@ -19,7 +19,7 @@ trait IsAranguentRelation
         return $this->getRelationExistenceQuery(
             $query,
             $parentQuery,
-            new Expression('*')
+            new Expression('*'),
         );
     }
 }

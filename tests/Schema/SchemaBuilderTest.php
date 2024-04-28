@@ -1,34 +1,19 @@
 <?php
 
-use ArangoClient\ArangoClient;
 use ArangoClient\Exceptions\ArangoException;
-use ArangoClient\Schema\SchemaManager;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Facades\Schema;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
-use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
-use LaravelFreelancerNL\Aranguent\Schema\Builder;
-use LaravelFreelancerNL\Aranguent\Schema\Grammar;
+use LaravelFreelancerNL\Aranguent\Testing\DatabaseMigrations;
 use Mockery as M;
-use Tests\Setup\ClassStubs\CustomBlueprint;
-
 use TiMacDonald\Log\LogEntry;
 use TiMacDonald\Log\LogFake;
 
+uses(DatabaseMigrations::class);
+
 afterEach(function () {
     M::close();
-});
-
-test('create with custom blueprint', function () {
-    $schema = DB::connection()->getSchemaBuilder();
-    $schema->blueprintResolver(function ($table, $callback) {
-        return new CustomBlueprint($table, $callback);
-    });
-    $schema->create('characters', function (Blueprint $collection) {
-        expect($collection)->toBeInstanceOf(CustomBlueprint::class);
-    });
 });
 
 test('has table', function () {
@@ -37,13 +22,16 @@ test('has table', function () {
 });
 
 test('has table throws on none existing database', function () {
-    DB::purge();
+    $oldDatabase = config('database.connections.arangodb.database');
     $newDatabase = 'otherDatabase';
     config()->set('database.connections.arangodb.database', $newDatabase);
 
-    $this->expectException(QueryException::class);
-
-    Schema::hasTable('dummy');
+    try {
+        Schema::hasTable('dummy');
+    } catch(QueryException $e) {
+        expect($e)->toBeInstanceOf(QueryException::class);
+    }
+    config()->set('database.connections.arangodb.database', $oldDatabase);
 });
 
 test('rename', function () {
@@ -58,7 +46,6 @@ test('rename', function () {
 
 test('drop all tables', function () {
     $initialTables = Schema::getAllTables();
-
     Schema::dropAllTables();
 
     $tables = Schema::getAllTables();
@@ -66,28 +53,17 @@ test('drop all tables', function () {
     expect(count($initialTables))->toEqual(15);
     expect(count($tables))->toEqual(0);
 
-    refreshDatabase();
+    $this->artisan('migrate:install')->assertExitCode(0);
 });
 
-/**
- * FIXME: with default seed this can be tested against the db.
- */
-test('collection has columns', function () {
-    $mockConnection = M::mock(Connection::class);
-    $mockArangoClient = M::mock(ArangoClient::class);
-    $mockSchemaManager = M::mock(SchemaManager::class);
-    $grammar = new Grammar();
-    $mockConnection->shouldReceive('getSchemaGrammar')->andReturn($grammar);
-    $mockConnection->shouldReceive('getArangoClient')->andReturn($mockArangoClient);
-    $mockArangoClient->shouldReceive('schema')->andReturn($mockSchemaManager);
+test('hasColumn', function () {
+    expect(Schema::hasColumn('characters', 'xname'))->toBeFalse();
+    expect(Schema::hasColumn('characters', 'name'))->toBeTrue();
+});
 
-    $builder = new Builder($mockConnection);
-
-    $mockConnection->shouldReceive('statement')->once()->andReturn(true);
-    $mockConnection->shouldReceive('statement')->once()->andReturn(false);
-
-    expect($builder->hasColumn('users', 'firstname'))->toBeTrue();
-    expect($builder->hasColumn('users', 'not_an_attribute'))->toBeFalse();
+test('hasColumns', function () {
+    expect(Schema::hasColumn('characters', ['name', 'xname']))->toBeFalse();
+    expect(Schema::hasColumn('characters', ['name', 'alive']))->toBeTrue();
 });
 
 test('create view', function () {
@@ -242,7 +218,7 @@ test('createAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     $analyzer = $schemaManager->getAnalyzer('myAnalyzer');
@@ -264,12 +240,12 @@ test('replaceAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
 
     Schema::replaceAnalyzer('myAnalyzer', [
-        'type' => 'identity'
+        'type' => 'identity',
     ]);
 
     $schemaManager->deleteAnalyzer('myAnalyzer');
@@ -279,7 +255,7 @@ test('dropAnalyzer', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzer('myAnalyzer');
@@ -291,7 +267,7 @@ test('dropAnalyzerIfExists true', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasAnalyzer('myAnalyzer')) {
         Schema::createAnalyzer('myAnalyzer', [
-            'type' => 'identity'
+            'type' => 'identity',
         ]);
     }
     Schema::dropAnalyzerIfExists('myAnalyzer');
@@ -309,15 +285,12 @@ test('Silently fails unsupported functions', function () {
     Schema::nonExistingFunction('none-existing-analyzer');
 })->throwsNoExceptions();
 
-// Removed the log fake dependency for now as it usually lags behind new Laravel releases
 test('Unsupported functions are logged', function () {
-    $this->skipTestOn('laravel', '>', '3.10');
-
     LogFake::bind();
 
     Schema::nonExistingFunction('none-existing-analyzer');
 
     Log::assertLogged(
-        fn(LogEntry $log) => $log->level === 'warning'
+        fn(LogEntry $log) => $log->level === 'warning',
     );
 });

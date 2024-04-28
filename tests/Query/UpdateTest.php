@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 test('update', function () {
@@ -17,7 +17,7 @@ test('update', function () {
         "alive" => false,
         "age" => 42,
         "residence_id" => "winterfell",
-        "location_id" => "king-s-landing"
+        "location_id" => "king-s-landing",
     ];
     DB::table('characters')->where('id', 'NedStark')->update($characterData);
 
@@ -35,7 +35,7 @@ test('update with join', function () {
         "alive" => false,
         "age" => 42,
         "residence_id" => "winterfell",
-        "location_id" => "king-s-landing"
+        "location_id" => "king-s-landing",
     ];
 
     $updateResult = DB::table('characters')
@@ -185,7 +185,7 @@ test('upsert updates specific fields', function () {
         "alive" => false,
         "age" => 42,
         "residence_id" => "winterfell",
-        "location_id" => "king-s-landing"
+        "location_id" => "king-s-landing",
     ];
     $result = DB::table('characters')->upsert([$characterData], ['id'], ['alive', 'age']);
 

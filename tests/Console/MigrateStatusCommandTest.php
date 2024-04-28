@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-
 test('migrate:status', function () {
     $this->artisan('migrate:status', [
         '--path' => [
             database_path('migrations'),
-            realpath(__DIR__ . '/../Setup/Database/Migrations'),
-            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/')
+            realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/'),
         ],
         '--realpath' => true,
     ])
@@ -20,8 +19,8 @@ test('migrate:status --database=arangodb', function () {
     $this->artisan('migrate:status', [
         '--path' => [
             database_path('migrations'),
-            realpath(__DIR__ . '/../Setup/Database/Migrations'),
-            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/')
+            realpath(__DIR__ . '/../../TestSetup/Database/Migrations'),
+            realpath(__DIR__ . '/../../vendor/orchestra/testbench-core/laravel/migrations/'),
         ],
         '--realpath' => true,
         '--database' => 'arangodb',

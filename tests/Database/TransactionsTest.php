@@ -10,8 +10,8 @@ declare(strict_types=1);
 use ArangoClient\Transactions\TransactionManager;
 use Illuminate\Support\Facades\DB;
 use Mockery as M;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Location;
+use TestSetup\Models\Character;
+use TestSetup\Models\Location;
 
 afterEach(function () {
     M::close();
@@ -54,14 +54,14 @@ test(/**
             'surname' => 'of the Shaadow',
             'alive' => true,
             'age' => null,
-        ]
+        ],
     );
     Location::create(
         [
             'id' => 'pyke',
             'name' => 'Pyke',
             'coordinate' => [55.8833342, -6.1388807],
-        ]
+        ],
     );
     $this->connection->rollBack();
 
@@ -72,6 +72,98 @@ test(/**
     expect($endingCharacters->count())->toEqual(43);
 
     expect($startingLocations->count())->toEqual(9);
+    expect($endingLocations->count())->toEqual(9);
+});
+
+test(/**
+ * @throws Throwable
+ */ 'rollback transaction with negative out of bounds level', function () {
+    $startingCharacters = Character::all();
+    $startingLocations = Location::all();
+
+    $this->connection->beginTransaction(['write' => ['characters', 'locations']]);
+
+    Character::create(
+        [
+            'id' => 'QuaitheOfTheShadow',
+            'name' => 'Quaithe',
+            'surname' => 'of the Shaadow',
+            'alive' => true,
+            'age' => null,
+        ],
+    );
+    Location::create(
+        [
+            'id' => 'pyke',
+            'name' => 'Pyke',
+            'coordinate' => [55.8833342, -6.1388807],
+        ],
+    );
+    $this->connection->rollBack(-1);
+
+    // Rollback is not performed
+    $endingCharacters = Character::all();
+    $endingLocations = Location::all();
+
+    expect($startingCharacters->count())->toEqual(43);
+    expect($endingCharacters->count())->toEqual(44);
+
+    expect($startingLocations->count())->toEqual(9);
+    expect($endingLocations->count())->toEqual(10);
+
+    // Perform real rollback;
+    $this->connection->rollBack();
+
+    $endingCharacters = Character::all();
+    $endingLocations = Location::all();
+
+    expect($endingCharacters->count())->toEqual(43);
+    expect($endingLocations->count())->toEqual(9);
+});
+
+test(/**
+ * @throws Throwable
+ */ 'rollback transaction with positive out of bounds level', function () {
+    $startingCharacters = Character::all();
+    $startingLocations = Location::all();
+
+    $this->connection->beginTransaction(['write' => ['characters', 'locations']]);
+
+    Character::create(
+        [
+            'id' => 'QuaitheOfTheShadow',
+            'name' => 'Quaithe',
+            'surname' => 'of the Shaadow',
+            'alive' => true,
+            'age' => null,
+        ],
+    );
+    Location::create(
+        [
+            'id' => 'pyke',
+            'name' => 'Pyke',
+            'coordinate' => [55.8833342, -6.1388807],
+        ],
+    );
+    $this->connection->rollBack(1);
+
+    // Rollback is not performed
+    $endingCharacters = Character::all();
+    $endingLocations = Location::all();
+
+    expect($startingCharacters->count())->toEqual(43);
+    expect($endingCharacters->count())->toEqual(44);
+
+    expect($startingLocations->count())->toEqual(9);
+    expect($endingLocations->count())->toEqual(10);
+
+    // Perform real rollback;
+    $this->connection->rollBack();
+
+    $endingCharacters = Character::all();
+    $endingLocations = Location::all();
+
+    expect($endingCharacters->count())->toEqual(43);
     expect($endingLocations->count())->toEqual(9);
 });
 
@@ -88,14 +180,14 @@ test('commit transaction with queries', function () {
             'surname' => 'of the Shaadow',
             'alive' => true,
             'age' => null,
-        ]
+        ],
     );
     Location::create(
         [
             'id' => 'pyke',
             'name' => 'Pyke',
             'coordinate' => [55.8833342, -6.1388807],
-        ]
+        ],
     );
 
     $this->connection->commit();

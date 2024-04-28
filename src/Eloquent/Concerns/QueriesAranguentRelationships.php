@@ -34,7 +34,7 @@ trait QueriesAranguentRelationships
             $this->getQuery()->set(
                 $alias,
                 $expression,
-                'postIterationVariables'
+                'postIterationVariables',
             )
                 ->addSelect($alias);
 
@@ -47,7 +47,7 @@ trait QueriesAranguentRelationships
         $this->getQuery()->set(
             $alias,
             new Expression(strtoupper($function) . '(' . $subquery . ')'),
-            'postIterationVariables'
+            'postIterationVariables',
         );
 
         $this->addSelect($alias);
@@ -85,7 +85,7 @@ trait QueriesAranguentRelationships
             new Expression('LENGTH(' . $subquery . ')'),
             $operator,
             new Expression($count),
-            $boolean
+            $boolean,
         );
     }
 
@@ -103,17 +103,17 @@ trait QueriesAranguentRelationships
             ? $this->requalifyWhereTables(
                 $from->getQuery()->wheres,
                 (string) $from->getQuery()->grammar->getValue($from->getQuery()->from),
-                $this->getModel()->getTable()
+                $this->getModel()->getTable(),
             ) : $from->getQuery()->wheres;
 
         // Here we have some other query that we want to merge the where constraints from. We will
         // copy over any where constraints on the query as well as remove any global scopes the
         // query might have removed. Then we will return ourselves with the finished merging.
         return $this->withoutGlobalScopes(
-            $from->removedScopes()
+            $from->removedScopes(),
         )->mergeWheres(
             $wheres,
-            $whereBindings
+            $whereBindings,
         );
     }
 
@@ -157,7 +157,7 @@ trait QueriesAranguentRelationships
                 $hashedColumn = $this->getRelationHashedColumn($column, $relation);
 
                 $wrappedColumn = $this->getQuery()->getGrammar()->wrap(
-                    $column === '*' ? $column : $relation->getRelated()->qualifyColumn($hashedColumn)
+                    $column === '*' ? $column : $relation->getRelated()->qualifyColumn($hashedColumn),
                 );
 
                 $expression = $function === 'exists' ? $wrappedColumn : sprintf('%s(%s)', $function, $wrappedColumn);
@@ -169,7 +169,7 @@ trait QueriesAranguentRelationships
             $query = $relation->getRelationExistenceQuery(
                 $relation->getRelated()->newQuery(),
                 $this,
-                new Expression($expression)
+                new Expression($expression),
             )->setBindings([], 'select');
 
             $query->callScope($constraints);
@@ -191,7 +191,7 @@ trait QueriesAranguentRelationships
             // the query builder. Then, we will return the builder instance back to the developer
             // for further constraint chaining that needs to take place on the query as needed.
             $alias = Str::snake(
-                (string) preg_replace('/[^[:alnum:][:space:]_]/u', '', "$name $function $column")
+                (string) preg_replace('/[^[:alnum:][:space:]_]/u', '', "$name $function $column"),
             );
 
             $this->handleAggregateFunction($query, $function, $alias);

@@ -10,10 +10,10 @@ bootstrappers:
 
 providers:
   - LaravelFreelancerNL\Aranguent\AranguentServiceProvider
-  - Tests\Setup\AranguentTestServiceProvider
+  - TestSetup\AranguentTestServiceProvider
 
 migrations:
-  - tests/Setup/Database/Migrations
+  -  TestSetup/Database/Migrations
 
 seeders:
-  - Tests\Setup\Database\Seeds\DatabaseSeeder
+  - Database\Seeders\DatabaseSeeder

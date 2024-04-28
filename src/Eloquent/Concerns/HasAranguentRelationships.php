@@ -59,7 +59,7 @@ trait HasAranguentRelationships
         $relatedPivotKey,
         $parentKey,
         $relatedKey,
-        $relationName = null
+        $relationName = null,
     ) {
         return new BelongsToMany(
             $query,
@@ -69,7 +69,7 @@ trait HasAranguentRelationships
             $relatedPivotKey,
             $parentKey,
             $relatedKey,
-            $relationName
+            $relationName,
         );
     }
 
@@ -113,7 +113,7 @@ trait HasAranguentRelationships
         $firstKey,
         $secondKey,
         $localKey,
-        $secondLocalKey
+        $secondLocalKey,
     ) {
         return new HasOneThrough($query, $farParent, $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey);
     }
@@ -186,7 +186,7 @@ trait HasAranguentRelationships
         $parentKey,
         $relatedKey,
         $relationName = null,
-        $inverse = false
+        $inverse = false,
     ) {
         return new MorphToMany(
             $query,
@@ -198,7 +198,7 @@ trait HasAranguentRelationships
             $parentKey,
             $relatedKey,
             $relationName,
-            $inverse
+            $inverse,
         );
     }
 }

@@ -24,7 +24,7 @@ trait InteractsWithDatabase
     {
         $this->assertThat(
             $this->getTable($table),
-            new HasInDatabase($this->getConnection($connection), associativeFlatten($data))
+            new HasInDatabase($this->getConnection($connection), associativeFlatten($data)),
         );
 
         return $this;
@@ -41,7 +41,7 @@ trait InteractsWithDatabase
     protected function assertDatabaseMissing($table, array $data, $connection = null)
     {
         $constraint = new ReverseConstraint(
-            new HasInDatabase($this->getConnection($connection), associativeFlatten($data))
+            new HasInDatabase($this->getConnection($connection), associativeFlatten($data)),
         );
 
         $this->assertThat($this->getTable($table), $constraint);
@@ -62,14 +62,14 @@ trait InteractsWithDatabase
         $table,
         array $data = [],
         $connection = null,
-        $deletedAtColumn = 'deleted_at'
+        $deletedAtColumn = 'deleted_at',
     ) {
         if ($this->isSoftDeletableModel($table) && !is_string($table)) {
             return $this->assertSoftDeleted(
                 $table->getTable(),
                 [$table->getKeyName() => $table->getKey()],
                 $table->getConnectionName(), /** @phpstan-ignore-next-line */
-                $table->getDeletedAtColumn()
+                $table->getDeletedAtColumn(),
             );
         }
 
@@ -78,8 +78,8 @@ trait InteractsWithDatabase
             new SoftDeletedInDatabase(
                 $this->getConnection($connection),
                 associativeFlatten($data),
-                (string) $deletedAtColumn
-            )
+                (string) $deletedAtColumn,
+            ),
         );
 
         return $this;
@@ -98,14 +98,14 @@ trait InteractsWithDatabase
         $table,
         array $data = [],
         $connection = null,
-        $deletedAtColumn = 'deleted_at'
+        $deletedAtColumn = 'deleted_at',
     ) {
         if ($this->isSoftDeletableModel($table) && !is_string($table)) {
             return $this->assertNotSoftDeleted(
                 $table->getTable(),
                 [$table->getKeyName() => $table->getKey()],
                 $table->getConnectionName(), /** @phpstan-ignore-next-line */
-                $table->getDeletedAtColumn()
+                $table->getDeletedAtColumn(),
             );
         }
 
@@ -114,8 +114,8 @@ trait InteractsWithDatabase
             new NotSoftDeletedInDatabase(
                 $this->getConnection($connection),
                 associativeFlatten($data),
-                (string) $deletedAtColumn
-            )
+                (string) $deletedAtColumn,
+            ),
         );
 
         return $this;

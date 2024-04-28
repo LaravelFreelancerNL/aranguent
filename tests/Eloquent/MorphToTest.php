@@ -1,11 +1,11 @@
 <?php
 
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Location;
+use TestSetup\Models\Character;
+use TestSetup\Models\Location;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 test('retrieve relation', function () {

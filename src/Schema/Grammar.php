@@ -23,29 +23,32 @@ class Grammar extends IlluminateGrammar
      * Compile AQL to check if an attribute is in use within a document in the collection.
      * If multiple attributes are set then all must be set in one document.
      *
-     * @param  string  $collection
+     * @param string $table
      * @return Fluent
+     * @throws BindException
      */
-    public function compileHasColumn($collection, Fluent $command)
+    public function compileHasColumn($table, Fluent $command)
     {
         $attributes = $command->getAttributes();
 
-        if (!isset($attributes['columns'])) {
-            return $command;
-        }
+        $aqb = new QueryBuilder();
 
         $filter = [];
         foreach ($attributes['columns'] as $column) {
-            $filter[] = ['doc.' . $column, '!=', null];
+            $filter[] = [$aqb->rawExpression('HAS(doc, \'' . $column . '\')')];
         }
 
-        $aqb = (new QueryBuilder())->for('doc', $collection)
-            ->filter($filter)
-            ->limit(1)
-            ->return('true')
-            ->get();
-
-        $command->aqb = $aqb;
+        $command->aqb =
+            $aqb->let(
+                'columnFound',
+                $aqb->first(
+                    (new QueryBuilder())->for('doc', $table)
+                        ->filter($filter)
+                        ->limit(1)
+                        ->return('true'),
+                ),
+            )->return($aqb->rawExpression('columnFound == true'))
+                ->get();
 
         return $command;
     }
@@ -53,10 +56,11 @@ class Grammar extends IlluminateGrammar
     /**
      * Compile AQL to rename an attribute, if the new name isn't already in use.
      *
-     * @param  string  $collection
+     * @param string $table
+     * @param Fluent $command
      * @return Fluent
      */
-    public function compileRenameAttribute($collection, Fluent $command)
+    public function compileRenameAttribute($table, Fluent $command)
     {
         $attributes = $command->getAttributes();
 
@@ -65,7 +69,7 @@ class Grammar extends IlluminateGrammar
             ['doc.' . $attributes['to'], '==', null],
         ];
 
-        $aqb = (new QueryBuilder())->for('doc', $collection)
+        $aqb = (new QueryBuilder())->for('doc', $table)
             ->filter($filter)
             ->update(
                 'doc',
@@ -73,9 +77,9 @@ class Grammar extends IlluminateGrammar
                     $attributes['from'] => null,
                     $attributes['to'] => 'doc.' . $command->from,
                 ],
-                $collection
+                $table,
             )
-            ->options(['keepNull' => true])
+            ->options(['keepNull' => false])
             ->get();
 
         $command->aqb = $aqb;
@@ -86,10 +90,11 @@ class Grammar extends IlluminateGrammar
     /**
      * Compile AQL to drop one or more attributes.
      *
-     * @param  string  $collection
+     * @param string $table
+     * @param Fluent $command
      * @return Fluent
      */
-    public function compileDropAttribute($collection, Fluent $command)
+    public function compileDropColumn($table, Fluent $command)
     {
         $filter = [];
         $attributes = $command->getAttributes();
@@ -99,9 +104,9 @@ class Grammar extends IlluminateGrammar
             $filter[] = ['doc.' . $attribute, '!=', null, 'OR'];
             $data[$attribute] = null;
         }
-        $aqb = (new QueryBuilder())->for('doc', $collection)
+        $aqb = (new QueryBuilder())->for('doc', $table)
             ->filter($filter)
-            ->update('doc', $data, $collection)
+            ->update('doc', $data, $table)
             ->options(['keepNull' => false])
             ->get();
 

@@ -185,7 +185,7 @@ trait BuildsUpdates
 
         return $this->connection->affectingStatement(
             $aql,
-            $bindings
+            $bindings,
         );
     }
 }

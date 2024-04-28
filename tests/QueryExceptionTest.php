@@ -20,7 +20,7 @@ test('query exception has correct message', function () {
     $this->expectExceptionMessage(
         "400 - AQL: syntax error, unexpected identifier near 'this is not AQL' at position 1:1 (while parsing)"
         . " (Connection: arangodb,AQL: this is not AQL - Bindings: array (\n"
-        . "  'testBind' => 'test',\n))"
+        . "  'testBind' => 'test',\n))",
     );
 
     DB::execute('this is not AQL', ['testBind' => 'test']);

@@ -127,7 +127,7 @@ class MigrationCreator extends IlluminateMigrationCreator
 
         $this->files->put(
             $path,
-            $this->populateStub($stub, $table)
+            $this->populateStub($stub, $table),
         );
 
         // Next, we will fire any hooks that are supposed to fire after a migration is

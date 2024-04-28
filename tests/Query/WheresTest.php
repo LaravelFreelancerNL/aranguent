@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Tests\Setup\Models\Character;
+use TestSetup\Models\Character;
 
 test('basic wheres', function () {
     $builder = getBuilder();
@@ -13,7 +13,7 @@ test('basic wheres', function () {
         'FOR userDoc IN users FILTER `userDoc`.`_key` == @'
           . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -30,7 +30,7 @@ test('basic wheres with multiple predicates', function () {
         . '_where_1 and `userDoc`.`email` == @'
         . $builder->getQueryId()
         . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -45,7 +45,7 @@ test('basic or wheres', function () {
         'FOR userDoc IN users FILTER `userDoc`.`_key` == @'
         . $builder->getQueryId() . '_where_1 or `userDoc`.`email` == @'
         . $builder->getQueryId() . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -63,7 +63,7 @@ test('where operator conversion', function () {
         . '_where_1 and `userDoc`.`_key` != @'
         . $builder->getQueryId()
         . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -81,7 +81,7 @@ test('where json arrow conversion', function () {
         . '_where_1 and `userDoc`.`profile`.`address`.`street` != @'
         . $builder->getQueryId()
         . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -96,7 +96,7 @@ test('where json contains', function () {
         . 'FILTER @'
         . $builder->getQueryId()
         . '_where_1 IN `userDoc`.`options`.`languages` RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -111,7 +111,7 @@ test('where json length', function () {
         . 'FILTER LENGTH(`userDoc`.`options`.`languages`) > @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -125,7 +125,7 @@ test('where between', function () {
         . '_where_1 AND `userDoc`.`votes` <= @'
         . $builder->getQueryId()
         . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -139,7 +139,7 @@ test('where not between', function () {
         . '_where_1 OR `userDoc`.`votes` > @'
         . $builder->getQueryId()
         . '_where_2 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -150,7 +150,7 @@ test('where between columns', function () {
     $this->assertSame(
         'FOR userDoc IN users FILTER `userDoc`.`votes` >= `userDoc`.`min_vote` AND `userDoc`.`votes` <= `userDoc`.`max_vote`'
         . ' RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -160,7 +160,7 @@ test('where column', function () {
 
     $this->assertSame(
         'FOR userDoc IN users FILTER `userDoc`.`first_name` == `userDoc`.`last_name` RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -170,7 +170,7 @@ test('where column without operator', function () {
 
     $this->assertSame(
         'FOR userDoc IN users FILTER `userDoc`.`first_name` == `userDoc`.`last_name` RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -190,7 +190,7 @@ test('where nulls', function () {
         'FOR userDoc IN users FILTER `userDoc`.`_key` == @'
         . $builder->getQueryId()
         . '_where_1 or `userDoc`.`_key` == null RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -210,7 +210,7 @@ test('where not nulls', function () {
         'FOR userDoc IN users FILTER `userDoc`.`_key` > @'
         . $builder->getQueryId()
         . '_where_1 or `userDoc`.`_key` != null RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -225,7 +225,7 @@ test('where in', function () {
         'FOR userDoc IN users FILTER `userDoc`.`country` IN @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -238,7 +238,7 @@ test('where integer in raw', function () {
 
     $this->assertSame(
         'FOR userDoc IN users FILTER `userDoc`.`country` IN [0, 1, 2, 3] RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -253,7 +253,7 @@ test('where not in', function () {
         'FOR userDoc IN users FILTER `userDoc`.`country` NOT IN @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -266,7 +266,7 @@ test('where integer not in raw', function () {
 
     $this->assertSame(
         'FOR userDoc IN users FILTER `userDoc`.`country` NOT IN [0, 1, 2, 3] RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -278,7 +278,7 @@ test('where date', function () {
         'FOR userDoc IN users FILTER DATE_FORMAT(`userDoc`.`created_at`, "%yyyy-%mm-%dd") == @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -290,7 +290,7 @@ test('where year', function () {
         'FOR userDoc IN users FILTER DATE_YEAR(`userDoc`.`created_at`) == @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -302,7 +302,7 @@ test('where month', function () {
         'FOR userDoc IN users FILTER DATE_MONTH(`userDoc`.`created_at`) == @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -314,7 +314,7 @@ test('where day', function () {
         'FOR userDoc IN users FILTER DATE_DAY(`userDoc`.`created_at`) == @'
         . $builder->getQueryId()
         . '_where_1 RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -326,30 +326,7 @@ test('where time', function () {
         "FOR userDoc IN users FILTER DATE_FORMAT(`userDoc`.`created_at`, '%hh:%ii:%ss') == @"
         . $builder->getQueryId()
         . "_where_1 RETURN userDoc",
-        $builder->toSql()
-    );
-});
-
-test('where nested', function () {
-    $builder = getBuilder();
-
-    $query = $builder->select('*')
-        ->from('characters')
-        ->where('surname', '==', 'Lannister')
-        ->where(function ($query) {
-            $query->where('age', '>', 20)
-                ->orWhere('alive', '=', true);
-        });
-
-    $binds = $query->getBindings();
-    $bindKeys = array_keys($binds);
-
-    $this->assertSame(
-        'FOR characterDoc IN characters FILTER `characterDoc`.`surname` == @' . $bindKeys[0]
-        . ' and ( `characterDoc`.`age` > @' . $bindKeys[1]
-        . ' or `characterDoc`.`alive` == @' . $bindKeys[2]
-        . ') RETURN characterDoc',
-        $query->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -423,4 +400,109 @@ test('where not exists with limit', function () {
 
     $characters = $query->get();
     expect(count($characters))->toEqual(40);
+});
+
+test('where nested', function () {
+    $builder = getBuilder();
+
+    $query = $builder->select('*')
+        ->from('characters')
+        ->where('surname', '==', 'Lannister')
+        ->where(function ($query) {
+            $query->where('age', '>', 20)
+                ->orWhere('alive', '=', true);
+        });
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR characterDoc IN characters FILTER `characterDoc`.`surname` == @' . $bindKeys[0]
+        . ' and ( `characterDoc`.`age` > @' . $bindKeys[1]
+        . ' or `characterDoc`.`alive` == @' . $bindKeys[2]
+        . ') RETURN characterDoc',
+        $query->toSql(),
+    );
+});
+
+test('whereAll', function () {
+    $query = \DB::table('houses')
+        ->whereAll(['en.coat-of-arms', 'en.description'], 'LIKE', '%on%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[0]
+        . ' and `houseDoc`.`en`.`description` LIKE @' . $bindKeys[1]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(1);
+    expect(($results->first())->name)->toBe('Targaryen');
+});
+
+test('whereAny', function () {
+    $query = \DB::table('houses')
+        ->whereAny(['en.coat-of-arms', 'en.description'], 'LIKE', '%on%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[0]
+        . ' or `houseDoc`.`en`.`description` LIKE @' . $bindKeys[1]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(3);
+    expect(($results->first())->name)->toBe('Lannister');
+});
+
+test('orWhereAll', function () {
+    $query = \DB::table('houses')
+        ->whereAll(['en.coat-of-arms', 'en.description'], 'LIKE', '%on%')
+        ->orWhereAll(['name', 'en.description'], 'LIKE', '%Stark%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[0]
+        . ' and `houseDoc`.`en`.`description` LIKE @' . $bindKeys[1]
+        . ') or ( `houseDoc`.`name` LIKE @' . $bindKeys[2]
+        . ' and `houseDoc`.`en`.`description` LIKE @' . $bindKeys[3]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Stark');
+});
+
+test('orWhereAny', function () {
+    $query = \DB::table('houses')
+        ->whereAny(['en.coat-of-arms', 'en.description'], 'LIKE', '%Stark%')
+        ->orWhereAny(['name', 'en.description'], 'LIKE', '%Dragon%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[0]
+        . ' or `houseDoc`.`en`.`description` LIKE @' . $bindKeys[1]
+        . ') or ( `houseDoc`.`name` LIKE @' . $bindKeys[2]
+        . ' or `houseDoc`.`en`.`description` LIKE @' . $bindKeys[3]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Stark');
 });

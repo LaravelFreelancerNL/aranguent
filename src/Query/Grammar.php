@@ -120,7 +120,7 @@ class Grammar extends IlluminateQueryGrammar
      */
     public function getDateFormat()
     {
-        return 'Y-m-d\TH:i:s.vp';
+        return  config('arangodb.datetime_format');
     }
 
     /**
@@ -213,8 +213,8 @@ class Grammar extends IlluminateQueryGrammar
 
         $aql = trim(
             $this->concatenate(
-                $this->compileComponents($query)
-            )
+                $this->compileComponents($query),
+            ),
         );
 
         //        if ($query->unions && $query->aggregate) {
@@ -464,7 +464,7 @@ class Grammar extends IlluminateQueryGrammar
     public function prepareBindingsForDelete(array $bindings)
     {
         return Arr::collapse(
-            Arr::except($bindings, 'select')
+            Arr::except($bindings, 'select'),
         );
     }
 

@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
+use LaravelFreelancerNL\Aranguent\Testing\RefreshDatabase;
 
-uses(
-    DatabaseTransactions::class,
-);
+uses(RefreshDatabase::class);
 
 test('insert', function () {
     $characterData = [
@@ -15,7 +13,7 @@ test('insert', function () {
         "alive" => false,
         "age" => 25,
         "tags" => [],
-        "residence_id" => "winterfell"
+        "residence_id" => "winterfell",
     ];
     DB::table('characters')->insert($characterData);
 
@@ -41,7 +39,7 @@ test('insert or ignore inserts data', function () {
         "surname" => "Stark",
         "alive" => false,
         "age" => 25,
-        "residence_id" => "winterfell"
+        "residence_id" => "winterfell",
     ];
 
     $result = DB::table('characters')
@@ -67,7 +65,7 @@ test('insert or ignore doesnt error on duplicates', function () {
         "surname" => "Stark",
         "alive" => false,
         "age" => 25,
-        "residence_id" => "winterfell"
+        "residence_id" => "winterfell",
     ];
     DB::table('characters')->insert($characterData);
 

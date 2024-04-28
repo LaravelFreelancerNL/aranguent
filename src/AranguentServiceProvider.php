@@ -46,9 +46,10 @@ class AranguentServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
         $this->mergeConfigFrom(
             __DIR__ . '/../config/arangodb.php',
-            'arangodb'
+            'arangodb',
         );
 
         $this->app->singleton(\Illuminate\Database\Migrations\Migrator::class, function ($app) {
@@ -66,9 +67,9 @@ class AranguentServiceProvider extends ServiceProvider
                         $connection->setSchemaGrammar(new SchemaGrammar());
 
                         return $connection;
-                    }
+                    },
                 );
-            }
+            },
         );
 
         $this->app->resolving(
@@ -77,7 +78,7 @@ class AranguentServiceProvider extends ServiceProvider
                     $loader = \Illuminate\Foundation\AliasLoader::getInstance();
                     $loader->alias('Eloquent', 'LaravelFreelancerNL\Aranguent\Eloquent\Model');
                 }
-            }
+            },
         );
 
         $this->app->register('LaravelFreelancerNL\Aranguent\Providers\MigrationServiceProvider');

@@ -48,7 +48,7 @@ trait BuildsSearches
         $this->search = [
             'fields' => $fields,
             'searchText' => $searchText,
-            'analyzer' => $analyzer
+            'analyzer' => $analyzer,
         ];
 
         return $this;
@@ -63,7 +63,7 @@ trait BuildsSearches
      */
     public function rawSearchView(
         $rawSearch,
-        $bindings = []
+        $bindings = [],
     ): IlluminateQueryBuilder {
         assert($this->grammar instanceof Grammar);
 

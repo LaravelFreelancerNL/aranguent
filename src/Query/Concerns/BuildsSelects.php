@@ -200,7 +200,7 @@ trait BuildsSelects
 
         $this->bindings[$this->unions ? 'unionOrders' : 'orders'] = array_merge(
             $this->bindings[$this->unions ? 'unionOrders' : 'orders'],
-            $bindings
+            $bindings,
         );
 
         return $this;

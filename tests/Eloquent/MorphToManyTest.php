@@ -1,12 +1,12 @@
 <?php
 
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Tag;
-use Tests\Setup\Models\Taggable;
+use TestSetup\Models\Character;
+use TestSetup\Models\Tag;
+use TestSetup\Models\Taggable;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 test('retrieve relation', function () {

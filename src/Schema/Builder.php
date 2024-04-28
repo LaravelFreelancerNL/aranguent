@@ -28,14 +28,14 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     protected $connection;
 
-    protected SchemaManager $schemaManager;
+    public SchemaManager $schemaManager;
 
     /**
      * The schema grammar instance.
      *
      * @var Grammar
      */
-    protected $grammar;
+    public $grammar;
 
     /**
      * Create a new database Schema manager.
@@ -88,6 +88,17 @@ class Builder extends \Illuminate\Database\Schema\Builder
     }
 
     /**
+     * Get the tables that belong to the database.
+     *
+     * @return array
+     * @throws ArangoException
+     */
+    public function getTables()
+    {
+        return $this->schemaManager->getCollections(true);
+    }
+
+    /**
      * Rename a table (collection).
      *
      * @param  string  $from
@@ -128,37 +139,37 @@ class Builder extends \Illuminate\Database\Schema\Builder
      * Determine if the given table has a given column.
      *
      * @param  string  $table
-     * @param  string  $column
+     * @param string|string[] $column
      * @return bool
      */
     public function hasColumn($table, $column)
     {
-        if (is_string($column)) {
-            $column = [$column];
-        }
-
         return $this->hasColumns($table, $column);
     }
 
     /**
      * Determine if the given table has given columns.
      *
-     * @param  string  $table
+     * @param string $table
+     * @param string|string[] $columns
      * @return bool
      */
-    public function hasColumns($table, array $columns)
+    public function hasColumns($table, $columns)
     {
+        if (is_string($columns)) {
+            $columns = [$columns];
+        }
+
         $parameters = [];
-        $parameters['name'] = 'hasAttribute';
+        $parameters['name'] = 'hasColumn';
         $parameters['handler'] = 'aql';
         $parameters['columns'] = $columns;
 
         $command = new Fluent($parameters);
+
         $compilation = $this->grammar->compileHasColumn($table, $command);
-
-        return $this->connection->statement($compilation['aql']);
+        return $this->connection->select($compilation['aqb'])[0];
     }
-
 
     /**
      * Create a database in the schema.
@@ -210,6 +221,20 @@ class Builder extends \Illuminate\Database\Schema\Builder
         } catch (\Exception $e) {
             throw new QueryException($this->connection->getName(), $e->getMessage(), [], $e);
         }
+    }
+
+    /**
+     * Disable foreign key constraints during the execution of a callback.
+     *
+     * ArangoDB doesn't have foreign keys so this is just a dummy to keep things working
+     * for functionality that expect this method.
+     *
+     * @param  \Closure  $callback
+     * @return mixed
+     */
+    public function withoutForeignKeyConstraints(Closure $callback)
+    {
+        return $callback();
     }
 
     /**

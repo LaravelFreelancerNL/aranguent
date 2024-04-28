@@ -16,7 +16,7 @@ trait Indexes
         string $type,
         array|null|string $columns = null,
         string $name = null,
-        array $indexOptions = []
+        array $indexOptions = [],
     ): Fluent {
         if ($columns === null) {
             $columns = end($this->columns);

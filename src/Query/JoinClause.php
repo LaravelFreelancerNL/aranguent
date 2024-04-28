@@ -73,7 +73,7 @@ class JoinClause extends Builder
         parent::__construct(
             $this->parentConnection,
             $this->parentGrammar,
-            $this->parentProcessor
+            $this->parentProcessor,
         );
 
         $this->registerTableAlias($table);

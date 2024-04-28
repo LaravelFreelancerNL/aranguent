@@ -4,11 +4,11 @@ use Illuminate\Support\Carbon;
 use LaravelFreelancerNL\Aranguent\Eloquent\Model;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use Mockery as M;
-use Tests\Setup\Models\Character;
-use Tests\Setup\Models\Location;
+use TestSetup\Models\Character;
+use TestSetup\Models\Location;
 
 uses(
-    DatabaseTransactions::class
+    DatabaseTransactions::class,
 );
 
 beforeEach(function () {
@@ -48,7 +48,7 @@ test('associate', function () {
             'id' => 'pyke',
             'name' => 'Pyke',
             'coordinate' => [55.8833342, -6.1388807],
-        ]
+        ],
     );
 
     $location->leader()->associate($character);

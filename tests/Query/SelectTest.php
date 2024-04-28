@@ -162,7 +162,7 @@ test('fromOptions', function () {
     $query = \DB::table('houses')
         ->fromOptions([
             'indexHint' => 'InvIdx',
-            'forceIndexHint' => true
+            'forceIndexHint' => true,
         ])
         ->where('en.description', 'LIKE', '%Westeros%');
 
@@ -172,7 +172,7 @@ test('fromOptions', function () {
         ->toBe(
             "FOR houseDoc IN houses "
             . "OPTIONS {indexHint: @{$queryId}_fromOptions_1, forceIndexHint: @{$queryId}_fromOptions_2} "
-            . "FILTER `houseDoc`.`en`.`description` LIKE @{$queryId}_where_1 RETURN houseDoc"
+            . "FILTER `houseDoc`.`en`.`description` LIKE @{$queryId}_where_1 RETURN houseDoc",
         );
 
 

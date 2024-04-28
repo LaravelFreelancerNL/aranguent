@@ -74,7 +74,7 @@ trait CompilesColumns
                 if (isset($returnAttributes[$alias]) && is_array($column)) {
                     $returnAttributes[$alias] = array_merge_recursive(
                         $returnAttributes[$alias],
-                        $this->normalizeColumn($query, $column)
+                        $this->normalizeColumn($query, $column),
                     );
                     continue;
                 }
@@ -84,7 +84,7 @@ trait CompilesColumns
 
         return [
             $returnAttributes,
-            $returnDocs
+            $returnDocs,
         ];
     }
 

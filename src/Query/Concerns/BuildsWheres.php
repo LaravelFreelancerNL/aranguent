@@ -221,7 +221,7 @@ trait BuildsWheres
         [$value, $operator] = $this->prepareValueAndOperator(
             $value,
             $operator,
-            func_num_args() === 2
+            func_num_args() === 2,
         );
 
         // If the column is actually a Closure instance, we will assume the developer
@@ -271,7 +271,7 @@ trait BuildsWheres
             'column',
             'operator',
             'value',
-            'boolean'
+            'boolean',
         );
 
         return $this;
@@ -340,7 +340,7 @@ trait BuildsWheres
             'first',
             'operator',
             'second',
-            'boolean'
+            'boolean',
         );
 
         return $this;
@@ -425,7 +425,7 @@ trait BuildsWheres
         [$value, $operator] = $this->prepareValueAndOperator(
             $value,
             $operator,
-            func_num_args() === 2
+            func_num_args() === 2,
         );
 
         $value = $this->bindValue((int) $this->flattenValue($value));
@@ -487,7 +487,7 @@ trait BuildsWheres
             'column',
             'operator',
             'subquery',
-            'boolean'
+            'boolean',
         );
 
         return $this;

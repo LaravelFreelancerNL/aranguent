@@ -9,7 +9,7 @@ test('orderBy', function () {
     $builder->select('*')->from('users')->orderBy('email')->orderBy('age', 'desc');
     $this->assertSame(
         'FOR userDoc IN users SORT `userDoc`.`email` ASC, `userDoc`.`age` DESC RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -50,7 +50,7 @@ test('orderByRaw', function () {
     $builder->select('*')->from('users')->orderByRaw('userDoc.age @direction', ['@direction' => 'ASC']);
     $this->assertSame(
         'FOR userDoc IN users SORT userDoc.age @direction RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });
 
@@ -64,6 +64,6 @@ test('reorder', function () {
 
     $this->assertSame(
         'FOR userDoc IN users RETURN userDoc',
-        $builder->toSql()
+        $builder->toSql(),
     );
 });

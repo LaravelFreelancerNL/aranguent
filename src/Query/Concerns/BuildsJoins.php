@@ -150,7 +150,7 @@ trait BuildsJoins
             $operator,
             /** @phpstan-ignore-next-line  */
             $this->grammar->getValue($second),
-            'left'
+            'left',
         );
     }
 

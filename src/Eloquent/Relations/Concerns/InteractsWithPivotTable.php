@@ -27,7 +27,7 @@ trait InteractsWithPivotTable
 
         return array_merge(
             $this->baseAttachRecord($id, $hasTimestamps),
-            $this->castAttributes($attributes)
+            $this->castAttributes($attributes),
         );
     }
 }

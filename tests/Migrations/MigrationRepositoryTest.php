@@ -89,7 +89,7 @@ test('getMigrationBatches', function () {
     $batches = [
         "getMigrationBatches1" => 32,
         "getMigrationBatches3" => 32,
-        "getMigrationBatches2" => 33
+        "getMigrationBatches2" => 33,
     ];
 
     foreach($batches as $migration => $batch) {

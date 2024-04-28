@@ -227,7 +227,7 @@ trait CompilesDataManipulations
         return trim(
             !empty($query->joins)
                 ? $this->compileDeleteWithJoins($query, $table, $where)
-                : $this->compileDeleteWithoutJoins($query, $table, $where)
+                : $this->compileDeleteWithoutJoins($query, $table, $where),
         );
     }
 
