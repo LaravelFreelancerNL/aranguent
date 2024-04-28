@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use LaravelFreelancerNL\Aranguent\Testing\DatabaseMigrations;
+
+uses(DatabaseMigrations::class);
 
 beforeEach(function () {
     $this->schemaManager = $this->connection->getArangoClient()->schema();
@@ -16,8 +19,6 @@ test('migrate:install', function () {
 
     expect(count($collections))->toBe(1);
     expect($collections[0]->name)->toBe('migrations');
-
-    refreshDatabase();
 });
 
 test('migrate:install --database=arangodb', function () {
@@ -29,8 +30,6 @@ test('migrate:install --database=arangodb', function () {
 
     expect(count($collections))->toBe(1);
     expect($collections[0]->name)->toBe('migrations');
-
-    refreshDatabase();
 });
 
 test('migrate:install --database=none', function () {

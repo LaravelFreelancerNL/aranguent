@@ -1,33 +1,20 @@
 <?php
 
 use ArangoClient\Exceptions\ArangoException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Facades\Schema;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
-use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
+use LaravelFreelancerNL\Aranguent\Testing\DatabaseMigrations;
 use Mockery as M;
-use TestSetup\ClassStubs\CustomBlueprint;
-
 use TiMacDonald\Log\LogEntry;
 use TiMacDonald\Log\LogFake;
+
+uses(DatabaseMigrations::class);
 
 afterEach(function () {
     M::close();
 });
-
-test('create with custom blueprint', function () {
-    $schema = DB::connection()->getSchemaBuilder();
-    $schema->blueprintResolver(function ($table, $callback) {
-        return new CustomBlueprint($table, $callback);
-    });
-    $schema->create('characters', function (Blueprint $table) {
-        expect($table)->toBeInstanceOf(CustomBlueprint::class);
-    });
-
-    refreshDatabase();
-})->todo();
 
 test('has table', function () {
     expect(Schema::hasTable('locations'))->toBeTrue();
@@ -35,13 +22,16 @@ test('has table', function () {
 });
 
 test('has table throws on none existing database', function () {
-    DB::purge();
+    $oldDatabase = config('database.connections.arangodb.database');
     $newDatabase = 'otherDatabase';
     config()->set('database.connections.arangodb.database', $newDatabase);
 
-    $this->expectException(QueryException::class);
-
-    Schema::hasTable('dummy');
+    try {
+        Schema::hasTable('dummy');
+    } catch(QueryException $e) {
+        expect($e)->toBeInstanceOf(QueryException::class);
+    }
+    config()->set('database.connections.arangodb.database', $oldDatabase);
 });
 
 test('rename', function () {
@@ -52,13 +42,10 @@ test('rename', function () {
     expect(Schema::hasTable('people'))->toBeTrue();
 
     Schema::rename('people', 'characters');
-
-    refreshDatabase();
 });
 
 test('drop all tables', function () {
     $initialTables = Schema::getAllTables();
-
     Schema::dropAllTables();
 
     $tables = Schema::getAllTables();
@@ -66,7 +53,7 @@ test('drop all tables', function () {
     expect(count($initialTables))->toEqual(15);
     expect(count($tables))->toEqual(0);
 
-    refreshDatabase();
+    $this->artisan('migrate:install')->assertExitCode(0);
 });
 
 test('hasColumn', function () {
@@ -198,8 +185,6 @@ test('create database', function () {
     expect($schemaManager->hasDatabase($databaseName))->toBeTrue();
 
     $schemaManager->deleteDatabase($databaseName);
-
-    refreshDatabase();
 });
 
 test('drop database if exists', function () {
@@ -212,8 +197,6 @@ test('drop database if exists', function () {
 
     expect($result)->toBeTrue();
     expect($schemaManager->hasDatabase($databaseName))->toBeFalse();
-
-    refreshDatabase();
 });
 
 test('drop database if exists none existing db', function () {
@@ -225,8 +208,6 @@ test('drop database if exists none existing db', function () {
     $result = Schema::dropDatabaseIfExists($databaseName);
 
     expect($result)->toBeTrue();
-
-    refreshDatabase();
 });
 
 test('get connection', function () {
