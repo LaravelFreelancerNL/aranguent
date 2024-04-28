@@ -77,6 +77,3 @@ test('union limit offset', function () {
     expect(($results->first())->name)->toBe('Robert');
     expect(($results->last())->name)->toBe('Roose');
 });
-
-
-test('union aggregates')->todo();
