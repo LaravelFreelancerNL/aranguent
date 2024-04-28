@@ -14,8 +14,8 @@ curl -X POST -u root: --header 'accept: application/json' --data-binary @- --dum
 }
 EOF
 
+./vendor/bin/testbench convert:migrations --path=./vendor/orchestra/testbench-core/laravel/migrations/ --path=./vendor/orchestra/testbench-core/laravel/database/migrations/
 ./vendor/bin/testbench migrate:install
-./vendor/bin/testbench convert:migrations
 
 exit 0
 
