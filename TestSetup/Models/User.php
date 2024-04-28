@@ -4,6 +4,9 @@ namespace TestSetup\Models;
 
 use LaravelFreelancerNL\Aranguent\Eloquent\Casts\AsArrayObject;
 use LaravelFreelancerNL\Aranguent\Eloquent\Casts\AsCollection;
+use LaravelFreelancerNL\Aranguent\Eloquent\Casts\AsEnumArrayObject;
+use LaravelFreelancerNL\Aranguent\Eloquent\Casts\AsEnumCollection;
+use TestSetup\Enums\UserStatus;
 
 class User extends \LaravelFreelancerNL\Aranguent\Auth\User
 {
@@ -17,8 +20,11 @@ class User extends \LaravelFreelancerNL\Aranguent\Auth\User
         'profileAsArray',
         'profileAsArrayObjectCast',
         'profileAsObject',
+        'profileAsJson',
         'favoritesCollection',
         'favoritesAsCollectionCast',
+        'statusesAsEnumArrayObject',
+        'statusesAsEnumCollection',
     ];
 
     /**
@@ -36,6 +42,8 @@ class User extends \LaravelFreelancerNL\Aranguent\Auth\User
             'profileAsJson' => 'json',
             'favoritesCollection' => 'collection',
             'favoritesAsCollectionCast' => AsCollection::class,
+            'statusesAsEnumArrayObject' => AsEnumArrayObject::of(UserStatus::class),
+            'statusesAsEnumCollection' => AsEnumCollection::of(UserStatus::class),
         ];
     }
 }

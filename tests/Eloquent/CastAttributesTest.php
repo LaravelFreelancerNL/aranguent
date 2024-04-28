@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use LaravelFreelancerNL\Aranguent\Testing\RefreshDatabase;
+use TestSetup\Enums\UserStatus;
 use TestSetup\Models\User;
 
 uses(RefreshDatabase::class);
@@ -62,8 +64,8 @@ test('Cast attribute to ArrayObject', function () {
 
     $retrievedUser = DB::table('users')->where('email', $user->email)->first();
 
-    expect($user->profileAsArrayObjectCast)->toBeInstanceOf(\Illuminate\Database\Eloquent\Casts\ArrayObject::class);
-    expect($refreshedUser->profileAsArrayObjectCast)->toBeInstanceOf(\Illuminate\Database\Eloquent\Casts\ArrayObject::class);
+    expect($user->profileAsArrayObjectCast)->toBeInstanceOf(ArrayObject::class);
+    expect($refreshedUser->profileAsArrayObjectCast)->toBeInstanceOf(ArrayObject::class);
     expect($refreshedUser->profileAsArrayObjectCast->age)->toBe(24);
     expect($retrievedUser->profileAsArrayObjectCast)->toBeObject();
 });
@@ -109,7 +111,7 @@ test('Cast attribute to string collection', function () {
     expect($retrievedUser->favoritesCollection[0])->toBeString();
 });
 
-test('Cast attribute to object collection', function () {
+test('Cast attribute to collection', function () {
     $favorites = [];
     for ($i = 0; $i < 10; $i++) {
         $favorites [] = [
@@ -131,4 +133,89 @@ test('Cast attribute to object collection', function () {
     expect($refreshedUser->favoritesCollection)->toBeInstanceOf(Collection::class);
     expect($retrievedUser->favoritesCollection)->toBeArray();
     expect($retrievedUser->favoritesCollection[0])->toBeObject();
+});
+
+test('Cast attribute to AsCollection object', function () {
+    $favorites = [];
+    for ($i = 0; $i < 10; $i++) {
+        $favorites [] = [
+            'name' => fake()->unique()->company,
+            'website' => fake()->unique()->url,
+        ];
+    }
+
+    $user = User::create([
+        'email' => fake()->email,
+        'favoritesAsCollectionCast' => collect($favorites),
+    ]);
+
+    $refreshedUser = $user->refresh();
+
+    $retrievedUser = DB::table('users')->where('email', $user->email)->first();
+
+    expect($user->favoritesAsCollectionCast)->toBeInstanceOf(Collection::class);
+    expect($refreshedUser->favoritesAsCollectionCast)->toBeInstanceOf(Collection::class);
+    expect($retrievedUser->favoritesAsCollectionCast)->toBeArray();
+    expect($retrievedUser->favoritesAsCollectionCast[0])->toBeObject();
+});
+
+test('Cast attribute to json', function () {
+    $profile = [
+        'firstName' => fake()->firstName,
+        'lastName' => fake()->lastName,
+    ];
+
+    $user = User::create([
+        'email' => fake()->email,
+        'profileAsJson' => $profile,
+    ]);
+
+    $retrievedUser = DB::table('users')->where('email', $user->email)->first();
+
+    $refreshedUser = $user->refresh();
+
+    expect($user->profileAsJson)->toBeArray();
+    expect($refreshedUser->profileAsJson)->toBeArray();
+    expect($retrievedUser->profileAsJson)->toBeObject();
+});
+
+test('Cast attribute to AsEnumArrayObject', function () {
+    $statuses = [
+        UserStatus::Registered,
+        UserStatus::Verified,
+    ];
+
+    $user = User::create([
+        'email' => fake()->email,
+        'statusesAsEnumArrayObject' => $statuses,
+    ]);
+
+    $retrievedUser = DB::table('users')->where('email', $user->email)->first();
+
+    $refreshedUser = $user->refresh();
+
+    expect($user->statusesAsEnumArrayObject)->toBeInstanceOf(ArrayObject::class);
+    expect($refreshedUser->statusesAsEnumArrayObject)->toBeInstanceOf(ArrayObject::class);
+    expect($retrievedUser->statusesAsEnumArrayObject)->toBeArray();
+});
+
+test('Cast attribute to AsEnumCollection', function () {
+    $statuses = [
+        UserStatus::Registered,
+        UserStatus::Verified,
+    ];
+
+    $user = User::create([
+        'email' => fake()->email,
+        'statusesAsEnumCollection' => $statuses,
+    ]);
+
+    $retrievedUser = DB::table('users')->where('email', $user->email)->first();
+
+    $refreshedUser = $user->refresh();
+
+    expect($user->statusesAsEnumCollection)->toBeInstanceOf(Collection::class);
+    expect($refreshedUser->statusesAsEnumCollection)->toBeInstanceOf(Collection::class);
+    expect($retrievedUser->statusesAsEnumCollection)->toBeArray();
+    expect($retrievedUser->statusesAsEnumCollection[0])->toBeString();
 });

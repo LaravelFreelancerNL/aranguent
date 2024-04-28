@@ -8,7 +8,13 @@ use BackedEnum;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection as IlluminateAsEnumCollection;
 use Illuminate\Support\Collection;
+use LaravelFreelancerNL\Aranguent\Eloquent\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.UndefinedVariable)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.ShortMethodName)
+ */
 class AsEnumCollection extends IlluminateAsEnumCollection
 {
     /**
@@ -22,8 +28,14 @@ class AsEnumCollection extends IlluminateAsEnumCollection
     public static function castUsing(array $arguments)
     {
         return new class ($arguments) implements CastsAttributes {
+            /**
+             * @var array<class-string<TEnum>>
+             */
             protected $arguments;
 
+            /**
+             * @param array<class-string<TEnum>> $arguments
+             */
             public function __construct(array $arguments)
             {
                 $this->arguments = $arguments;
@@ -35,7 +47,10 @@ class AsEnumCollection extends IlluminateAsEnumCollection
                     return;
                 }
 
-                $data = (array) $attributes[$key];
+                $data = $attributes[$key];
+                if (is_object($data)) {
+                    $data = (array) $data;
+                }
 
                 if (! is_array($data)) {
                     return;
@@ -61,6 +76,13 @@ class AsEnumCollection extends IlluminateAsEnumCollection
                 return [$key => $value];
             }
 
+            /**
+             * @param Model $model
+             * @param string $key
+             * @param mixed $value
+             * @param mixed[] $attributes
+             * @return mixed[]
+             */
             public function serialize($model, string $key, $value, array $attributes)
             {
                 return (new Collection($value))->map(function ($enum) {
@@ -68,6 +90,10 @@ class AsEnumCollection extends IlluminateAsEnumCollection
                 })->toArray();
             }
 
+            /**
+             * @param mixed $enum
+             * @return int|string
+             */
             protected function getStorableEnumValue($enum)
             {
                 if (is_string($enum) || is_int($enum)) {
