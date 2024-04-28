@@ -67,7 +67,6 @@ trait RefreshDatabase
             $this->setMigrationPaths(),
         );
 
-        ray('migrateFreshUsing', $results);
         return $results;
     }
 
