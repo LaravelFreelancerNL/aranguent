@@ -6,7 +6,7 @@ test('wrap multiple columns', function () {
         ->from('users');
 
     $this->assertSame(
-        'FOR userDoc IN users RETURN {id: `userDoc`.`_key`, _id: `userDoc`.`_id`, email: `userDoc`.`email`}',
+        'FOR userDoc IN users RETURN {`id`: `userDoc`.`_key`, `_id`: `userDoc`.`_id`, `email`: `userDoc`.`email`}',
         $builder->toSql(),
     );
 });

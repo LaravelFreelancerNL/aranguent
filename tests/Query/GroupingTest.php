@@ -62,7 +62,7 @@ test('having raw', function () {
     $this->assertSame(
         'FOR characterDoc IN characters COLLECT surname = `characterDoc`.`surname`'
         . ' FILTER `surname` LIKE "Lannister"'
-        . ' RETURN {surname: `surname`}',
+        . ' RETURN {`surname`: `surname`}',
         $query->toSql(),
     );
 
