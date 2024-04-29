@@ -182,6 +182,21 @@ trait HandlesAqlGrammar
     }
 
     /**
+     * Wrap a single string in keyword identifiers.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function wrapAttribute($value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+        return '`' . str_replace('`', '``', $value) . '`';
+    }
+
+
+    /**
      * Wrap a subquery single string in braces.
      */
     public function wrapSubquery(string $subquery): string
@@ -196,7 +211,7 @@ trait HandlesAqlGrammar
     public function generateAqlObject(array $data): string
     {
         $data = Arr::undot($data);
-
+ray($this->generateAqlObjectString($data));
         return $this->generateAqlObjectString($data);
     }
 
@@ -207,7 +222,7 @@ trait HandlesAqlGrammar
     protected function generateAqlObjectString(array $data): string
     {
         foreach($data as $key => $value) {
-            $prefix = $key . ': ';
+            $prefix = $this->wrapAttribute($key) . ': ';
 
             if (is_numeric($key)) {
                 $prefix = '';

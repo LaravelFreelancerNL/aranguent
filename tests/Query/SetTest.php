@@ -58,7 +58,7 @@ test('set post traversal variable ', function () {
         ->set('y', [1,2,3,4,5], VariablePosition::postIterations);
 
     $this->assertSame(
-        'FOR characterDoc IN characters LET y = @' . $query->getQueryId() . '_postIterationVariables_1 RETURN MERGE(characterDoc, {yColumn: `y`})',
+        'FOR characterDoc IN characters LET y = @' . $query->getQueryId() . '_postIterationVariables_1 RETURN MERGE(characterDoc, {`yColumn`: `y`})',
         $query->toSql(),
     );
 

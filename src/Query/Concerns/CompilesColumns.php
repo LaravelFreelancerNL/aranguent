@@ -246,7 +246,7 @@ trait CompilesColumns
         // Aggregate functions only return the aggregate, so we can clear out everything else.
         if ($query->aggregate !== null) {
             $returnDocs = [];
-            $returnAttributes = ['`aggregate`' => 'aggregateResult'];
+            $returnAttributes = ['aggregate' => 'aggregateResult'];
         }
 
         // Return a single value for certain subqueries
