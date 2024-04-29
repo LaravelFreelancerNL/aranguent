@@ -211,7 +211,7 @@ trait HandlesAqlGrammar
     public function generateAqlObject(array $data): string
     {
         $data = Arr::undot($data);
-ray($this->generateAqlObjectString($data));
+        ray($this->generateAqlObjectString($data));
         return $this->generateAqlObjectString($data);
     }
 
