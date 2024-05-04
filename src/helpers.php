@@ -46,6 +46,17 @@ if (!function_exists('isDotString')) {
     }
 }
 
+if (!function_exists('mapObjectToArray')) {
+    function mapObjectToArray(mixed $value): mixed
+    {
+        if(!is_object($value) && !is_array($value)) {
+            return $value;
+        }
+
+        return array_map('mapObjectToArray', (array) $value);
+    }
+}
+
 if (!function_exists('renameArrayKey')) {
     /**
      * @param  array<mixed>  $array

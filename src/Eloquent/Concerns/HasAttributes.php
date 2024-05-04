@@ -33,6 +33,7 @@ trait HasAttributes
             return (object) $value;
         }
 
-        return (array) $value;
+        // Recursively cast objects within the value to arrays
+        return mapObjectToArray($value);
     }
 }
