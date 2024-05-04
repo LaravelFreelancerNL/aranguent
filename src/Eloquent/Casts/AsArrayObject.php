@@ -31,7 +31,7 @@ class AsArrayObject extends IlluminateAsArrayObject
                 $data = $attributes[$key];
 
                 if (is_object($data)) {
-                    $data = (array) $data;
+                    $data = mapObjectToArray($data);
                 }
 
                 return is_array($data) ? new ArrayObject($data, ArrayObject::ARRAY_AS_PROPS) : null;

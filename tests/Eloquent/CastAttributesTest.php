@@ -30,6 +30,12 @@ test('Cast attribute to associative array', function () {
     $profile = [
         'firstName' => fake()->firstName,
         'lastName' => fake()->lastName,
+        'address' => [
+            'streetAddress' => fake()->streetAddress,
+            'city' => fake()->city,
+            'postcode' => fake()->postcode,
+            'country' => fake()->country,
+        ],
     ];
 
     $user = User::create([
@@ -43,13 +49,22 @@ test('Cast attribute to associative array', function () {
 
     expect($user->profileAsArray)->toBeArray();
     expect($refreshedUser->profileAsArray)->toBeArray();
+    expect($refreshedUser->profileAsArray['address'])->toBeArray();
+
     expect($retrievedUser->profileAsArray)->toBeObject();
+    expect($retrievedUser->profileAsArray->address)->toBeObject();
 });
 
 test('Cast attribute to ArrayObject', function () {
     $profile = [
         'firstName' => fake()->firstName,
         'lastName' => fake()->lastName,
+        'address' => [
+            'streetAddress' => fake()->streetAddress,
+            'city' => fake()->city,
+            'postcode' => fake()->postcode,
+            'country' => fake()->country,
+        ],
     ];
 
     $user = User::create([
@@ -66,8 +81,11 @@ test('Cast attribute to ArrayObject', function () {
 
     expect($user->profileAsArrayObjectCast)->toBeInstanceOf(ArrayObject::class);
     expect($refreshedUser->profileAsArrayObjectCast)->toBeInstanceOf(ArrayObject::class);
+    expect($refreshedUser->profileAsArrayObjectCast->address)->toBeArray();
+
     expect($refreshedUser->profileAsArrayObjectCast->age)->toBe(24);
     expect($retrievedUser->profileAsArrayObjectCast)->toBeObject();
+    expect($retrievedUser->profileAsArrayObjectCast->address)->toBeObject();
 });
 
 test('Cast attribute to object', function () {
