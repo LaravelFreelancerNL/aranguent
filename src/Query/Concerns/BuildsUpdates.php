@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelFreelancerNL\Aranguent\Query\Concerns;
 
+use Closure;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
@@ -64,13 +65,19 @@ trait BuildsUpdates
      * Insert or update a record matching the attributes, and fill it with values.
      *
      * @param array<mixed> $attributes
-     * @param array<mixed> $values
+     * @param array<mixed>|callable $values
      * @return bool
      * @throws BindException
      */
-    public function updateOrInsert(array $attributes, array $values = [])
+    public function updateOrInsert(array $attributes, array|callable $values = [])
     {
-        if (!$this->where($attributes)->exists()) {
+        $exists = $this->where($attributes)->exists();
+
+        if ($values instanceof Closure) {
+            $values = $values($exists);
+        }
+
+        if (! $exists) {
             $this->bindings['where'] = [];
             return $this->insert(array_merge($attributes, $values));
         }

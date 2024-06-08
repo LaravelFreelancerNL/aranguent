@@ -34,4 +34,4 @@ test('migrate:install --database=arangodb', function () {
 
 test('migrate:install --database=none', function () {
     $this->artisan('migrate:install', ['--database' => 'none'])->assertExitCode(0);
-})->throws(ErrorException::class);
+})->throws(InvalidArgumentException::class);

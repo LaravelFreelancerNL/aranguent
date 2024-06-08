@@ -67,6 +67,22 @@ test('update with json syntax', function () {
         ->and($result->en->words)->toBe($words);
 });
 
+test('updateOrInsert without values', function () {
+    $exists = DB::table('characters')->where('id', 'JaimeLannister')->exists();
+    expect($exists)->toBeTrue();
+
+    $result = DB::table('characters')
+        ->updateOrInsert(["_key" => "JaimeLannister"], []);
+
+    $exists = DB::table('characters')->where('id', 'JaimeLannister')->exists();
+
+    expect($result)->toBeTrue();
+    expect($exists)->toBeTrue();
+});
+
+
+
+
 test('updateOrInsert updates', function () {
     DB::table('characters')
         ->updateOrInsert(["_key" => "NedStark"], ["alive" => false, "age" => 42]);
@@ -96,6 +112,42 @@ test('updateOrInsert inserts', function () {
     expect($result)->toBeTrue();
 });
 
+test('updateOrInsert inserts with callback', function () {
+    $result = DB::table('characters')->where('id', 'LyannaStark')->exists();
+
+    expect($result)->toBeFalse();
+
+    $data = [
+        "name" => "Lyanna",
+        "surname" => "Stark",
+        "alive" => false,
+        "age" => 25,
+        "residence_id" => "winterfell",
+        "tags" => [],
+    ];
+
+    DB::table('characters')->updateOrInsert(
+        ["_key" => "LyannaStark"],
+        function ($exists) use ($data) {
+            if ($exists) {
+                return [
+                    "name" => "Lyanna",
+                    "surname" => "Stark",
+                ];
+            }
+
+            return [
+                "name" => "Lyanna",
+                "surname" => "Stark",
+                "alive" => $data['alive'],
+            ];
+        },
+    );
+
+    $result = DB::table('characters')->where('id', 'LyannaStark')->exists();
+
+    expect($result)->toBeTrue();
+});
 
 test('increment', function () {
     $youngNed = DB::table('characters')->where('id', 'NedStark')->first();

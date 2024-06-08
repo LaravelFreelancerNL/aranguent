@@ -26,10 +26,12 @@ class AranguentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /** @phpstan-ignore offsetAccess.nonOffsetAccessible */
         if (isset($this->app['db'])) {
             Model::setConnectionResolver($this->app['db']);
         }
 
+        /** @phpstan-ignore offsetAccess.nonOffsetAccessible */
         if (isset($this->app['events'])) {
             Model::setEventDispatcher($this->app['events']);
         }
