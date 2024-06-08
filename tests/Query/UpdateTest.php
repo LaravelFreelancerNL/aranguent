@@ -141,7 +141,7 @@ test('updateOrInsert inserts with callback', function () {
                 "surname" => "Stark",
                 "alive" => $data['alive'],
             ];
-        }
+        },
     );
 
     $result = DB::table('characters')->where('id', 'LyannaStark')->exists();
