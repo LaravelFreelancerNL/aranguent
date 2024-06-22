@@ -7,6 +7,7 @@ namespace LaravelFreelancerNL\Aranguent\Eloquent;
 use Illuminate\Database\Eloquent\Builder as IlluminateEloquentBuilder;
 use Illuminate\Support\Arr;
 use LaravelFreelancerNL\Aranguent\Eloquent\Concerns\QueriesAranguentRelationships;
+use LaravelFreelancerNL\Aranguent\Exceptions\UniqueConstraintViolationException;
 use LaravelFreelancerNL\Aranguent\Query\Builder as QueryBuilder;
 
 class Builder extends IlluminateEloquentBuilder
@@ -19,6 +20,23 @@ class Builder extends IlluminateEloquentBuilder
      * @var QueryBuilder
      */
     protected $query;
+
+    /**
+     * Attempt to create the record. If a unique constraint violation occurs, attempt to find the matching record.
+     *
+     * @param  mixed[]  $attributes
+     * @param  mixed[]  $values
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function createOrFirst(array $attributes = [], array $values = [])
+    {
+        try {
+            return $this->withSavepointIfNeeded(fn() => $this->create(array_merge($attributes, $values)));
+        } catch (UniqueConstraintViolationException $e) {
+            ray($e);
+            return $this->useWritePdo()->where($attributes)->first() ?? throw $e;
+        }
+    }
 
     /**
      * Insert a record in the database.

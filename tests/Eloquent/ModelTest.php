@@ -2,6 +2,8 @@
 
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use TestSetup\Models\Character;
+use TestSetup\Models\User;
+use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 
 uses(
     DatabaseTransactions::class,
@@ -18,21 +20,49 @@ test('update model', function () {
     expect($fresh->age)->toBe(($initialAge + 1));
 });
 
-test('update or create', function () {
-    $character = Character::first();
-    $initialAge = $character->age;
-    $newAge = ($initialAge + 1);
+test('updateOrCreate', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
 
-    $character->updateOrCreate(['age' => $initialAge], ['age' => $newAge]);
+    $user1 = User::updateOrCreate($userData);
 
-    $fresh = $character->fresh();
+    $user2 = User::where("email", "d.the.tall@hedgeknight.com")->first();
 
-    expect($fresh->age)->toBe($newAge);
+    expect($user1->_id)->toBe($user2->_id);
 });
 
-test('upsert', function () {
-    $this->skipTestOnArangoVersionsBefore('3.7');
+test('updateOrCreate runs twice', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+    $user1 = User::updateOrCreate($userData);
 
+    $user2 = User::updateOrCreate($userData);
+
+    expect($user1->_id)->toBe($user2->_id);
+});
+
+test('updateOrCreate throws error on unique key if data is different', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+    $user1 = User::updateOrCreate($userData);
+
+    $userData = [
+        "username" => "Duncan the Tall",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+    $user2 = User::updateOrCreate($userData);
+
+    expect($user1->_id)->toBe($user2->_id);
+})->throws(QueryException::class);
+
+
+test('upsert', function () {
     Character::upsert(
         [
             [
@@ -62,6 +92,28 @@ test('upsert', function () {
     expect($ned->alive)->toBeFalse();
     expect($jaime->alive)->toBeFalse();
 });
+
+test('upsert runs twice', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    User::upsert([$userData], ['email'], ['username']);
+
+    $userData = [
+        "username" => "Duncan the Tall",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    $result = User::upsert([$userData], ['email'], ['username']);
+
+    $user = User::where("email", "d.the.tall@hedgeknight.com")->first();
+
+    expect($result)->toBe(1);
+    expect($user->username)->toBe("Duncan the Tall");
+});
+
 
 test('delete model', function () {
     $character = Character::first();
@@ -130,4 +182,64 @@ test('set id', function () {
 
     expect($ned->id)->toEqual('NedStarkIsDead');
     expect($ned->_id)->toEqual('characters/NedStarkIsDead');
+});
+
+test('firstOrCreate', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    $user = User::firstOrCreate($userData);
+
+    $result = DB::table('users')
+        ->where('email', 'd.the.tall@hedgeknight.com')
+        ->first();
+
+    expect($result->_id)->toBe($user->_id);
+});
+
+test('firstOrCreate runs twice without error', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    $user1 = User::firstOrCreate($userData);
+    $user2 = User::firstOrCreate($userData);
+
+    expect($user1->_id)->toBe($user2->_id);
+});
+
+test('firstOrCreate throws error if data is different', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    $user1 = User::firstOrCreate($userData);
+
+    $userData = [
+        "username" => "Duncan the Tall",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+    $user2 = User::firstOrCreate($userData);
+
+    expect($user1->_id)->toBe($user2->_id);
+})->throws(QueryException::class);
+
+
+test('createOrFirst', function () {
+    $userData = [
+        "username" => "Dunk",
+        "email" => "d.the.tall@hedgeknight.com",
+    ];
+
+    $user = User::createOrFirst($userData);
+
+    $result = DB::table('users')
+        ->where('email', 'd.the.tall@hedgeknight.com')
+        ->first();
+
+    expect($result->_id)->toBe($user->_id);
 });

@@ -15,6 +15,7 @@ class User extends \LaravelFreelancerNL\Aranguent\Auth\User
     protected $fillable = [
         'email',
         'password',
+        'username',
         'uuid',
         'is_admin',
         'profileAsArray',

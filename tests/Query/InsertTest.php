@@ -32,7 +32,7 @@ test('insert get id', function () {
     expect($result)->toEqual(1);
 });
 
-test('insert or ignore inserts data', function () {
+test('insertOrIgnore inserts data', function () {
     $characterData = [
         "_key" => "LyannaStark",
         "name" => "Lyanna",
@@ -58,7 +58,7 @@ test('insert or ignore inserts data', function () {
     expect($result->count())->toBe(1);
 });
 
-test('insert or ignore doesnt error on duplicates', function () {
+test('insertOrIgnore doesnt error on duplicates', function () {
     $characterData = [
         "_key" => "LyannaStark",
         "name" => "Lyanna",
@@ -76,6 +76,31 @@ test('insert or ignore doesnt error on duplicates', function () {
         ->get();
 
     expect($result->count())->toBe(1);
+});
+
+test('insertOrIgnore with unique index on non-primary fields', function () {
+    $userData = [
+        "_key" => "LyannaStark",
+        "username" => "Lyanna Stark",
+        "email" => "l.stark@windsofwinter.com",
+    ];
+    DB::table('users')->insertOrIgnore($userData);
+
+    $result = DB::table('users')
+        ->first();
+
+    expect($result->_id)->toBe('users/LyannaStark');
+
+    $userData = [
+        "username" => "Lya Stark",
+        "email" => "l.stark@windsofwinter.com",
+    ];
+    DB::table('users')->insertOrIgnore($userData);
+
+    $result = DB::table('users')
+        ->first();
+
+    expect($result->_id)->toBe('users/LyannaStark');
 });
 
 test('insert embedded empty array', function () {
@@ -100,14 +125,14 @@ test('insert embedded empty array', function () {
     expect($result->first()->tags)->toBeEmpty();
 });
 
-test('insert using', function () {
+test('insertUsing', function () {
     // Let's give Baelish a user, what could possibly go wrong?
     $baelishes = DB::table('characters')
         ->where('surname', 'Baelish');
 
     DB::table('users')->insertUsing(['name', 'surname'], $baelishes);
 
-    $user = DB::table('users')->first();
+    $user = DB::table('users')->where("surname", "=", "Baelish")->first();
 
     expect($user->surname)->toBe('Baelish');
 });

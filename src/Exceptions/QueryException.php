@@ -10,10 +10,12 @@ use Throwable;
 class QueryException extends IlluminateQueryException
 {
     /**
-     * Format the SQL error message.
+     * Create a new query exception instance.
      *
+     * @param  string  $connectionName
      * @param  string  $sql
-     * @param  array<mixed>  $bindings
+     * @param  mixed[]  $bindings
+     * @param  \Throwable  $previous
      * @return string
      */
     protected function formatMessage($connectionName, $sql, $bindings, Throwable $previous)
