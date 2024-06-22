@@ -120,9 +120,9 @@ in the chapter above._
 
 ### Model CRUD
 all / first / firstWhere / firstOr / firstOrFail /
-firstOrCreate? / firstOrNew? / 
+firstOrCreate / firstOrNew? / 
 find / findOr / fresh? / refresh? /  
-create / fill / save / update / updateOrCreate /
+create / createOrFirst / fill / save / update / updateOrCreate /
 upsert / replicate / delete / destroy / truncate / softDeletes / 
 trashed? / restore? / withTrashed? / forceDelete
 isDirty? / isClean / wasChanged / getOriginal /
@@ -165,8 +165,8 @@ whereDoesntHave / whereHasMorph / whereDoesntHaveMorph
 #### Aggregating related models
 withCount / loadCount /
 withSum / loadSum / withExists / morphWithCount /loadMorphCount /
-
 loadMorphCount
+
 #### Eager loading
 with / without / withOnly / constrain /
 load / loadMissing / loadMorph / preventLazyLoading

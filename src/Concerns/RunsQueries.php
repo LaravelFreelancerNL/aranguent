@@ -11,9 +11,21 @@ use LaravelFreelancerNL\Aranguent\Query\Builder as QueryBuilder;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\FluentAQL\QueryBuilder as FluentAqlBuilder;
 use stdClass;
+use LaravelFreelancerNL\Aranguent\Exceptions\UniqueConstraintViolationException;
 
 trait RunsQueries
 {
+    /**
+     * Determine if the given database exception was caused by a unique constraint violation.
+     *
+     * @param  \Exception  $exception
+     * @return bool
+     */
+    protected function isUniqueConstraintError(Exception $exception)
+    {
+        return boolval(preg_match('/409 - AQL: unique constraint violated/i', $exception->getMessage()));
+    }
+
     /**
      * Run a select statement against the database and returns a generator.
      *
@@ -309,6 +321,15 @@ trait RunsQueries
             // If an exception occurs when attempting to run a query, we'll format the error
             // message to include the bindings with SQL, which will make this exception a
             // lot more helpful to the developer instead of just the database's errors.
+
+            if ($this->isUniqueConstraintError($e)) {
+                throw new UniqueConstraintViolationException(
+                    (string) $this->getName(),
+                    $query,
+                    $this->prepareBindings($bindings),
+                    $e,
+                );
+            }
 
             throw new QueryException(
                 (string) $this->getName(),
