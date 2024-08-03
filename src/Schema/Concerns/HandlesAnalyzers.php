@@ -10,25 +10,38 @@ trait HandlesAnalyzers
 {
     /**
      * @param  array<mixed>  $properties
+     * @param  array<string>  $features
      *
      * @throws ArangoException
      */
-    public function createAnalyzer(string $name, array $properties)
+    public function createAnalyzer(string $name, string $type, array $properties = null, array $features = null)
     {
-        $analyzer = $properties;
-        $analyzer['name'] = $name;
+        $analyzer = array_filter([
+            'name' => $name,
+            'type' => $type,
+            'properties' => $properties,
+            'features' => $features,
+        ]);
 
         $this->schemaManager->createAnalyzer($analyzer);
     }
 
     /**
      * @param  array<mixed>  $properties
+     * @param  array<string>  $features
      *
      * @throws ArangoException
      */
-    public function replaceAnalyzer(string $name, array $properties)
+    public function replaceAnalyzer(string $name, string $type, array $properties = null, array $features = null)
     {
-        $this->schemaManager->replaceAnalyzer($name, $properties);
+        $analyzer = array_filter([
+            'name' => $name,
+            'type' => $type,
+            'properties' => $properties,
+            'features' => $features,
+        ]);
+
+        $this->schemaManager->replaceAnalyzer($name, $analyzer);
     }
 
     /**
