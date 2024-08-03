@@ -37,6 +37,17 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     public $grammar;
 
+
+    /**
+     * index prefixes?
+     */
+    public ?bool $prefixIndexes;
+
+    /**
+     * The table prefix.
+     */
+    public string $prefix;
+
     /**
      * Create a new database Schema manager.
      *
@@ -49,6 +60,13 @@ class Builder extends \Illuminate\Database\Schema\Builder
         $this->grammar = $connection->getSchemaGrammar();
 
         $this->schemaManager = $connection->getArangoClient()->schema();
+
+        $this->prefixIndexes = $this->connection->getConfig('prefix_indexes');
+
+        $this->prefix = $this->prefixIndexes
+            ? $this->connection->getConfig('prefix')
+            : '';
+
     }
 
     /**
@@ -169,6 +187,49 @@ class Builder extends \Illuminate\Database\Schema\Builder
 
         $compilation = $this->grammar->compileHasColumn($table, $command);
         return $this->connection->select($compilation['aqb'])[0];
+    }
+
+    /**
+     * Create a default index name for the table.
+     *
+     * @param  string  $type
+     */
+    public function createIndexName(string $table, string $type, array $columns, array $options = []): string
+    {
+        $nameParts = [];
+        $nameParts[] = $this->prefix . $table;
+        $nameParts = array_merge($nameParts, $columns);
+        $nameParts[] = $type;
+        $nameParts = array_merge($nameParts, array_keys($options));
+        array_filter($nameParts);
+
+        $index = strtolower(implode('_', $nameParts));
+        $index = preg_replace("/\[\*+\]+/", '_array', $index);
+
+        return preg_replace('/[^A-Za-z0-9]+/', '_', $index);
+    }
+
+    /**
+     * Determine if the given table has a given index.
+     *
+     * @param  string  $table
+     * @param  string|array<string>  $index
+     * @param  string|null  $type
+     * @return bool
+     */
+    public function hasIndex($table, $index, $type = null, array $options = [])
+    {
+        $name = $index;
+
+        if ($type === null) {
+            $type = 'persistent';
+        }
+
+        if (is_array($index)) {
+            $name = $this->createIndexName($table, $type, $index, $options = []);
+        }
+
+        return !!$this->schemaManager->getIndexByName($table, $name);
     }
 
     /**

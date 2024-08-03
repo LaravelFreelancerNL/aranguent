@@ -33,6 +33,26 @@ test('drop index', function () {
     expect($searchResult)->toBeFalse();
 });
 
+
+test('Schema::hasIndex', function () {
+    Schema::table('characters', function (Blueprint $table) {
+        $table->index(['name']);
+    });
+    $indexName = 'characters_name_persistent';
+
+    expect(Schema::hasIndex('characters', $indexName))->toBeTrue();
+    expect(Schema::hasIndex('characters', 'notAnIndex'))->toBeFalse();
+});
+
+test('Schema::hasIndex by columns', function () {
+    Schema::table('characters', function (Blueprint $table) {
+        $table->index(['name']);
+    });
+
+    expect(Schema::hasIndex('characters', ['name']))->toBeTrue();
+    expect(Schema::hasIndex('characters', ['name', 'lastName']))->toBeFalse();
+});
+
 test('index names only contains alpha numeric characters', function () {
     Schema::table('characters', function (Blueprint $table) {
         $indexName = $table->createIndexName('persistent', ['addresses[*]']);
