@@ -89,12 +89,12 @@ You can create, edit or delete an ArangoDB Analyzer.
 
 ### New Analyzer
 ```php
-Schema::createAnalyzer($name, $config);
+Schema::createAnalyzer($name, $type, $properties, $features);
 ``` 
 
 ### Replace Analyzer
 ```php
-Schema::replaceAnalyzer($name, $config);
+Schema::replaceAnalyzer($name, $type, $properties, $features);
 ```
 
 ### Delete Analyzer
