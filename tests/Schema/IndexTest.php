@@ -117,6 +117,36 @@ test('invertedIndex & dropInvertedIndex', function () {
     });
 });
 
+test('invertedIndex with field properties', function () {
+    Schema::table('characters', function (Blueprint $table) {
+        $table->invertedIndex(
+            [
+                'name',
+                [
+                    'name' => 'surname',
+                    'analyzer' => "text_en",
+                    'searchField' => true,
+                    'includeAllFields' => true,
+                ],
+                'age',
+            ],
+        );
+    });
+
+    $expectedName = 'characters_name_surname_age_inverted';
+
+    $index = $this->schemaManager->getIndexByName('characters', $expectedName);
+
+    expect($index->fields)->tobeArray();
+    expect($index->fields)->toHaveCount(3);
+
+    expect($index->fields[1]->analyzer)->toBe('text_en');
+
+    Schema::table('characters', function (Blueprint $table) use ($index) {
+        $table->dropInvertedIndex($index->name);
+    });
+});
+
 test('persistentIndex', function () {
     Schema::table('characters', function (Blueprint $table) {
         $table->persistentIndex(['name']);

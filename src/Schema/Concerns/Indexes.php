@@ -7,6 +7,8 @@ use Illuminate\Support\Fluent;
 
 trait Indexes
 {
+    use HandlesIndexNaming;
+
     /**
      * Add a new index command to the blueprint.
      *
@@ -264,23 +266,4 @@ trait Indexes
         return (isset($algorithmConversion[$algorithm])) ? $algorithmConversion[$algorithm] : 'persistent';
     }
 
-    /**
-     * Create a default index name for the table.
-     *
-     * @param  string  $type
-     */
-    public function createIndexName($type, array $columns, array $options = []): string
-    {
-        $nameParts = [];
-        $nameParts[] = $this->prefix . $this->table;
-        $nameParts = array_merge($nameParts, $columns);
-        $nameParts[] = $type;
-        $nameParts = array_merge($nameParts, array_keys($options));
-        array_filter($nameParts);
-
-        $index = strtolower(implode('_', $nameParts));
-        $index = preg_replace("/\[\*+\]+/", '_array', $index);
-
-        return preg_replace('/[^A-Za-z0-9]+/', '_', $index);
-    }
 }
