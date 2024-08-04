@@ -12,12 +12,14 @@ use Illuminate\Support\Fluent;
 use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesAnalyzers;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesIndexNaming;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesViews;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\UsesBlueprints;
 
 class Builder extends \Illuminate\Database\Schema\Builder
 {
     use HandlesAnalyzers;
+    use HandlesIndexNaming;
     use HandlesViews;
     use UsesBlueprints;
 
@@ -190,26 +192,6 @@ class Builder extends \Illuminate\Database\Schema\Builder
     }
 
     /**
-     * Create a default index name for the table.
-     *
-     * @param  string  $type
-     */
-    public function createIndexName(string $table, string $type, array $columns, array $options = []): string
-    {
-        $nameParts = [];
-        $nameParts[] = $this->prefix . $table;
-        $nameParts = array_merge($nameParts, $columns);
-        $nameParts[] = $type;
-        $nameParts = array_merge($nameParts, array_keys($options));
-        array_filter($nameParts);
-
-        $index = strtolower(implode('_', $nameParts));
-        $index = preg_replace("/\[\*+\]+/", '_array', $index);
-
-        return preg_replace('/[^A-Za-z0-9]+/', '_', $index);
-    }
-
-    /**
      * Determine if the given table has a given index.
      *
      * @param  string  $table
@@ -226,7 +208,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
         }
 
         if (is_array($index)) {
-            $name = $this->createIndexName($table, $type, $index, $options = []);
+            $name = $this->createIndexName($type, $index, $options, $table);
         }
 
         return !!$this->schemaManager->getIndexByName($table, $name);
