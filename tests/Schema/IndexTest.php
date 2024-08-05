@@ -147,6 +147,64 @@ test('invertedIndex with field properties', function () {
     });
 });
 
+test('multiDimensionalIndex && dropMultiDimensionalIndex', function () {
+    $name = 'events_timeline_mdi';
+
+    Schema::table('events', function (Blueprint $table) use ($name) {
+        $table->multiDimensionalIndex(
+            columns: [
+                'timeline.starts_at',
+                'timeline.ends_at',
+            ],
+            name: $name,
+            indexOptions: [
+                'fieldValueTypes' => 'double',
+            ],
+        );
+    });
+
+    $index = $this->schemaManager->getIndexByName('events', $name);
+
+    expect($index->name)->toEqual($name);
+    expect($index->type)->toEqual('mdi');
+
+    Schema::table('events', function (Blueprint $table) use ($name) {
+        $table->dropMultiDimensionalIndex($name);
+    });
+});
+
+test('Prefixed multiDimensionalIndex', function () {
+    $name = 'events_timeline_mdi_prefixed';
+
+    Schema::table('events', function (Blueprint $table) use ($name) {
+        $table->multiDimensionalIndex(
+            columns: [
+                'timeline.starts_at',
+                'timeline.ends_at',
+            ],
+            name: $name,
+            indexOptions: [
+                'fieldValueTypes' => 'double',
+                'prefixFields' => [
+                    'age',
+                    'type',
+                ],
+            ],
+            type: 'mdi-prefixed',
+        );
+    });
+
+    $index = $this->schemaManager->getIndexByName('events', $name);
+
+    expect($index->name)->toEqual($name);
+    expect($index->type)->toEqual('mdi-prefixed');
+
+    Schema::table('events', function (Blueprint $table) use ($name) {
+        $table->dropMultiDimensionalIndex($name);
+    });
+});
+
+
 test('persistentIndex', function () {
     Schema::table('characters', function (Blueprint $table) {
         $table->persistentIndex(['name']);

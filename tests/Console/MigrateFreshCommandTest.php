@@ -24,7 +24,7 @@ test('migrate:fresh', function () {
     ])->assertExitCode(0);
 
     $collections = $this->schemaManager->getCollections(true);
-    expect(count($collections))->toBe(15);
+    expect(count($collections))->toBe(16);
 });
 
 test('migrate:fresh --database=arangodb', function () {
@@ -46,7 +46,7 @@ test('migrate:fresh --database=arangodb', function () {
     ])->assertExitCode(0);
 
     $collections = $this->schemaManager->getCollections(true);
-    expect(count($collections))->toBe(15);
+    expect(count($collections))->toBe(16);
 });
 
 test('migrate:fresh --database=none', function () {

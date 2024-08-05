@@ -21,14 +21,15 @@ See the [ArangoDB Documentation for all options](https://docs.arangodb.com/3.3/H
 Within the collection blueprint you can create indexes.
 This following indexes are supported:
 
-Type       | Purpose                     | Blueprint Method 
----------- |-----------------------------| ----------------
-Persistent | Ranged matching             | `$table->index($columns = null, $name = null, $algorithm = null, $indexOptions = [])`
-Primary *  | Unique ranged matching      | `$table->primary($columns = null, $name = null, $indexOptions = [])`
-Unique     | Unique ranged matching      | `$table->unique($attributes, $indexOptions = [])`
-Geo        | Location matching           | `$table->spatialIndex($columns, $name = null, $indexOptions = [])`
-TTL        | Auto-expiring documents     | `$table->ttlIndex($columns, $expireAfter, $name = null, $indexOptions = [])`
-Inverted   | Fast full text searching    | `$table->invertedIndex($columns = null, $name = null, $indexOptions = [])`
+Type       | Purpose                  | Blueprint Method 
+---------- |--------------------------| ----------------
+Persistent       | Ranged matching          | `$table->index($columns = null, $name = null, $algorithm = null, $indexOptions = [])`
+Primary *        | Unique ranged matching   | `$table->primary($columns = null, $name = null, $indexOptions = [])`
+Unique           | Unique ranged matching   | `$table->unique($attributes, $indexOptions = [])`
+Geo              | Location matching        | `$table->spatialIndex($columns, $name = null, $indexOptions = [])`
+TTL              | Auto-expiring documents  | `$table->ttlIndex($columns, $expireAfter, $name = null, $indexOptions = [])`
+Inverted         | Fast full text searching | `$table->invertedIndex($columns = null, $name = null, $indexOptions = [])`
+multiDimensional | 2D+ numeric search       | `$table->multiDimensionalIndex($columns = null, $name = null, $indexOptions = [], $type = 'mdi')`
 
 * the primary method is supported for composite keys. ArangoDB already sets a primary index on the _key property.
 
