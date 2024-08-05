@@ -11,7 +11,7 @@ uses(DatabaseTruncation::class);
 test('Ensure all tables are present', function () {
     $tables = Schema::getAllTables();
 
-    expect(count($tables))->toEqual(15);
+    expect(count($tables))->toEqual(16);
 });
 
 

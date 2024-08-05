@@ -90,6 +90,17 @@ trait Indexes
         return $this->indexCommand('inverted', $columns, $name, $indexOptions);
     }
 
+
+    public function multiDimensionalIndex(array $columns = null, string $name = null, array $indexOptions = [], string $type = 'mdi'): Fluent
+    {
+        return $this->indexCommand(
+            $type,
+            $columns,
+            $name,
+            $indexOptions,
+        );
+    }
+
     public function persistentIndex(array $columns = null, string $name = null, array $indexOptions = []): Fluent
     {
         return $this->indexCommand('persistent', $columns, $name, $indexOptions);
@@ -228,7 +239,13 @@ trait Indexes
         return $this->dropIndex($name);
     }
 
-
+    /**
+     * Indicate that the given index should be dropped.
+     */
+    public function dropMultiDimensionalIndex(string $name): Fluent
+    {
+        return $this->dropIndex($name);
+    }
 
     /**
      * Drop the index by first getting all the indexes on the table; then selecting the matching one

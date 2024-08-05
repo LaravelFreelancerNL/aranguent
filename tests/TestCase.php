@@ -225,6 +225,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $currentVersion = getenv(strtoupper($software . '_VERSION'));
         }
 
+        if (!$currentVersion) {
+            return;
+        }
+
         if (version_compare($currentVersion, $version, $operator)) {
             $this->markTestSkipped('This test does not support ' . ucfirst($software) . ' versions ' . $operator . ' ' . $version);
         }
