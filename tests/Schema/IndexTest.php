@@ -176,6 +176,8 @@ test('multiDimensionalIndex && dropMultiDimensionalIndex', function () {
 });
 
 test('Prefixed multiDimensionalIndex', function () {
+    $this->skipTestOn('arangodb', '<', '3.12');
+
     $name = 'events_timeline_mdi_prefixed';
 
     Schema::table('events', function (Blueprint $table) use ($name) {
