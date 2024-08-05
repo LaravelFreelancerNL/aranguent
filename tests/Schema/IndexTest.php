@@ -148,6 +148,8 @@ test('invertedIndex with field properties', function () {
 });
 
 test('multiDimensionalIndex && dropMultiDimensionalIndex', function () {
+    $this->skipTestOn('arangodb', '<', '3.12');
+
     $name = 'events_timeline_mdi';
 
     Schema::table('events', function (Blueprint $table) use ($name) {
