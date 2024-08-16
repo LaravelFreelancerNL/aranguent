@@ -55,11 +55,10 @@ class Grammar extends IlluminateQueryGrammar
      */
     protected $operators = [
         '==', '!=', '<', '>', '<=', '>=',
-        'LIKE', '~', '!~',
-        'IN', 'NOT IN',
-        'ALL ==', 'ALL !=', 'ALL <', 'ALL >', 'ALL <=', 'ALL >=', 'ALL IN',
-        'ANY ==', 'ANY !=', 'ANY <', 'ANY >', 'ANY <=', 'ANY >=', 'ANY IN',
-        'NONE ==', 'NONE !=', 'NONE <', 'NONE >', 'NONE <=', 'NONE >=', 'NONE IN',
+        'IN', 'NOT IN', 'LIKE', 'NOT LIKE', '=~', '!~',
+        'ALL ==', 'ALL !=', 'ALL <', 'ALL >', 'ALL <=', 'ALL >=', 'ALL IN', 'ALL NOT IN',
+        'ANY ==', 'ANY !=', 'ANY <', 'ANY >', 'ANY <=', 'ANY >=', 'ANY IN', 'ANY NOT IN',
+        'NONE ==', 'NONE !=', 'NONE <', 'NONE >', 'NONE <=', 'NONE >=', 'NONE IN', 'NONE NOT IN',
     ];
 
     /**

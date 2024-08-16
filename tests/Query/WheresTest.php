@@ -67,6 +67,21 @@ test('where operator conversion', function () {
     );
 });
 
+test('where =~ operator', function () {
+    $builder = getBuilder();
+    $builder->select('*')
+        ->from('users')
+        ->where('email', '=~', 'email@example.com');
+
+    $this->assertSame(
+        'FOR userDoc IN users '
+        . 'FILTER `userDoc`.`email` =~ @'
+        . $builder->getQueryId()
+        . '_where_1 RETURN userDoc',
+        $builder->toSql(),
+    );
+});
+
 test('where json arrow conversion', function () {
     $builder = getBuilder();
     $builder->select('*')
