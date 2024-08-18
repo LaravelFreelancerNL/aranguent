@@ -50,7 +50,7 @@ test('drop all tables', function () {
 
     $tables = Schema::getAllTables();
 
-    expect(count($initialTables))->toEqual(16);
+    expect(count($initialTables))->toEqual($this->tableCount);
     expect(count($tables))->toEqual(0);
 
     $this->artisan('migrate:install')->assertExitCode(0);

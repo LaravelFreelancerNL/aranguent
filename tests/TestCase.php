@@ -36,6 +36,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected string $seeder = DatabaseSeeder::class;
 
+    protected int $tableCount = 16;
+
     /**
      * The base URL to use while testing the application.
      *

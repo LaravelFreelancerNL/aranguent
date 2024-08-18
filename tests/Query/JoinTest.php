@@ -48,7 +48,7 @@ test('joinSub', function () {
     $characters = $builder->get();
 
     expect($characters)->toHaveCount(7);
-    expect($characters[0]->age)->toEqual(16);
+    expect($characters[0]->age)->toEqual($this->tableCount);
     expect($characters[0]->surname)->toEqual('Targaryen');
 });
 

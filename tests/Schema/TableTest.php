@@ -101,7 +101,7 @@ test('dropAllTables', function () {
 
     $tables = Schema::getAllTables();
 
-    expect(count($initialTables))->toEqual(16);
+    expect(count($initialTables))->toEqual($this->tableCount);
     expect(count($tables))->toEqual(0);
 
     refreshDatabase();
