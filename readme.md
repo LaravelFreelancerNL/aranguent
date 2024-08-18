@@ -23,10 +23,11 @@ You may use composer to install Aranguent:
 ``` composer require laravel-freelancer-nl/aranguent ```
 
 While this driver is in the beta stage, changes are you will get a type error upon installation.
-If that happens see if the composer.json lists a specific version or just:
+
+composer.json will probably not list a specific version:
 ```"laravel-freelancer-nl/aranguent": "*"```
 
-If so, run the following command (update the version if necessary):
+If so, either set the minimum-stability level to 'dev' or install the latest version:
 ```
 composer require laravel-freelancer-nl/aranguent:v1.0.0-beta.8 laravel-freelancer-nl/fluentaql:2.1.1
 ```
