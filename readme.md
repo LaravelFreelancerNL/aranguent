@@ -18,20 +18,19 @@ The goal is to create a drop-in ArangoDB replacement for Laravel's database, mig
 **This package is in development; use at your own peril.**
 
 ## Installation
-You may use composer to install Aranguent:
+This driver is currently in the v1 beta stage.
+To install it make sure that the minimum stability is 
+set to beta or lower, and that prefer-stable is set to false in composer.json:
+
+```
+    "minimum-stability": "beta",
+    "prefer-stable": false,
+```
+
+You may then use composer to install Aranguent:
 
 ``` composer require laravel-freelancer-nl/aranguent ```
 
-While this driver is in the beta stage, changes are you will get a type error upon installation.
-
-composer.json will probably not list a specific version:
-```"laravel-freelancer-nl/aranguent": "*"```
-
-If so, either set the minimum-stability level to 'dev' or install the latest version:
-```
-composer require laravel-freelancer-nl/aranguent:v1.0.0-beta.8 laravel-freelancer-nl/fluentaql:2.1.1
-```
-This updates the package to the latest beta, and properly installs the fluentaql package as well.
 
 
 ### Version compatibility
