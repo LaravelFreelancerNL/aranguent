@@ -22,6 +22,17 @@ You may use composer to install Aranguent:
 
 ``` composer require laravel-freelancer-nl/aranguent ```
 
+While this driver is in the beta stage, changes are you will get a type error upon installation.
+If that happens see if the composer.json lists a specific version or just:
+```"laravel-freelancer-nl/aranguent": "*"```
+
+If so, run the following command (update the version if necessary):
+```
+composer require laravel-freelancer-nl/aranguent:v1.0.0-beta.8 laravel-freelancer-nl/fluentaql:2.1.1
+```
+This updates the package to the latest beta, and properly installs the fluentaql package as well.
+
+
 ### Version compatibility
 | Laravel       | ArangoDB | PHP  | Aranguent |
 |:--------------|:---------|:-----|:----------|
