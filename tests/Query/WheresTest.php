@@ -229,20 +229,29 @@ test('where not nulls', function () {
     );
 });
 
-test('where in', function () {
-    $builder = getBuilder();
+test('whereIn', function () {
+    $results = DB::table('characters')
+        ->whereIn(
+            'characters.residence_id',
+            [
+                "astapor",
+                "beyond-the-wall",
+                "dragonstone",
+                "king-s-landing",
+                "riverrun",
+                "the-red-keep",
+                "vaes-dothrak",
+                "winterfell",
+                "yunkai",
+            ],
+        )->get();
 
-    $builder->select()
-        ->from('users')
-        ->whereIn('country', ['The Netherlands', 'Germany', 'Great-Britain']);
-
-    $this->assertSame(
-        'FOR userDoc IN users FILTER `userDoc`.`country` IN @'
-        . $builder->getQueryId()
-        . '_where_1 RETURN userDoc',
-        $builder->toSql(),
-    );
+    expect($results)->toHaveCount(33);
+    expect($results->first()->_id)->toBe('characters/NedStark');
+    expect($results->first()->residence_id)->toBe('winterfell');
 });
+
+
 
 test('where integer in raw', function () {
     $builder = getBuilder();

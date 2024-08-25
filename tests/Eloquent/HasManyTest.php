@@ -89,3 +89,11 @@ test('with', function () {
     expect($location->inhabitants->first())->toBeInstanceOf(Character::class);
     expect($location->inhabitants->first()->id)->toEqual('NedStark');
 });
+
+test('with on multiple models', function () {
+    $locations = Location::with('inhabitants')->get();
+
+    expect($locations->first()->inhabitants->first())->toBeInstanceOf(Character::class);
+    expect($locations->first()->inhabitants)->toHaveCount(2);
+    expect($locations[8]->inhabitants)->toHaveCount(0);
+});
