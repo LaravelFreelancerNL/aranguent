@@ -5,6 +5,7 @@ use LaravelFreelancerNL\Aranguent\Eloquent\Model;
 use LaravelFreelancerNL\Aranguent\Testing\DatabaseTransactions;
 use Mockery as M;
 use TestSetup\Models\Character;
+use TestSetup\Models\House;
 use TestSetup\Models\Location;
 
 uses(
@@ -81,4 +82,30 @@ test('with', function () {
 
     expect($location->leader)->toBeInstanceOf(Character::class);
     expect($location->leader->id)->toEqual('SansaStark');
+});
+
+
+test('with on single model', function () {
+    $house = House::with('head')->find('lannister');
+
+    expect($house->head)->toBeInstanceOf(Character::class);
+    expect($house->head->id)->toEqual('TywinLannister');
+});
+
+
+test('with on multiple model', function () {
+    $houses = House::with('head')->get();
+
+    expect($houses->count())->toBe(3);
+    expect($houses->first()->head)->toBeInstanceOf(Character::class);
+    expect($houses->first()->head->id)->toEqual('TywinLannister');
+});
+
+
+test('load', function () {
+    $house = House::find('lannister');
+    $house->load('head');
+
+    expect($house->head)->toBeInstanceOf(Character::class);
+    expect($house->head->id)->toEqual('TywinLannister');
 });

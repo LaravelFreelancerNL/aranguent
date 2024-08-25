@@ -51,7 +51,7 @@ test('inverse relation', function () {
 test('attach', function () {
     $child = Character::find('JonSnow');
 
-    $lyannaStark = Character::firstOrCreate(
+    Character::firstOrCreate(
         [
             'id' => 'LyannaStark',
             'name' => 'Lyanna',
@@ -68,7 +68,7 @@ test('attach', function () {
     $child->parents()->attach($lyannaStark);
     $child->save();
 
-    $reloadedChild = Character::find('JonSnow');
+    Character::find('JonSnow');
     $parents = $child->parents;
 
     expect($parents[0]->id)->toEqual('NedStark');
@@ -156,4 +156,30 @@ test('upon attachment a related pivot key is reverted to a string if it is a num
 
     expect($char->tags[1]->pivot->tag_id)->toBeString();
     expect($char->tags[1]->pivot->tag_id)->toBe('2');
+});
+
+test('with', function () {
+    $parent = Character::with('children')->find('NedStark');
+
+    expect($parent->children)->toHaveCount(5);
+    expect($parent->children->first()->id)->toEqual('RobbStark');
+});
+
+test('with on multiple models', function () {
+    $characters = Character::with('children')->where('surname', 'Stark')->get();
+
+    expect($characters)->toHaveCount(6);
+    expect($characters[0]->id)->toEqual('NedStark');
+    expect($characters[0]->children->first()->id)->toEqual('AryaStark');
+    expect($characters[0]->children)->toHaveCount(5);
+    expect($characters[1]->id)->toEqual('CatelynStark');
+    expect($characters[1]->children)->toHaveCount(4);
+});
+
+test('load', function () {
+    $parent = Character::find('NedStark');
+    $parent->load('children');
+
+    expect($parent->children)->toHaveCount(5);
+    expect($parent->children->first()->id)->toEqual('RobbStark');
 });
