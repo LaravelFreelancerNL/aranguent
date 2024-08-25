@@ -72,6 +72,7 @@ test('assert not soft deleted by data', function () {
 
 test('assert model exists', function () {
     $ned = Character::find('NedStark');
+
     $this->assertModelExists($ned);
 });
 
