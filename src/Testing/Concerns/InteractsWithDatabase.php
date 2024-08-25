@@ -20,7 +20,7 @@ trait InteractsWithDatabase
      * @param  string|null  $connection
      * @return $this
      */
-    protected function assertDatabaseHas($table, array $data, $connection = null)
+    protected function assertDatabaseHas($table, array $data = [], $connection = null)
     {
         $this->assertThat(
             $this->getTable($table),
@@ -38,7 +38,7 @@ trait InteractsWithDatabase
      * @param  string|null  $connection
      * @return $this
      */
-    protected function assertDatabaseMissing($table, array $data, $connection = null)
+    protected function assertDatabaseMissing($table, array $data = [], $connection = null)
     {
         $constraint = new ReverseConstraint(
             new HasInDatabase($this->getConnection($connection), associativeFlatten($data)),
