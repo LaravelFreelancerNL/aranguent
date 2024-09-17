@@ -107,7 +107,7 @@ trait CompilesDataManipulations
 
         if ($insertDoc === '') {
             $insertValues = [];
-            foreach($columns as $column) {
+            foreach ($columns as $column) {
                 $insertValues[$column] = $this->normalizeColumnReferences($query, $column, 'docs');
             }
             $insertDoc = $this->generateAqlObject($insertValues);
@@ -129,7 +129,7 @@ trait CompilesDataManipulations
     protected function createUpdateObject($values)
     {
         $valueStrings = [];
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             if (is_array($value)) {
                 $valueStrings[] = $key . ': ' . $this->createUpdateObject($value);
 
@@ -188,19 +188,19 @@ trait CompilesDataManipulations
     public function compileUpsert(IlluminateQueryBuilder $query, array $values, array $uniqueBy, array $update)
     {
         $searchFields = [];
-        foreach($uniqueBy as $field) {
+        foreach ($uniqueBy as $field) {
             $searchFields[$field] = 'doc.' . $field;
         }
         $searchObject = $this->generateAqlObject($searchFields);
 
         $updateFields = [];
-        foreach($update as $field) {
+        foreach ($update as $field) {
             $updateFields[$field] = 'doc.' . $field;
         }
         $updateObject = $this->generateAqlObject($updateFields);
 
         $valueObjects = [];
-        foreach($values as $data) {
+        foreach ($values as $data) {
             $valueObjects[] = $this->generateAqlObject($data);
         }
 

@@ -92,7 +92,7 @@ trait BuildsWheres
         if ($this->invalidOperator($operator)) {
             [$value, $operator] = [$operator, '=='];
         }
-        return array($value, $operator);
+        return [$value, $operator];
     }
 
     /**

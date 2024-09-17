@@ -101,7 +101,7 @@ test('chunk stop', function () {
         foreach ($characters as $character) {
             $count++;
         }
-        if($count > 20) {
+        if ($count > 20) {
             return false;
         }
         return true;

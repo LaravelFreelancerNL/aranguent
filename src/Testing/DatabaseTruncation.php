@@ -40,7 +40,7 @@ trait DatabaseTruncation
     {
         $migrationSettings = [];
 
-        if(property_exists($this, 'realPath')) {
+        if (property_exists($this, 'realPath')) {
             $migrationSettings['--realpath'] = $this->realPath ?? false;
         }
 

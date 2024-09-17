@@ -71,7 +71,7 @@ test('create model with migration', function () use ($testModelData, $migrationP
 
     $migrationFiles = scandir($migrationPath);
 
-    foreach($migrationFiles as $file) {
+    foreach ($migrationFiles as $file) {
         if (in_array($file, ['.', '..', '.gitkeep'])) {
             continue;
         }
@@ -90,7 +90,7 @@ test('create model with edge migration', function () use ($testModelData, $migra
 
     $migrationFiles = scandir($migrationPath);
 
-    foreach($migrationFiles as $file) {
+    foreach ($migrationFiles as $file) {
         if (in_array($file, ['.', '..', '.gitkeep'])) {
             continue;
         }

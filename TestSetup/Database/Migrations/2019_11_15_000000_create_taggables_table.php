@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use LaravelFreelancerNL\Aranguent\Facades\Schema;
 use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
 
-return new class () extends Migration {
+return new class extends Migration {
     /**
      * Run the migrations.
      *

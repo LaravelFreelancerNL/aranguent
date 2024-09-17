@@ -1,7 +1,7 @@
 <?php
 
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
-use  LaravelFreelancerNL\Aranguent\Schema\Blueprint;
+use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
 
 test('creating table with increments', function () {
     $schema = DB::connection()->getSchemaBuilder();

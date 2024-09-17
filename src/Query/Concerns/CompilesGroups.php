@@ -64,7 +64,7 @@ trait CompilesGroups
             return [];
         }
         $tempGroups = [];
-        foreach($groups as $group) {
+        foreach ($groups as $group) {
             if ($group instanceof Expression) {
                 $tempGroups[] = $this->extractGroupVariable($group);
                 continue;

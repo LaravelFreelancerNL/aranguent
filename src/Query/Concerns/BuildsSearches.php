@@ -26,7 +26,7 @@ trait BuildsSearches
     ): IlluminateQueryBuilder {
         assert($this->grammar instanceof Grammar);
 
-        if(!is_array($fields)) {
+        if (!is_array($fields)) {
             $fields = Arr::wrap($fields);
         }
         $fields = $this->grammar->convertJsonFields($fields);
