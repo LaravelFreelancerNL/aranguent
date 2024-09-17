@@ -295,7 +295,7 @@ trait RunsQueries
         $this->logQuery(
             $query,
             $bindings,
-            $this->getElapsedTime((int) $start),
+            $this->getElapsedTime($start),
         );
 
         return $result;
