@@ -9,6 +9,7 @@ echo "Run PHPStan"
 ./vendor/bin/phpstan analyse -c phpstan.neon
 
 echo "Test package from within phpunit"
+./vendor/bin/testbench convert:migrations
 ./vendor/bin/testbench migrate:fresh --path=TestSetup/Database/Migrations --path=vendor/orchestra/testbench-core/laravel/migrations/ --realpath --seed
 ./vendor/bin/testbench package:test --coverage --min=80 tests
 
