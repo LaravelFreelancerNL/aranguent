@@ -211,7 +211,7 @@ trait CompilesColumns
 
         $elements = explode('.', $alias);
 
-        if(
+        if (
             !$query->isTable($elements[0])
             && !$query->isVariable($elements[0])
         ) {

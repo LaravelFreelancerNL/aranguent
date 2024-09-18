@@ -419,7 +419,7 @@ class Grammar extends IlluminateQueryGrammar
         }
 
         $predicates = [];
-        foreach($search['fields'] as $field) {
+        foreach ($search['fields'] as $field) {
             $predicates[] = $this->normalizeColumn($query, $field)
                 . ' IN TOKENS(' . $search['searchText'] . ', \'' . $search['analyzer'] . '\')';
         }

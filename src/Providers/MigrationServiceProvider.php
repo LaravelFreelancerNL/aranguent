@@ -40,7 +40,7 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
     {
         parent::__construct($app);
 
-        foreach($this->aliases as $key => $alias) {
+        foreach ($this->aliases as $key => $alias) {
             $this->aliases[$key] = $alias;
         }
     }

@@ -125,7 +125,7 @@ trait HandlesAqlGrammar
         }
 
         if (is_array($value)) {
-            foreach($value as $key => $subvalue) {
+            foreach ($value as $key => $subvalue) {
                 $value[$key] = $this->wrap($subvalue);
             }
             return $value;
@@ -220,7 +220,7 @@ trait HandlesAqlGrammar
      */
     protected function generateAqlObjectString(array $data): string
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $prefix = $this->wrapAttribute($key) . ': ';
 
             if (is_numeric($key)) {
@@ -269,7 +269,7 @@ trait HandlesAqlGrammar
 
         $bindings = array_reverse($bindings);
 
-        foreach($bindings as $key => $value) {
+        foreach ($bindings as $key => $value) {
             $pattern = '/(@' . $key . ')(?![^a-zA-Z_ ,\}\]])/';
             $aql = (string) preg_replace(
                 $pattern,
@@ -289,7 +289,7 @@ trait HandlesAqlGrammar
      */
     public function isJsonSelector($value)
     {
-        if(!is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
@@ -319,7 +319,7 @@ trait HandlesAqlGrammar
      */
     public function convertJsonValuesToDotNotation(array $fields): array
     {
-        foreach($fields as $key => $value) {
+        foreach ($fields as $key => $value) {
             if ($this->isJsonSelector($value)) {
                 $fields[$key] = str_replace('->', '.', $value);
             }
@@ -333,7 +333,7 @@ trait HandlesAqlGrammar
      */
     public function convertJsonKeysToDotNotation(array $fields): array
     {
-        foreach($fields as $key => $value) {
+        foreach ($fields as $key => $value) {
             if ($this->isJsonSelector($key)) {
                 $fields[str_replace('->', '.', $key)] = $value;
                 unset($fields[$key]);

@@ -202,7 +202,7 @@ class Connection extends IlluminateConnection
      */
     public function escape($value, $binary = false)
     {
-        return match(gettype($value)) {
+        return match (gettype($value)) {
             'array' => $this->escapeArray($value),
             'boolean' => $this->escapeBool($value),
             'double' => (string) $value,
@@ -249,7 +249,7 @@ class Connection extends IlluminateConnection
      */
     protected function escapeArray(array $array): string
     {
-        foreach($array as $key => $value) {
+        foreach ($array as $key => $value) {
             $array[$key] = $this->escape($value);
         }
 

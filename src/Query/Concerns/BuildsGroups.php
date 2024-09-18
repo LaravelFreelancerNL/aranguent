@@ -144,7 +144,7 @@ trait BuildsGroups
     public function forNestedWhere($aliases = [])
     {
         $query = $this->newQuery();
-        foreach($aliases as $alias) {
+        foreach ($aliases as $alias) {
             $query->groups[] = $alias;
 
         }

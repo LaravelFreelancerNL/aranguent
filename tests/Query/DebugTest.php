@@ -68,14 +68,14 @@ test('toRawSql with multiple binds', function () {
     $query = DB::table('characters');
     $query->where('name', 'Gilly');
 
-    for($i = 0; $i < 9; $i++) {
+    for ($i = 0; $i < 9; $i++) {
         $query->orWhere('name', $names[$i]);
     }
 
     $aql = $query->toRawSql();
 
     $rawAql = 'FOR characterDoc IN characters FILTER `characterDoc`.`name` == "Gilly"';
-    for($i = 0; $i < 9; $i++) {
+    for ($i = 0; $i < 9; $i++) {
         $rawAql .= ' or `characterDoc`.`name` == "' . $names[$i] . '"';
     }
     $rawAql .= ' RETURN characterDoc';

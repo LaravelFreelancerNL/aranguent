@@ -208,7 +208,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function clearDatabase()
     {
         $collections  = $this->schemaManager->getCollections(true);
-        foreach($collections as $collection) {
+        foreach ($collections as $collection) {
             $this->schemaManager->deleteCollection($collection->name);
         }
     }

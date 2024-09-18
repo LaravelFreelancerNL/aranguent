@@ -9,7 +9,7 @@ trait ConvertsIdToKey
     public function convertIdToKey(mixed $data): mixed
     {
         if (is_array($data) && array_is_list($data)) {
-            foreach($data as $key => $value) {
+            foreach ($data as $key => $value) {
                 $data[$key] = $this->convertIdInString($value);
             }
             return $data;

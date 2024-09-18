@@ -5,7 +5,7 @@ namespace TestSetup\Database\Migrations;
 use Illuminate\Database\Migrations\Migration;
 use LaravelFreelancerNL\Aranguent\Facades\Schema;
 
-return new class () extends Migration {
+return new class extends Migration {
     /**
      * Run the migrations.
      *

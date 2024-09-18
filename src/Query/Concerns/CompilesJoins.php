@@ -20,13 +20,15 @@ trait CompilesJoins
     {
         if ($join->table instanceof Expression) {
             $tableParts = [];
-            preg_match("/(^.*) as (.*?)$/", (string) $join->table->getValue($query->grammar), $tableParts);
-            $table = $tableParts[1];
-            $alias = $tableParts[2];
 
-            $query->registerTableAlias($join->table, $alias);
+            if (preg_match("/(^.*) as (.*?)$/", (string) $join->table->getValue($query->grammar), $tableParts)) {
+                $table = $tableParts[1];
+                $alias = $tableParts[2];
 
-            return [$table, $alias];
+                $query->registerTableAlias($join->table, $alias);
+
+                return [$table, $alias];
+            }
         }
 
         $table = (string) $this->wrapTable($join->table);

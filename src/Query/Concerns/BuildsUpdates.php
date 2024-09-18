@@ -22,7 +22,7 @@ trait BuildsUpdates
      */
     protected function prepareValuesForUpdate(array $values)
     {
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             if ($value instanceof Expression) {
                 $values[$key] = $value->getValue($this->grammar);
 
@@ -160,13 +160,13 @@ trait BuildsUpdates
             $values = [$values];
         }
 
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $values[$key] = $this->grammar->convertJsonFields($value);
             $values[$key] = $this->convertIdToKey($values[$key]);
             $values[$key] = Arr::undot($values[$key]);
         }
 
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             foreach ($value as $dataKey => $data) {
                 $values[$key][$dataKey] = $this->bindValue($data, 'upsert');
             }

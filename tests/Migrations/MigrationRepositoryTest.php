@@ -11,7 +11,7 @@ beforeEach(function () {
 
 afterEach(function () {
     $migrations = $this->databaseMigrationRepository->getMigrations(12);
-    foreach($migrations as $migration) {
+    foreach ($migrations as $migration) {
         $this->databaseMigrationRepository->delete($migration);
     }
 });
@@ -92,7 +92,7 @@ test('getMigrationBatches', function () {
         "getMigrationBatches2" => 33,
     ];
 
-    foreach($batches as $migration => $batch) {
+    foreach ($batches as $migration => $batch) {
         $this->databaseMigrationRepository->log($migration, $batch);
     }
 

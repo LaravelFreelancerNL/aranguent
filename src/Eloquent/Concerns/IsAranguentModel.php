@@ -34,7 +34,9 @@ trait IsAranguentModel
             $matches = [];
             preg_match('/\/(.*)$/', $id, $matches);
 
-            $this->setAttribute('id', $matches[1]);
+            // We know the exact string format for $matches when the attribute is _id
+            /** @var array{0: string, 1: string} $matches */
+            $this->setAttribute('id', $matches[1]); // @phpstan-ignore arrayUnpacking.stringOffset
         }
         if ($keyName === 'id' || $keyName === '_key') {
             $this->updateIdWithKey($id);

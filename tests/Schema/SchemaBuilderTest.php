@@ -28,7 +28,7 @@ test('has table throws on none existing database', function () {
 
     try {
         Schema::hasTable('dummy');
-    } catch(QueryException $e) {
+    } catch (QueryException $e) {
         expect($e)->toBeInstanceOf(QueryException::class);
     }
     config()->set('database.connections.arangodb.database', $oldDatabase);

@@ -49,7 +49,7 @@ if (!function_exists('isDotString')) {
 if (!function_exists('mapObjectToArray')) {
     function mapObjectToArray(mixed $value): mixed
     {
-        if(!is_object($value) && !is_array($value)) {
+        if (!is_object($value) && !is_array($value)) {
             return $value;
         }
 

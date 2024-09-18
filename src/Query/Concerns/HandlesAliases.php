@@ -182,12 +182,13 @@ trait HandlesAliases
         }
 
         /** @phpstan-ignore-next-line  */
-        if ($alias == null && stripos($table, ' as ') !== false) {
+        if ($alias == null && is_string($table) && stripos($table, ' as ') !== false) {
             $tableParts = [];
-            /** @phpstan-ignore-next-line  */
-            preg_match("/(^.*) as (.*?)$/", $table, $tableParts);
-            $table = $tableParts[1];
-            $alias = $tableParts[2];
+
+            if (preg_match("/(^.*) as (.*?)$/", $table, $tableParts)) {
+                $table = $tableParts[1];
+                $alias = $tableParts[2];
+            }
         }
 
         if ($alias == null) {
