@@ -530,3 +530,91 @@ test('orWhereAny', function () {
     expect($results->count())->toBe(2);
     expect(($results->first())->name)->toBe('Stark');
 });
+
+test('basic whereNot', function () {
+    $builder = getBuilder();
+    $builder->select('*')->from('characters')->where('surname', 'Lannister')->whereNot('alive', true);
+
+    $this->assertSame(
+        'FOR characterDoc IN characters FILTER `characterDoc`.`surname` == @'
+        . $builder->getQueryId()
+        . '_where_1 and not `characterDoc`.`alive` == @'
+        . $builder->getQueryId()
+        . '_where_2 RETURN characterDoc',
+        $builder->toSql(),
+    );
+});
+
+test('whereNot nested', function () {
+    $query = getBuilder();
+    $query = $query
+        ->select('*')
+        ->from('characters')
+        ->where('alive', true)
+        ->whereNot(function ($query) {
+            $query->where('surname', 'lannister')
+                ->orWhere('age', '<', 20);
+        });
+
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR characterDoc IN characters FILTER `characterDoc`.`alive` == @' . $bindKeys[0]
+        . ' and not ( `characterDoc`.`surname` == @' . $bindKeys[1]
+        . ' or `characterDoc`.`age` < @' . $bindKeys[2]
+        . ') RETURN characterDoc',
+        $query->toSql(),
+    );
+});
+
+test('whereNot query results', function () {
+    $results = \DB::table('characters')
+        ->where('alive', true)
+        ->whereNot(function ($query) {
+            $query->where('surname', 'Lannister')
+                ->orWhere('age', '<', 20);
+        })->get();
+
+    expect($results->count())->toBe(3);
+});
+
+test('basic orWhereNot', function () {
+    $builder = getBuilder();
+    $builder->select('*')->from('characters')->where('alive', true)->orWhereNot('surname', 'Lannister');
+
+    $this->assertSame(
+        'FOR characterDoc IN characters FILTER `characterDoc`.`alive` == @'
+        . $builder->getQueryId()
+        . '_where_1 or not `characterDoc`.`surname` == @'
+        . $builder->getQueryId()
+        . '_where_2 RETURN characterDoc',
+        $builder->toSql(),
+    );
+});
+
+
+test('orWhereNot query results', function () {
+    $results = \DB::table('characters')
+        ->where('alive', true)
+        ->orWhereNot('surname', 'Lannister')
+        ->get();
+
+    ray($results);
+
+    expect($results->count())->toBe(27);
+});
+
+test('nest whereNot & orWhereNot', function () {
+    $builder = \DB::table('characters')
+        ->where('alive', true)
+        ->where(function ($query) {
+            $query->whereNot('surname', 'Lannister')
+                ->orWhereNot('age', '<', 20);
+        });
+
+    $results = $builder->get();
+
+    expect($results->count())->toBe(27);
+});
