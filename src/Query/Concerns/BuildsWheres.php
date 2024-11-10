@@ -436,6 +436,27 @@ trait BuildsWheres
     }
 
     /**
+     * Add a "where like" clause to the query.
+     *
+     * @param  \Illuminate\Contracts\Database\Query\Expression|string  $column
+     * @param  string  $value
+     * @param  bool  $caseSensitive
+     * @param  string  $boolean
+     * @param  bool  $not
+     * @return $this
+     */
+    public function whereLike($column, $value, $caseSensitive = false, $boolean = 'and', $not = false)
+    {
+        $type = 'Like';
+
+        $value = $this->bindValue($value);
+
+        $this->wheres[] = compact('type', 'column', 'value', 'caseSensitive', 'boolean', 'not');
+
+        return $this;
+    }
+
+    /**
      * Add a "where null" clause to the query.
      *
      * @param  string|array<mixed>|\Illuminate\Contracts\Database\Query\Expression  $columns
