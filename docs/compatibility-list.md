@@ -74,7 +74,8 @@ rightJoin / rightJoinSub / joinWhere?
 where / orWhere / whereNot / orWhereNot / whereColumn / whereExists
 whereBetween / whereNotBetween / whereBetweenColumns / whereNotBetweenColumns /
 whereJsonContains / whereJsonLength /
-whereIn / whereNotIn / whereNot / orWhereNot / whereNull / whereNotNull /
+whereIn / whereNotIn / whereNone / orWhereNone / whereNot / orWhereNot / 
+whereNull / whereNotNull /
 whereDate / whereMonth / whereDay / whereYear / whereTime /
 whereRaw (use AQL) /
 whereAll / orWhereAll / whereAny / orWhereAny

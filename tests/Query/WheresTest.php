@@ -531,6 +531,49 @@ test('orWhereAny', function () {
     expect(($results->first())->name)->toBe('Stark');
 });
 
+test('whereNone', function () {
+    $query = \DB::table('houses')
+        ->whereNone(['en.coat-of-arms', 'en.description'], 'LIKE', '%war%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER not ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[0]
+        . ' or `houseDoc`.`en`.`description` LIKE @' . $bindKeys[1]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(1);
+    expect(($results->first())->name)->toBe('Targaryen');
+});
+
+test('orWhereNone', function () {
+    $query = \DB::table('houses')
+        ->where('name', 'Stark')
+        ->orWhereNone(['en.coat-of-arms', 'en.description'], 'LIKE', '%war%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER `houseDoc`.`name` == @' . $bindKeys[0]
+
+        . ' or not ( `houseDoc`.`en`.`coat-of-arms` LIKE @' . $bindKeys[1]
+        . ' or `houseDoc`.`en`.`description` LIKE @' . $bindKeys[2]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Stark');
+});
+
+
+
 test('basic whereNot', function () {
     $builder = getBuilder();
     $builder->select('*')->from('characters')->where('surname', 'Lannister')->whereNot('alive', true);
