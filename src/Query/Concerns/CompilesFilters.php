@@ -413,6 +413,36 @@ trait CompilesFilters
      * @return string
      * @throws \Exception
      */
+    protected function filterLike(IlluminateQueryBuilder $query, $filter)
+    {
+        $column =  $this->normalizeColumn($query, $filter['column']);
+        $value = $this->parameter($filter['value']);
+
+        $predicate = [];
+
+        $filter = $this->normalizeOperator($filter);
+
+        $predicate[0] = ($filter['caseSensitive']) ? $column : 'LOWER(' . $column . ')';
+        $predicate[1] = 'LIKE';
+        $predicate[2] = ($filter['caseSensitive']) ? $value : 'LOWER(' . $value . ')';
+
+        $result = implode(' ', $predicate);
+
+        if ($filter['not']) {
+            $result = 'NOT (' . $result . ')';
+        }
+
+        return $result;
+    }
+
+    /**
+     * Compile a filter month clause.
+     *
+     * @param IlluminateQueryBuilder $query
+     * @param array<mixed> $filter
+     * @return string
+     * @throws \Exception
+     */
     protected function filterMonth(IlluminateQueryBuilder $query, $filter)
     {
         $predicate = [];

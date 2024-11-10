@@ -644,8 +644,6 @@ test('orWhereNot query results', function () {
         ->orWhereNot('surname', 'Lannister')
         ->get();
 
-    ray($results);
-
     expect($results->count())->toBe(27);
 });
 
@@ -660,4 +658,80 @@ test('nest whereNot & orWhereNot', function () {
     $results = $builder->get();
 
     expect($results->count())->toBe(27);
+});
+
+test('whereLike', function () {
+    $query = \DB::table('houses')
+        ->whereLike('en.coat-of-arms', '%dragon%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER LOWER(`houseDoc`.`en`.`coat-of-arms`) LIKE LOWER(@' . $bindKeys[0]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(1);
+    expect(($results->first())->name)->toBe('Targaryen');
+});
+
+test('orWhereLike', function () {
+    $query = \DB::table('houses')
+        ->where('name', 'Stark')
+        ->orWhereLike('en.coat-of-arms', '%dragon%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER `houseDoc`.`name` == @' . $bindKeys[0]
+        . ' or LOWER(`houseDoc`.`en`.`coat-of-arms`) LIKE LOWER(@' . $bindKeys[1]
+        . ') RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Stark');
+});
+
+test('whereNotLike', function () {
+    $query = \DB::table('houses')
+        ->whereNotLike('en.coat-of-arms', '%dragon%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER NOT (LOWER(`houseDoc`.`en`.`coat-of-arms`) LIKE LOWER(@' . $bindKeys[0]
+        . ')) RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Lannister');
+});
+
+test('orWhereNotLike', function () {
+    $query = \DB::table('houses')
+        ->where('name', 'Stark')
+        ->orWhereNotLike('en.coat-of-arms', '%dragon%');
+
+    $binds = $query->getBindings();
+    $bindKeys = array_keys($binds);
+
+    $this->assertSame(
+        'FOR houseDoc IN houses FILTER `houseDoc`.`name` == @' . $bindKeys[0]
+        . ' or NOT (LOWER(`houseDoc`.`en`.`coat-of-arms`) LIKE LOWER(@' . $bindKeys[1]
+        . ')) RETURN houseDoc',
+        $query->toSql(),
+    );
+
+    $results = $query->get();
+    expect($results->count())->toBe(2);
+    expect(($results->first())->name)->toBe('Lannister');
 });
