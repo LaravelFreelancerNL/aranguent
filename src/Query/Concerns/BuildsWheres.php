@@ -444,6 +444,8 @@ trait BuildsWheres
      * @param  string  $boolean
      * @param  bool  $not
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function whereLike($column, $value, $caseSensitive = false, $boolean = 'and', $not = false)
     {
