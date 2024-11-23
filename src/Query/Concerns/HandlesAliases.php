@@ -170,6 +170,9 @@ trait HandlesAliases
         return false;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function registerTableAlias(string|Expression $table, ?string $alias = null): string
     {
         if ($table instanceof Expression  && $alias !== null) {
