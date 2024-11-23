@@ -45,7 +45,7 @@ trait HandlesAliases
      *
      * @throws Exception
      */
-    public function extractAlias(string $entity, int|string $key = null): array
+    public function extractAlias(string $entity, int|null|string $key = null): array
     {
         $results = preg_split("/\sas\s/i", $entity);
 
@@ -155,7 +155,7 @@ trait HandlesAliases
     /**
      * @throws Exception
      */
-    public function registerColumnAlias(string $column, string $alias = null): bool
+    public function registerColumnAlias(string $column, ?string $alias = null): bool
     {
         if (preg_match("/\sas\s/i", $column)) {
             [$column, $alias] = $this->extractAlias($column);
@@ -170,7 +170,7 @@ trait HandlesAliases
         return false;
     }
 
-    public function registerTableAlias(string|Expression $table, string $alias = null): string
+    public function registerTableAlias(string|Expression $table, ?string $alias = null): string
     {
         if ($table instanceof Expression  && $alias !== null) {
             $table = 'Expression' . spl_object_id($table);

@@ -91,7 +91,7 @@ trait CompilesColumns
     /**
      * @throws Exception
      */
-    protected function normalizeColumn(IlluminateQueryBuilder $query, mixed $column, string $table = null): mixed
+    protected function normalizeColumn(IlluminateQueryBuilder $query, mixed $column, ?string $table = null): mixed
     {
         assert($query instanceof Builder);
 
@@ -137,7 +137,7 @@ trait CompilesColumns
      * @return array<mixed>
      * @throws Exception
      */
-    protected function normalizeStringColumn(Builder $query, int|string $key, string $column, string $table = null): array
+    protected function normalizeStringColumn(Builder $query, int|string $key, string $column, ?string $table = null): array
     {
         [$column, $alias] = $query->extractAlias($column, $key);
 
@@ -158,7 +158,7 @@ trait CompilesColumns
      * @param string|null $table
      * @return string
      */
-    protected function normalizeColumnReferences(IlluminateQueryBuilder $query, string $column, string $table = null): string
+    protected function normalizeColumnReferences(IlluminateQueryBuilder $query, string $column, ?string $table = null): string
     {
         assert($query instanceof Builder);
 
