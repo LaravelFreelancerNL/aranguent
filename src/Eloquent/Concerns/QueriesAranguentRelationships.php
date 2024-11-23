@@ -169,7 +169,7 @@ trait QueriesAranguentRelationships
             $query = $relation->getRelationExistenceQuery(
                 $relation->getRelated()->newQuery(),
                 $this,
-                new Expression($expression),
+                [$expression],
             )->setBindings([], 'select');
 
             $query->callScope($constraints);

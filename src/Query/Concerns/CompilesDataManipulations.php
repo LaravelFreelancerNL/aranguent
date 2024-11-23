@@ -16,7 +16,7 @@ trait CompilesDataManipulations
      * @param string|null $bindVar
      * @return string
      */
-    public function compileInsert(Builder|IlluminateQueryBuilder $query, array $values, string $bindVar = null)
+    public function compileInsert(Builder|IlluminateQueryBuilder $query, array $values, ?string $bindVar = null)
     {
         $table = $this->prefixTable($query->from);
 
@@ -41,7 +41,7 @@ trait CompilesDataManipulations
      * @param string|null $bindVar
      * @return string
      */
-    public function compileInsertGetId(IlluminateQueryBuilder $query, $values, $sequence = '_key', string $bindVar = null)
+    public function compileInsertGetId(IlluminateQueryBuilder $query, $values, $sequence = '_key', ?string $bindVar = null)
     {
         $table = $this->prefixTable($query->from);
 
@@ -68,7 +68,7 @@ trait CompilesDataManipulations
      * @param array<mixed> $values
      * @return string
      */
-    public function compileInsertOrIgnore(IlluminateQueryBuilder $query, array $values, string $bindVar = null)
+    public function compileInsertOrIgnore(IlluminateQueryBuilder $query, array $values, ?string $bindVar = null)
     {
         $table = $this->prefixTable($query->from);
 

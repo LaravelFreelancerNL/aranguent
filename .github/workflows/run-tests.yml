@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         arangodb: ['3.11', '3.12']
-        php: ['8.2', '8.3']
+        php: ['8.2', '8.3', '8.4']
         laravel: ['^11.0']
         include:
           - laravel: '^11.0'

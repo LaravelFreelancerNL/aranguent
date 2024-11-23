@@ -116,9 +116,9 @@ class Builder extends IlluminateQueryBuilder
      */
     public function __construct(
         IlluminateConnectionInterface $connection,
-        IlluminateQueryGrammar        $grammar = null,
-        IlluminateProcessor           $processor = null,
-        AQB                           $aqb = null,
+        ?IlluminateQueryGrammar        $grammar = null,
+        ?IlluminateProcessor           $processor = null,
+        ?AQB                           $aqb = null,
     ) {
         assert($connection instanceof IlluminateConnectionInterface);
         assert($processor instanceof IlluminateProcessor);

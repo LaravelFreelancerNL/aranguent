@@ -22,7 +22,9 @@ trait DatabaseTransactions
     {
         $database = $this->app->make('db');
 
-        $this->app->instance('db.transactions', $transactionsManager = new DatabaseTransactionsManager());
+        $connections = $this->connectionsToTransact();
+
+        $this->app->instance('db.transactions', $transactionsManager = new DatabaseTransactionsManager($connections));
 
         foreach ($this->connectionsToTransact() as $name) {
             $connection = $database->connection($name);

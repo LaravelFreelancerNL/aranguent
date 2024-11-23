@@ -33,7 +33,6 @@ class Builder extends IlluminateEloquentBuilder
         try {
             return $this->withSavepointIfNeeded(fn() => $this->create(array_merge($attributes, $values)));
         } catch (UniqueConstraintViolationException $e) {
-            ray($e);
             return $this->useWritePdo()->where($attributes)->first() ?? throw $e;
         }
     }

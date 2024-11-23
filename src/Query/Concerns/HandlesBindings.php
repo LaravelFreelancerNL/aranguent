@@ -78,7 +78,7 @@ trait HandlesBindings
      * @param string|null $type
      * @return void
      */
-    public function importBindings($query, string $type = null): void
+    public function importBindings($query, ?string $type = null): void
     {
         if ($type) {
             $this->bindings[$type] = array_merge($this->bindings[$type], $query->bindings[$type]);

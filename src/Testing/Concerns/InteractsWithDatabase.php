@@ -16,6 +16,8 @@ trait InteractsWithDatabase
      * @param  array<mixed>|object|string  $value
      * @param string|null $connection
      * @return \Illuminate\Contracts\Database\Query\Expression
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function castAsJson($value, $connection = null)
     {
