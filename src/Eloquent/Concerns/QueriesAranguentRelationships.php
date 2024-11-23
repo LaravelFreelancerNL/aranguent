@@ -163,8 +163,6 @@ trait QueriesAranguentRelationships
                 $expression = $function === 'exists' ? $wrappedColumn : sprintf('%s(%s)', $function, $wrappedColumn);
             }
 
-            ray('withAggregate expression', $expression);
-
             // Here, we will grab the relationship sub-query and prepare to add it to the main query
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
             // sub-query. We'll format this relationship name and append this column if needed.
