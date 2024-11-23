@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace LaravelFreelancerNL\Aranguent\Eloquent\Relations\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Expression;
 
 trait IsAranguentRelation
 {
@@ -41,7 +40,6 @@ trait IsAranguentRelation
         return $this->getRelationExistenceQuery(
             $query,
             $parentQuery,
-            new Expression('*'),
         );
     }
 }
