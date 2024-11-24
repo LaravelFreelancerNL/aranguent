@@ -122,3 +122,11 @@ test('reconnect to different database', function () {
 //
 //    Schema::hasTable('dummy');
 //})->throws(QueryException::class);
+
+
+test('threadCount', function () {
+    $connection = $this->connection;
+
+    expect($connection->threadCount())->toBeInt();
+    expect($connection->threadCount())->toBeGreaterThan(-1);
+});
