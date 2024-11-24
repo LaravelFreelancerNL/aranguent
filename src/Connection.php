@@ -282,4 +282,18 @@ class Connection extends IlluminateConnection
     {
         return round((microtime(true) - $start) * 1000, 2);
     }
+
+    /**
+     * Get the number of open connections for the database.
+     *
+     * @return int|null
+     */
+    public function threadCount()
+    {
+        if (!$this->arangoClient) {
+            return null;
+        }
+
+        return $this->arangoClient->monitor()->getCurrentConnections();
+    }
 }
