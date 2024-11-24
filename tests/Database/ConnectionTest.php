@@ -130,3 +130,10 @@ test('threadCount', function () {
     expect($connection->threadCount())->toBeInt();
     expect($connection->threadCount())->toBeGreaterThan(-1);
 });
+
+test('getServerVersion', function () {
+    $connection = $this->connection;
+
+    expect($connection->getServerVersion())->toBeString();
+    expect($connection->getServerVersion())->toMatch('/^\d+\.\d+\.\d+$/i');
+});
