@@ -296,4 +296,20 @@ class Connection extends IlluminateConnection
 
         return $this->arangoClient->monitor()->getCurrentConnections();
     }
+
+    /**
+     * Get the server version for the connection.
+     *
+     * @return string
+     */
+    public function getServerVersion(): string
+    {
+        if (!$this->arangoClient) {
+            return '';
+        }
+
+        $rawVersion = $this->arangoClient->admin()->getVersion();
+
+        return $rawVersion->version;
+    }
 }
