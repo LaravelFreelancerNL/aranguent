@@ -85,13 +85,9 @@ trait HandlesViews
      * Drop all views from the schema.
      *
      * @throws ArangoException
-     */
+    */
     public function dropAllViews(): void
     {
-        $views = $this->schemaManager->getViews();
-
-        foreach ($views as $view) {
-            $this->schemaManager->deleteView($view->name);
-        }
+        $this->schemaManager->deleteAllViews();
     }
 }
