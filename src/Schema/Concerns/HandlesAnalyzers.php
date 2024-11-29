@@ -86,4 +86,14 @@ trait HandlesAnalyzers
 
         return true;
     }
+
+    /**
+     * Drop all custom analyzers from the schema.
+     *
+     * @throws ArangoException
+     */
+    public function dropAllAnalyzers(): void
+    {
+        $this->schemaManager->deleteAllAnalyzers();
+    }
 }
