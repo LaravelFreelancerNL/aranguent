@@ -14,7 +14,6 @@ test('Ensure all tables are present', function () {
     expect(count($tables))->toEqual($this->tableCount);
 });
 
-
 test('Ensure all characters are present', function () {
     $characters = Character::all();
 

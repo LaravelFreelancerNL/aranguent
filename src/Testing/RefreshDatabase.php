@@ -6,11 +6,13 @@ namespace LaravelFreelancerNL\Aranguent\Testing;
 
 use Illuminate\Foundation\Testing\DatabaseTransactionsManager;
 use Illuminate\Foundation\Testing\RefreshDatabase as IlluminateRefreshDatabase;
+use LaravelFreelancerNL\Aranguent\Testing\Concerns\CanConfigureMigrationCommands;
 use LaravelFreelancerNL\Aranguent\Testing\Concerns\PreparesTestingTransactions;
 
 trait RefreshDatabase
 {
     use PreparesTestingTransactions;
+    use CanConfigureMigrationCommands;
     use IlluminateRefreshDatabase;
 
     /**
@@ -51,8 +53,11 @@ trait RefreshDatabase
         });
     }
 
+
     /**
      * The parameters that should be used when running "migrate:fresh".
+     *
+     * Duplicate code because CanConfigureMigrationCommands has a conflict otherwise.
      *
      * @return array
      */
@@ -62,8 +67,11 @@ trait RefreshDatabase
 
         $results =  array_merge(
             [
+                '--drop-analyzers' => $this->shouldDropAnalyzers(),
+                '--drop-graphs' => $this->shouldDropGraphs(),
                 '--drop-views' => $this->shouldDropViews(),
                 '--drop-types' => $this->shouldDropTypes(),
+                '--drop-all' => $this->shouldDropAll(),
             ],
             $seeder ? ['--seeder' => $seeder] : ['--seed' => $this->shouldSeed()],
             $this->setMigrationPaths(),
