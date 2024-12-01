@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelFreelancerNL\Aranguent\Providers;
 
+use LaravelFreelancerNL\Aranguent\Console\WipeCommand;
 use LaravelFreelancerNL\Aranguent\Console\DbCommand;
 use Illuminate\Database\Console\DbCommand as IlluminateDbCommand;
 use LaravelFreelancerNL\Aranguent\Console\ModelMakeCommand;
@@ -21,6 +22,7 @@ class CommandServiceProvider extends ServiceProvider
     protected $commands = [
         'ModelMake' => ModelMakeCommand::class,
         'Db' => DbCommand::class,
+        'DbWipe' => WipeCommand::class,
     ];
 
 
@@ -39,11 +41,19 @@ class CommandServiceProvider extends ServiceProvider
      *
      * @param  string[]  $commands
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ElseExpression)
      */
     protected function registerCommands(array $commands)
     {
-        foreach (array_keys($commands) as $command) {
-            $this->{"register{$command}Command"}();
+        foreach ($commands as $commandName => $command) {
+            $method = "register{$commandName}Command";
+
+            if (method_exists($this, $method)) {
+                $this->{$method}();
+            } else {
+                $this->app->singleton($command);
+            }
         }
 
         $this->commands(array_values($commands));
