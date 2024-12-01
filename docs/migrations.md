@@ -102,3 +102,44 @@ Schema::replaceAnalyzer($name, $type, $properties, $features);
 ```php
 Schema::dropAnalyzer($name);
 ```
+
+## Named Graphs
+Named graphs are predefined managed graphs which feature integrity checks
+compared to anonymous graphs.
+
+You can perform basic CRUD operations through the schema builder to handle named graphs.
+
+### Create a new graph
+```php
+Schema::createGraph($name, $properties, $waitForSync);
+``` 
+
+### Check for graph existence
+```php
+Schema::hasGraph($name);
+``` 
+
+### Get data of existing graph
+```php
+Schema::getGraph($name);
+``` 
+
+### Get all graphs
+```php
+Schema::getAllGraphs();
+``` 
+
+### Delete a graph
+```php
+Schema::dropGraph($name);
+``` 
+
+### Delete a graph if it exists
+```php
+Schema::dropGraphIfExists($name);
+``` 
+
+### Delete all graphs
+```php
+Schema::dropAllGraphs();
+``` 

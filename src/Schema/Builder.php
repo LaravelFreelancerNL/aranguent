@@ -13,6 +13,7 @@ use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesAnalyzers;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesIndexNaming;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesGraphs;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesViews;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\UsesBlueprints;
 
@@ -20,6 +21,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
 {
     use HandlesAnalyzers;
     use HandlesIndexNaming;
+    use HandlesGraphs;
     use HandlesViews;
     use UsesBlueprints;
 
