@@ -7,6 +7,7 @@ namespace LaravelFreelancerNL\Aranguent\Providers;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\MigrationServiceProvider as IlluminateMigrationServiceProvider;
 use LaravelFreelancerNL\Aranguent\Console\Concerns\ArangoCommands;
+use LaravelFreelancerNL\Aranguent\Console\Migrations\FreshCommand;
 use LaravelFreelancerNL\Aranguent\Console\Migrations\MigrationsConvertCommand;
 use LaravelFreelancerNL\Aranguent\Console\Migrations\MigrateMakeCommand;
 use LaravelFreelancerNL\Aranguent\Console\Migrations\MigrateInstallCommand;
@@ -28,6 +29,7 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
         'Repository' => 'migration.repository',
         'MigrateMake' => 'migrate.make',
         'MigrateInstall' => MigrateInstallCommand::class,
+        'MigrateFresh' => FreshCommand::class,
     ];
 
     /**
@@ -51,6 +53,7 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
             $this->commands([
                 MigrateMakeCommand::class,
                 MigrationsConvertCommand::class,
+                FreshCommand::class,
             ]);
         }
     }
@@ -150,6 +153,18 @@ class MigrationServiceProvider extends IlluminateMigrationServiceProvider
     {
         $this->app->singleton($this->commands['MigrationsConvert'], function ($app) {
             return new MigrationsConvertCommand($app['migrator']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMigrateFreshCommand()
+    {
+        $this->app->singleton(FreshCommand::class, function ($app) {
+            return new FreshCommand($app['migrator']);
         });
     }
 
