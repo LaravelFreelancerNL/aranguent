@@ -207,6 +207,16 @@ castAsJson (dummy method)
 ## <a name="database-connection"></a> Database connection
 escape
 
+## Console commands
+The following database related console commands are compatible with vanilla Laravel:
+
+db:monitor / db:seed / db:wipe
+make:migrate / migrate / 
+migrate:fresh / migrate:install / migrate:refresh / migrate:reset / migrate:rollback / migrate:status
+
+### Incompatible console commands
+db:show / db:table
+
 ## <a name="known-incompatibilities"></a> Known incompatibilities
 Not all features can be made compatible. Known issues are listed below:
 

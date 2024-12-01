@@ -63,3 +63,21 @@ test('dropAnalyzerIfExists false', function () {
 
     Schema::dropAnalyzerIfExists('none-existing-analyzer');
 });
+
+test('dropAllAnalyzers', function () {
+    $schemaManager = $this->connection->getArangoClient()->schema();
+
+    $initialAnalyzers = Schema::getAllAnalyzers();
+
+    Schema::createAnalyzer('myAnalyzer1', 'identity');
+    Schema::createAnalyzer('myAnalyzer2', 'identity');
+
+    $totalAnalyzers = Schema::getAllAnalyzers();
+
+    Schema::dropAllAnalyzers();
+
+    $endAnalyzers = Schema::getAllAnalyzers();
+
+    expect(count($initialAnalyzers))->toBe(count($endAnalyzers));
+    expect(count($initialAnalyzers))->toBe(count($totalAnalyzers) - 2);
+});

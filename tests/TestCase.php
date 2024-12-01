@@ -26,7 +26,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected ?ConnectionInterface $connection;
 
-    protected bool $dropViews = true;
+    protected bool $dropAll = true;
 
     protected bool $realPath = true;
 
