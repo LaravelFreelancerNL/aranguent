@@ -28,7 +28,7 @@ test('getView', function () {
     $schemaManager->deleteView('search');
 });
 
-test('getAllViews', function () {
+test('getViews', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
     if (!$schemaManager->hasView('pages')) {
         Schema::createView('pages', []);
@@ -40,7 +40,7 @@ test('getAllViews', function () {
         Schema::createView('search', []);
     }
 
-    $views = Schema::getAllViews();
+    $views = Schema::getViews();
 
     expect($views)->toHaveCount(5);
     expect($views[0]->name)->toBe('house_search_alias_view');

@@ -9,7 +9,7 @@ use TestSetup\Models\Character;
 uses(DatabaseTruncation::class);
 
 test('Ensure all tables are present', function () {
-    $tables = Schema::getAllTables();
+    $tables = Schema::getTables();
 
     expect(count($tables))->toEqual($this->tableCount);
 });

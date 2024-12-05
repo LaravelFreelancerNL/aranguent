@@ -78,23 +78,6 @@ function refreshDatabase()
     ]);
 }
 
-/**
- * The parameters that should be used when running "migrate:fresh".
- *
- * @return array
- */
-//function migrateFreshUsing()
-//{
-//    ray('my migrateFreshUsing Pest.php');
-//    return [
-//        '--realpath' => true,
-//        '--path' => __DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations/',
-//        '--seed' => true,
-//        '--seeder' => DatabaseSeeder::class,
-//    ];
-//}
-
-
 function runCommand($command, $input = [])
 {
     return $command->run(new ArrayInput($input), new NullOutput());

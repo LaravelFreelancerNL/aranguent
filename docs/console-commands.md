@@ -9,6 +9,15 @@ In addition, you have the option to clear the following in ArangoDB:
 * --drop-graphs: drop all named graphs
 * --drop-all: drop all of the above: tables, analyzers, views and graphs
 
+## db:show
+db:show gives you an overview of the current database and its tables.
+In addition to the default Laravel options, you have the following:
+
+* --analyzers: show a list of available analyzers
+* --views: show a list of available views
+* --graphs: show a list of available named graphs
+* --system: include system tables in the table list
+
 ## Migrations
 _**Migrations for ArangoDB use a different Schema blueprint. Therefore, you either need  to run the convert:migrations
 command first, or convert them manually**_

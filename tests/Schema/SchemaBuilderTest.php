@@ -45,10 +45,10 @@ test('rename', function () {
 });
 
 test('drop all tables', function () {
-    $initialTables = Schema::getAllTables();
+    $initialTables = Schema::getTables();
     Schema::dropAllTables();
 
-    $tables = Schema::getAllTables();
+    $tables = Schema::getTables();
 
     expect(count($initialTables))->toEqual($this->tableCount);
     expect(count($tables))->toEqual(0);
@@ -102,7 +102,7 @@ test('get all views', function () {
         Schema::createView('search', []);
     }
 
-    $views = Schema::getAllViews();
+    $views = Schema::getViews();
 
     expect($views)->toHaveCount(5);
     expect($views[0]->name)->toBe('house_search_alias_view');
@@ -226,10 +226,10 @@ test('createAnalyzer', function () {
     $schemaManager->deleteAnalyzer('myAnalyzer');
 });
 
-test('getAllAnalyzers', function () {
+test('getAnalyzers', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
 
-    $analyzers = Schema::getAllAnalyzers();
+    $analyzers = Schema::getAnalyzers();
 
     expect($analyzers)->toHaveCount(13);
 });

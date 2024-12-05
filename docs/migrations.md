@@ -88,19 +88,24 @@ Schema::dropView($viewName);
 ## Analyzers (ArangoSearch)
 You can create, edit or delete an ArangoDB Analyzer.
 
-### New Analyzer
+### New analyzer
 ```php
 Schema::createAnalyzer($name, $type, $properties, $features);
 ``` 
 
-### Replace Analyzer
+### Replace analyzer
 ```php
 Schema::replaceAnalyzer($name, $type, $properties, $features);
 ```
 
-### Delete Analyzer
+### Delete analyzer
 ```php
 Schema::dropAnalyzer($name);
+```
+
+### Delete all analyzers
+```php
+Schema::dropAnalyzers($name);
 ```
 
 ## Named Graphs
@@ -126,7 +131,7 @@ Schema::getGraph($name);
 
 ### Get all graphs
 ```php
-Schema::getAllGraphs();
+Schema::getGraphs();
 ``` 
 
 ### Delete a graph
@@ -141,5 +146,5 @@ Schema::dropGraphIfExists($name);
 
 ### Delete all graphs
 ```php
-Schema::dropAllGraphs();
+Schema::dropGraphs();
 ``` 

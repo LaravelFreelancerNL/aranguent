@@ -62,7 +62,7 @@ trait HandlesAnalyzers
     /**
      * @throws ArangoException
      */
-    public function getAllAnalyzers(): array
+    public function getAnalyzers(): array
     {
         return $this->schemaManager->getAnalyzers();
     }

@@ -37,7 +37,7 @@ trait HandlesGraphs
     /**
      * @throws ArangoException
      */
-    public function getAllGraphs(): array
+    public function getGraphs(): array
     {
         return $this->schemaManager->getGraphs();
     }

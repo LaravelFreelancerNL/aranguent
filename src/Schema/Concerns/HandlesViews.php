@@ -40,7 +40,7 @@ trait HandlesViews
     /**
      * @throws ArangoException
      */
-    public function getAllViews(): array
+    public function getViews(): array
     {
         return $this->schemaManager->getViews();
     }
