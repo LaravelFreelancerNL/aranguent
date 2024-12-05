@@ -27,6 +27,43 @@ class Grammar extends IlluminateGrammar
      * @return Fluent
      * @throws BindException
      */
+    public function compileColumns($table, Fluent $command)
+    {
+        $command->bindings = [
+            '@collection' => $table,
+        ];
+
+        $command->aqb = sprintf(
+            'LET rawColumns = MERGE_RECURSIVE(
+  (
+	FOR doc IN @@collection
+		LET fields = ATTRIBUTES(doc, true, true)
+		FOR field IN fields
+		  RETURN {
+				[field]: {
+				  [TYPENAME(doc[field])]: true
+				}
+		  }
+  )
+)
+FOR column IN ATTRIBUTES(rawColumns)
+  RETURN {
+    name: column,
+    types: ATTRIBUTES(rawColumns[column])
+  }',
+            $table,
+        );
+
+        return $command;
+    }
+    /**
+     * Compile AQL to check if an attribute is in use within a document in the collection.
+     * If multiple attributes are set then all must be set in one document.
+     *
+     * @param string $table
+     * @return Fluent
+     * @throws BindException
+     */
     public function compileHasColumn($table, Fluent $command)
     {
         $attributes = $command->getAttributes();

@@ -7,7 +7,7 @@ test('basic select', function () {
 
     expect($results)->toHaveCount(43);
 
-    expect(count((array) $results[0]))->toBe(9);
+    expect(count((array) $results[0]))->toBe(10);
 });
 
 test('basic select with specific column', function () {
