@@ -12,6 +12,7 @@ use Illuminate\Support\Fluent;
 use LaravelFreelancerNL\Aranguent\Connection;
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesAnalyzers;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesIndexes;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesIndexNaming;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesGraphs;
 use LaravelFreelancerNL\Aranguent\Schema\Concerns\HandlesViews;
@@ -22,6 +23,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
     use HandlesAnalyzers;
     use HandlesIndexNaming;
     use HandlesGraphs;
+    use HandlesIndexes;
     use HandlesViews;
     use UsesBlueprints;
 
@@ -187,6 +189,29 @@ class Builder extends \Illuminate\Database\Schema\Builder
      *
      * @param string $table
      * @param string|string[] $columns
+     * @return array<mixed>
+     */
+    public function getColumns($table)
+    {
+        $parameters = [];
+        $parameters['name'] = 'columns';
+        $parameters['handler'] = 'aql';
+        $parameters['table'] = $table;
+
+        $command = new Fluent($parameters);
+
+        $compilation = $this->grammar->compileColumns($table, $command);
+
+        $rawColumns = $this->connection->select($compilation['aqb'], $compilation['bindings']);
+
+        return $this->mapResultsToArray($rawColumns);
+    }
+
+    /**
+     * Determine if the given table has given columns.
+     *
+     * @param string $table
+     * @param string|string[] $columns
      * @return bool
      */
     public function hasColumns($table, $columns)
@@ -204,29 +229,6 @@ class Builder extends \Illuminate\Database\Schema\Builder
 
         $compilation = $this->grammar->compileHasColumn($table, $command);
         return $this->connection->select($compilation['aqb'])[0];
-    }
-
-    /**
-     * Determine if the given table has a given index.
-     *
-     * @param  string  $table
-     * @param  string|array<string>  $index
-     * @param  string|null  $type
-     * @return bool
-     */
-    public function hasIndex($table, $index, $type = null, array $options = [])
-    {
-        $name = $index;
-
-        if ($type === null) {
-            $type = 'persistent';
-        }
-
-        if (is_array($index)) {
-            $name = $this->createIndexName($type, $index, $options, $table);
-        }
-
-        return !!$this->schemaManager->getIndexByName($table, $name);
     }
 
     /**
@@ -293,6 +295,15 @@ class Builder extends \Illuminate\Database\Schema\Builder
     public function withoutForeignKeyConstraints(Closure $callback)
     {
         return $callback();
+    }
+
+    /**
+     * @param mixed[] $results
+     * @return mixed[]
+     */
+    protected function mapResultsToArray($results)
+    {
+        return array_map(function ($result) { return (array) $result; }, $results);
     }
 
     /**
