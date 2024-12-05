@@ -100,19 +100,32 @@ class Builder extends \Illuminate\Database\Schema\Builder
     /**
      * Get all the tables for the database; excluding ArangoDB system collections
      *
+     * @param string $name
+     * @return array<mixed>
+     *
+     * @throws ArangoException
+     */
+    public function getTable($name): array
+    {
+        return (array) $this->schemaManager->getCollectionStatistics($name);
+    }
+
+    /**
+     * Get all the tables for the database; including ArangoDB system tables
+     *
      * @return array<mixed>
      *
      * @throws ArangoException
      */
     public function getAllTables(): array
     {
-        return $this->schemaManager->getCollections(true);
+        return $this->schemaManager->getCollections(false);
     }
 
     /**
      * Get the tables that belong to the database.
      *
-     * @return array
+     * @return array<mixed>
      * @throws ArangoException
      */
     public function getTables()
@@ -150,7 +163,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     public function dropAllTables(): void
     {
-        $collections = $this->getAllTables();
+        $collections = $this->getTables(true);
 
         foreach ($collections as $name) {
             $this->schemaManager->deleteCollection($name->name);

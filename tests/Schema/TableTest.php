@@ -95,11 +95,11 @@ test('rename', function () {
 });
 
 test('dropAllTables', function () {
-    $initialTables = Schema::getAllTables();
+    $initialTables = Schema::getTables();
 
     Schema::dropAllTables();
 
-    $tables = Schema::getAllTables();
+    $tables = Schema::getTables();
 
     expect(count($initialTables))->toEqual($this->tableCount);
     expect(count($tables))->toEqual(0);
