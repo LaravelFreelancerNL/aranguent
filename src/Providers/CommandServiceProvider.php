@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelFreelancerNL\Aranguent\Providers;
 
+use LaravelFreelancerNL\Aranguent\Console\ShowCommand;
 use LaravelFreelancerNL\Aranguent\Console\WipeCommand;
 use LaravelFreelancerNL\Aranguent\Console\DbCommand;
 use Illuminate\Database\Console\DbCommand as IlluminateDbCommand;
@@ -23,6 +24,7 @@ class CommandServiceProvider extends ServiceProvider
         'ModelMake' => ModelMakeCommand::class,
         'Db' => DbCommand::class,
         'DbWipe' => WipeCommand::class,
+        'DbShow' => ShowCommand::class,
     ];
 
 
