@@ -19,10 +19,10 @@ test('createAnalyzer', function () {
     $schemaManager->deleteAnalyzer('myAnalyzer');
 });
 
-test('getAllAnalyzers', function () {
+test('getAnalyzers', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
 
-    $analyzers = Schema::getAllAnalyzers();
+    $analyzers = Schema::getAnalyzers();
 
     expect($analyzers)->toHaveCount(13);
 });
@@ -67,16 +67,16 @@ test('dropAnalyzerIfExists false', function () {
 test('dropAllAnalyzers', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
 
-    $initialAnalyzers = Schema::getAllAnalyzers();
+    $initialAnalyzers = Schema::getAnalyzers();
 
     Schema::createAnalyzer('myAnalyzer1', 'identity');
     Schema::createAnalyzer('myAnalyzer2', 'identity');
 
-    $totalAnalyzers = Schema::getAllAnalyzers();
+    $totalAnalyzers = Schema::getAnalyzers();
 
     Schema::dropAllAnalyzers();
 
-    $endAnalyzers = Schema::getAllAnalyzers();
+    $endAnalyzers = Schema::getAnalyzers();
 
     expect(count($initialAnalyzers))->toBe(count($endAnalyzers));
     expect(count($initialAnalyzers))->toBe(count($totalAnalyzers) - 2);
