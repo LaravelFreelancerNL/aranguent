@@ -38,17 +38,17 @@ test('graph CRUD', function () {
     expect($graphExists)->toBeFalse();
 });
 
-test('getAllGraphs', function () {
+test('getGraphs', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
 
-    $graphs = Schema::getAllGraphs();
+    $graphs = Schema::getGraphs();
     expect($graphs)->toHaveCount(0);
 
     if (!$schemaManager->hasGraph('myGraph')) {
         createGraph();
     }
 
-    $graphs = Schema::getAllGraphs();
+    $graphs = Schema::getGraphs();
     expect($graphs)->toHaveCount(1);
 });
 
@@ -82,16 +82,16 @@ test('dropGraphIfExists false', function () {
 test('dropAllGraphs', function () {
     $schemaManager = $this->connection->getArangoClient()->schema();
 
-    $initialGraphs = Schema::getAllGraphs();
+    $initialGraphs = Schema::getGraphs();
 
     Schema::createGraph('myGraph1');
     Schema::createGraph('myGraph2');
 
-    $totalGraphs = Schema::getAllGraphs();
+    $totalGraphs = Schema::getGraphs();
 
     Schema::dropAllGraphs();
 
-    $endGraphs = Schema::getAllGraphs();
+    $endGraphs = Schema::getGraphs();
 
     expect(count($initialGraphs))->toBe(count($endGraphs));
     expect(count($initialGraphs))->toBe(count($totalGraphs) - 2);
