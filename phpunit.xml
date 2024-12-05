@@ -30,7 +30,7 @@
   <php>
     <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
     <env name="ARANGODB_VERSION" value="3.12"/>
-    <env name="DB_ENDPOINT" value="https://localhost:8529"/>
+    <env name="DB_ENDPOINT" value="http://localhost:8529"/>
     <env name="LARAVEL_VERSION" value="11"/>
     <env name="RAY_ENABLED" value="(true)"/>
     <env name="SEND_CACHE_TO_RAY" value="(false)"/>
