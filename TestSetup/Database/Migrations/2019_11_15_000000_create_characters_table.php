@@ -14,7 +14,22 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('characters', function (Blueprint $collection) {});
+        Schema::create(
+            'characters',
+            function (Blueprint $collection) {},
+            [
+                'computedValues' => [
+                    [
+                        'name' => 'full_name',
+                        'expression' => "RETURN CONCAT_SEPARATOR(' ', @doc.name, @doc.surname)",
+                        'overwrite' => true,
+                        'computeOn' => ["insert"],
+                        'failOnWarning' => false,
+                        'keepNull' => true,
+                    ],
+                ],
+            ],
+        );
     }
 
     /**
