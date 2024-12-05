@@ -18,6 +18,11 @@ In addition to the default Laravel options, you have the following:
 * --graphs: show a list of available named graphs
 * --system: include system tables in the table list
 
+## db:table
+db:table gives you an overview of the selected table. With ArangoDB specific information.
+
+The new --system option allows you to select a system table as well.
+
 ## Migrations
 _**Migrations for ArangoDB use a different Schema blueprint. Therefore, you either need  to run the convert:migrations
 command first, or convert them manually**_
