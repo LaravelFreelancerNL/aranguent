@@ -289,6 +289,10 @@ trait CompilesColumns
     {
         assert($query instanceof Builder);
 
+        if (!is_array($query->joins)) {
+            return $returnDocs;
+        }
+
         foreach ($query->joins as $join) {
             $tableAlias = $query->getTableAlias($join->table);
 
