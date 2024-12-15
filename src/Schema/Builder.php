@@ -121,7 +121,9 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     public function getAllTables(): array
     {
-        return $this->schemaManager->getCollections(false);
+        return $this->mapResultsToArray(
+            $this->schemaManager->getCollections(false),
+        );
     }
 
     /**
@@ -132,7 +134,9 @@ class Builder extends \Illuminate\Database\Schema\Builder
      */
     public function getTables()
     {
-        return $this->schemaManager->getCollections(true);
+        return $this->mapResultsToArray(
+            $this->schemaManager->getCollections(true),
+        );
     }
 
     /**
@@ -168,7 +172,7 @@ class Builder extends \Illuminate\Database\Schema\Builder
         $collections = $this->getTables(true);
 
         foreach ($collections as $name) {
-            $this->schemaManager->deleteCollection($name->name);
+            $this->schemaManager->deleteCollection($name['name']);
         }
     }
 

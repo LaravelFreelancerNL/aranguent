@@ -119,7 +119,7 @@ class ShowCommand extends IlluminateShowCommand
         // Get per table statistics
         $tableStats = [];
         foreach ($tables as $table) {
-            $tableStats[] = $schema->getTable($table->name);
+            $tableStats[] = $schema->getTable($table['name']);
         }
 
         return collect($tableStats)->map(fn($table) => [
@@ -148,8 +148,8 @@ class ShowCommand extends IlluminateShowCommand
 
         return collect($schema->getViews())
             ->map(fn($view) => [
-                'name' => $view->name,
-                'type' => $view->type,
+                'name' => $view['name'],
+                'type' => $view['type'],
             ]);
     }
 
@@ -163,8 +163,8 @@ class ShowCommand extends IlluminateShowCommand
     {
         return collect($schema->getAnalyzers())
             ->map(fn($analyzer) => [
-                'name' => $analyzer->name,
-                'type' => $analyzer->type,
+                'name' => $analyzer['name'],
+                'type' => $analyzer['type'],
             ]);
     }
 
@@ -178,8 +178,8 @@ class ShowCommand extends IlluminateShowCommand
     {
         return collect($schema->getGraphs())
             ->map(fn($graph) => [
-                'name' => $graph->name,
-                'edgeDefinitions' => count($graph->edgeDefinitions),
+                'name' => $graph['name'],
+                'edgeDefinitions' => count($graph['edgeDefinitions']),
             ]);
     }
 

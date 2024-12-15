@@ -23,11 +23,13 @@ trait HandlesViews
     }
 
     /**
+     * @param string $name
+     * @return mixed[]
      * @throws ArangoException
      */
-    public function getView(string $name): \stdClass
+    public function getView(string $name): array
     {
-        return $this->schemaManager->getView($name);
+        return (array) $this->schemaManager->getView($name);
     }
 
     public function hasView($view)
@@ -38,11 +40,14 @@ trait HandlesViews
     }
 
     /**
+     * @return mixed[]
      * @throws ArangoException
      */
     public function getViews(): array
     {
-        return $this->schemaManager->getViews();
+        return $this->mapResultsToArray(
+            $this->schemaManager->getViews(),
+        );
     }
 
     /**
