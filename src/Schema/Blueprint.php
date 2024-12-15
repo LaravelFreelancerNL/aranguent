@@ -9,9 +9,9 @@ use Closure;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Traits\Macroable;
 use LaravelFreelancerNL\Aranguent\Connection;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Columns;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Indexes;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Tables;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\ColumnCommands;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\IndexCommands;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\TableCommands;
 
 /**
  * Class Blueprint.
@@ -28,9 +28,9 @@ use LaravelFreelancerNL\Aranguent\Schema\Concerns\Tables;
 class Blueprint
 {
     use Macroable;
-    use Tables;
-    use Columns;
-    use Indexes;
+    use TableCommands;
+    use ColumnCommands;
+    use IndexCommands;
 
     /**
      * The connection that is used by the blueprint.
@@ -275,6 +275,8 @@ class Blueprint
             'unsignedBigInteger', 'unsignedDecimal', 'unsignedInteger', 'unsignedMediumInteger', 'unsignedSmallInteger',
             'unsignedTinyInteger', 'uuid', 'year',
         ];
+
+        $keyMethods = ['bigIncrements', 'increments', 'mediumIncrements', ];
 
         if (in_array($method, $columnMethods)) {
             if (isset($args[0]) && is_string($args[0])) {

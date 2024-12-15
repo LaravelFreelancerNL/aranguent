@@ -6,7 +6,7 @@ namespace LaravelFreelancerNL\Aranguent\Schema\Concerns;
 
 use Illuminate\Support\Fluent;
 
-trait Tables
+trait TableCommands
 {
     /**
      * Indicate that the table needs to be created.
