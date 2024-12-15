@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LaravelFreelancerNL\Aranguent\Providers;
 
 use LaravelFreelancerNL\Aranguent\Console\ShowCommand;
+use LaravelFreelancerNL\Aranguent\Console\ShowModelCommand;
 use LaravelFreelancerNL\Aranguent\Console\TableCommand;
 use LaravelFreelancerNL\Aranguent\Console\WipeCommand;
 use LaravelFreelancerNL\Aranguent\Console\DbCommand;
@@ -27,6 +28,7 @@ class CommandServiceProvider extends ServiceProvider
         'DbWipe' => WipeCommand::class,
         'DbShow' => ShowCommand::class,
         'DbTable' => TableCommand::class,
+        'ShowModel' => ShowModelCommand::class,
     ];
 
 
@@ -63,17 +65,17 @@ class CommandServiceProvider extends ServiceProvider
         $this->commands(array_values($commands));
     }
 
-    protected function registerModelMakeCommand(): void
-    {
-        $this->app->singleton(ModelMakeCommand::class, function ($app) {
-            return new ModelMakeCommand($app['files']);
-        });
-    }
-
     protected function registerDbCommand(): void
     {
         $this->app->extend(IlluminateDbCommand::class, function () {
             return new DbCommand();
+        });
+    }
+
+    protected function registerModelMakeCommand(): void
+    {
+        $this->app->singleton(ModelMakeCommand::class, function ($app) {
+            return new ModelMakeCommand($app['files']);
         });
     }
 
