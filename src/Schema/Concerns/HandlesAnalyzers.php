@@ -45,11 +45,13 @@ trait HandlesAnalyzers
     }
 
     /**
+     * @param string $name
+     * @return mixed[]
      * @throws ArangoException
      */
-    public function getAnalyzer(string $name): \stdClass
+    public function getAnalyzer(string $name): array
     {
-        return $this->schemaManager->getAnalyzer($name);
+        return (array) $this->schemaManager->getAnalyzer($name);
     }
 
     public function hasAnalyzer(string $analyzer): bool
@@ -64,7 +66,9 @@ trait HandlesAnalyzers
      */
     public function getAnalyzers(): array
     {
-        return $this->schemaManager->getAnalyzers();
+        return $this->mapResultsToArray(
+            $this->schemaManager->getAnalyzers(),
+        );
     }
 
     /**

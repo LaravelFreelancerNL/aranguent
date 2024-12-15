@@ -160,9 +160,7 @@ trait BuildsGroups
      */
     public function havingNested(Closure $callback, $boolean = 'and')
     {
-        $callback($query = $this->forNestedWhere($this->groups));
-
-
+        $callback($query = $this->forNestedWhere($this->groups ?? []));
 
         return $this->addNestedHavingQuery($query, $boolean);
     }
@@ -176,7 +174,7 @@ trait BuildsGroups
      */
     public function addNestedHavingQuery($query, $boolean = 'and')
     {
-        if (count($query->havings)) {
+        if (count($query->havings ?? [])) {
             $type = 'Nested';
 
             $this->havings[] = compact('type', 'query', 'boolean');

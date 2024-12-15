@@ -23,7 +23,7 @@ test('getView', function () {
     }
     $view = Schema::getView('search');
 
-    expect($view->name)->toEqual('search');
+    expect($view['name'])->toEqual('search');
 
     $schemaManager->deleteView('search');
 });
@@ -43,11 +43,11 @@ test('getViews', function () {
     $views = Schema::getViews();
 
     expect($views)->toHaveCount(5);
-    expect($views[0]->name)->toBe('house_search_alias_view');
-    expect($views[1]->name)->toBe('house_view');
-    expect($views[2]->name)->toBe('pages');
-    expect($views[3]->name)->toBe('products');
-    expect($views[4]->name)->toBe('search');
+    expect($views[0]['name'])->toBe('house_search_alias_view');
+    expect($views[1]['name'])->toBe('house_view');
+    expect($views[2]['name'])->toBe('pages');
+    expect($views[3]['name'])->toBe('products');
+    expect($views[4]['name'])->toBe('search');
 
     $schemaManager->deleteView('search');
     $schemaManager->deleteView('pages');

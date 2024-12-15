@@ -6,7 +6,9 @@ namespace LaravelFreelancerNL\Aranguent;
 
 use Illuminate\Support\ServiceProvider;
 use LaravelFreelancerNL\Aranguent\Eloquent\Model;
+use LaravelFreelancerNL\Aranguent\Eloquent\ModelInspector;
 use LaravelFreelancerNL\Aranguent\Schema\Grammar as SchemaGrammar;
+use Illuminate\Database\Eloquent\ModelInspector as IlluminateModelInspector;
 
 class AranguentServiceProvider extends ServiceProvider
 {
@@ -56,6 +58,10 @@ class AranguentServiceProvider extends ServiceProvider
 
         $this->app->singleton(\Illuminate\Database\Migrations\Migrator::class, function ($app) {
             return $app['migrator'];
+        });
+
+        $this->app->extend(IlluminateModelInspector::class, function () {
+            return new ModelInspector($this->app);
         });
 
         $this->app->resolving(

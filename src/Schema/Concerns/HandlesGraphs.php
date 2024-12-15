@@ -27,19 +27,24 @@ trait HandlesGraphs
     }
 
     /**
+     * @param string $name
+     * @return mixed[]
      * @throws ArangoException
      */
-    public function getGraph(string $name): \stdClass
+    public function getGraph(string $name): array
     {
-        return $this->schemaManager->getGraph($name);
+        return (array) $this->schemaManager->getGraph($name);
     }
 
     /**
+     * @return mixed[]
      * @throws ArangoException
      */
     public function getGraphs(): array
     {
-        return $this->schemaManager->getGraphs();
+        return $this->mapResultsToArray(
+            $this->schemaManager->getGraphs(),
+        );
     }
 
     /**

@@ -50,7 +50,7 @@ class TableCommand extends IlluminateTableCommand
                 ? $schema->getAllTables()
                 : $schema->getTables(),
         )
-            ->keyBy(fn($table) => (string) $table->name)
+            ->keyBy(fn($table) => (string) $table['name'])
             ->all();
 
         $tableName = (string) $this->argument('table') ?: select(
@@ -178,7 +178,7 @@ class TableCommand extends IlluminateTableCommand
             $columns->each(function ($column) {
                 $this->components->twoColumnDetail(
                     $column['name'],
-                    implode(', ', $column['types']),
+                    implode(', ', $column['type']),
                 );
             });
             $this->components->info('ArangoDB is schemaless by default. Hence, the column & types are a representation of current data within the table.');

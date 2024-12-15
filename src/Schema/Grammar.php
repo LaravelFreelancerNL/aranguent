@@ -6,6 +6,7 @@ namespace LaravelFreelancerNL\Aranguent\Schema;
 
 use Illuminate\Database\Schema\Grammars\Grammar as IlluminateGrammar;
 use Illuminate\Support\Fluent;
+use LaravelFreelancerNL\FluentAQL\Exceptions\BindException;
 use LaravelFreelancerNL\FluentAQL\QueryBuilder;
 
 class Grammar extends IlluminateGrammar
@@ -35,22 +36,22 @@ class Grammar extends IlluminateGrammar
 
         $command->aqb = sprintf(
             'LET rawColumns = MERGE_RECURSIVE(
-  (
-	FOR doc IN @@collection
-		LET fields = ATTRIBUTES(doc, true, true)
-		FOR field IN fields
-		  RETURN {
-				[field]: {
-				  [TYPENAME(doc[field])]: true
-				}
-		  }
-  )
-)
-FOR column IN ATTRIBUTES(rawColumns)
-  RETURN {
-    name: column,
-    types: ATTRIBUTES(rawColumns[column])
-  }',
+              (
+                FOR doc IN @@collection
+                    LET fields = ATTRIBUTES(doc, true, true)
+                    FOR field IN fields
+                      RETURN {
+                            [field]: {
+                              [TYPENAME(doc[field])]: true
+                            }
+                      }
+              )
+            )
+            FOR column IN ATTRIBUTES(rawColumns)
+              RETURN {
+                name: column,
+                type: ATTRIBUTES(rawColumns[column])
+              }',
             $table,
         );
 

@@ -18,13 +18,19 @@ trait CompilesUnions
      */
     protected function compileUnions(IlluminateBuilder $query, $firstQuery = '')
     {
+        if (!is_array($query->unions)) {
+            return '';
+        }
+
         $unionResultsId = 'union' . $query->getQueryId() . 'Results';
         $unionDocId = 'union' . $query->getQueryId() . 'Result';
 
         $query->registerTableAlias($unionResultsId, $unionDocId);
 
         $firstQuery = $this->wrapSubquery($firstQuery);
+
         $unions = '';
+
         foreach ($query->unions as $union) {
             $prefix = ($unions !== '') ? $unions : $firstQuery;
             $unions = $this->compileUnion($union, $prefix);
