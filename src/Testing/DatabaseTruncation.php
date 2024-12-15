@@ -37,4 +37,14 @@ trait DatabaseTruncation
 
         return $results;
     }
+
+    /**
+     * Determine if a table exists in the given list, with or without its schema.
+     */
+    protected function tableExistsIn(array $table, array $tables): bool
+    {
+        return isset($table['schema'])
+            ? ! empty(array_intersect([$table['name'], $table['schema'] . '.' . $table['name']], $tables))
+            : in_array($table['name'], $tables);
+    }
 }
