@@ -24,8 +24,8 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "composer/composer": "^2.7.0",
-        "laravel-freelancer-nl/arangodb-php-client": "^2.7.0",
+        "composer/composer": "^2.8.0",
+        "laravel-freelancer-nl/arangodb-php-client": "^2.8.0",
         "laravel-freelancer-nl/fluentaql": "^2.0",
         "laravel/framework": "^11.0",
         "spatie/laravel-data": "^4.4.0",

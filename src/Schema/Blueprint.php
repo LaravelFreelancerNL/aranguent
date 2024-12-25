@@ -9,9 +9,9 @@ use Closure;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Traits\Macroable;
 use LaravelFreelancerNL\Aranguent\Connection;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Columns;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Indexes;
-use LaravelFreelancerNL\Aranguent\Schema\Concerns\Tables;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\ColumnCommands;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\IndexCommands;
+use LaravelFreelancerNL\Aranguent\Schema\Concerns\TableCommands;
 
 /**
  * Class Blueprint.
@@ -28,9 +28,9 @@ use LaravelFreelancerNL\Aranguent\Schema\Concerns\Tables;
 class Blueprint
 {
     use Macroable;
-    use Tables;
-    use Columns;
-    use Indexes;
+    use TableCommands;
+    use ColumnCommands;
+    use IndexCommands;
 
     /**
      * The connection that is used by the blueprint.
@@ -282,26 +282,14 @@ class Blueprint
             }
         }
 
-        $autoIncrementMethods = ['increments', 'autoIncrement'];
-        if (in_array($method, $autoIncrementMethods)) {
-            $this->setKeyGenerator('autoincrement');
-        }
-
-        if ($method === 'uuid') {
-            $this->setKeyGenerator('uuid');
+        $keyMethods = ['autoIncrement', 'bigIncrements', 'increments', 'mediumIncrements', 'tinyIncrements', 'uuid'];
+        if (in_array($method, $keyMethods)) {
+            $this->handleKeyCommands($method, $args);
         }
 
         $this->ignoreMethod($method);
 
         return $this;
-    }
-
-    protected function setKeyGenerator(string $generator = 'traditional'): void
-    {
-        $column = end($this->columns);
-        if ($column === '_key' || $column === 'id') {
-            $this->keyGenerator = $generator;
-        }
     }
 
     protected function ignoreMethod(string $method)
@@ -317,5 +305,27 @@ class Blueprint
         return array_map(function ($value) {
             return $value === 'id' ? '_key' : $value;
         }, $fields);
+    }
+
+    /**
+     * @param mixed[] $options
+     * @return mixed[]
+     */
+    protected function setKeyOptions($tableOptions)
+    {
+        $configuredKeyOptions = config('arangodb.schema.keyOptions');
+
+        $columnOptions = [];
+        $columnOptions['type'] = $this->keyGenerator;
+
+        $mergedKeyOptions = (config('arangodb.schema.key_handling.prioritize_configured_key_type'))
+            ? array_merge($columnOptions, $configuredKeyOptions, $tableOptions)
+            : array_merge($configuredKeyOptions, $columnOptions, $tableOptions);
+
+        if ($mergedKeyOptions['type'] === 'autoincrement' && $this->incrementOffset !== 0) {
+            $mergedKeyOptions['offset'] = $this->incrementOffset;
+        }
+
+        return $mergedKeyOptions;
     }
 }

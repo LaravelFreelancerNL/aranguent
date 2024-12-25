@@ -16,7 +16,11 @@ return new class extends Migration {
     {
         Schema::create('taggables', function (Blueprint $collection) {
             //
-        });
+        }, [
+            'keyOptions' => [
+                'type' => 'padded',
+            ],
+        ]);
     }
 
     /**

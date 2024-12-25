@@ -5,7 +5,7 @@ namespace LaravelFreelancerNL\Aranguent\Schema\Concerns;
 use ArangoClient\Exceptions\ArangoException;
 use Illuminate\Support\Fluent;
 
-trait Indexes
+trait IndexCommands
 {
     use HandlesIndexNaming;
 

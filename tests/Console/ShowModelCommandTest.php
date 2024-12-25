@@ -24,3 +24,21 @@ test('model:show \\TestSetup\\Models\\Character --json', function () {
         ->expectsOutputToContain('computed')
         ->assertSuccessful();
 });
+
+test('model:show \\TestSetup\\Models\\Child', function () {
+    $this->artisan('model:show', ['model' => '\\TestSetup\\Models\\Child'])
+        ->expectsOutputToContain('arangodb')
+        ->expectsOutputToContain('children')
+        ->expectsOutputToContain('traditional')
+        ->doesntExpectOutput('computed')
+        ->assertSuccessful();
+});
+
+test('model:show \\TestSetup\\Models\\House', function () {
+    $this->artisan('model:show', ['model' => '\\TestSetup\\Models\\House'])
+        ->expectsOutputToContain('arangodb')
+        ->expectsOutputToContain('houses')
+        ->expectsOutputToContain('traditional')
+        ->doesntExpectOutput('computed')
+        ->assertSuccessful();
+});

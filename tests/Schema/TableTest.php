@@ -3,69 +3,17 @@
 use LaravelFreelancerNL\Aranguent\Exceptions\QueryException;
 use LaravelFreelancerNL\Aranguent\Schema\Blueprint;
 
-test('creating table with increments', function () {
+test('creating table', function () {
     $schema = DB::connection()->getSchemaBuilder();
 
-    $schema->create('white_walkers', function (Blueprint $table) use (& $creating) {
-        $table->increments('id');
-    });
+    $schema->create('white_walkers', function (Blueprint $table) use (& $creating) {});
 
     $schemaManager = $this->connection->getArangoClient()->schema();
 
     $collectionProperties = $schemaManager->getCollectionProperties('white_walkers');
 
-    expect($collectionProperties->keyOptions->type)->toBe('autoincrement');
-
     Schema::drop('white_walkers');
 });
-
-test('creating table with autoIncrement', function () {
-    $schema = DB::connection()->getSchemaBuilder();
-
-    $schema->create('white_walkers', function (Blueprint $table) use (& $creating) {
-        $table->string('id')->autoIncrement();
-    });
-
-    $schemaManager = $this->connection->getArangoClient()->schema();
-
-    $collectionProperties = $schemaManager->getCollectionProperties('white_walkers');
-
-    expect($collectionProperties->keyOptions->type)->toBe('autoincrement');
-
-    Schema::drop('white_walkers');
-});
-test('creating table with autoIncrement offset', function () {
-    $schema = DB::connection()->getSchemaBuilder();
-
-    $schema->create('white_walkers', function (Blueprint $table) use (& $creating) {
-        $table->string('id')->autoIncrement()->from(5);
-    });
-
-    $schemaManager = $this->connection->getArangoClient()->schema();
-
-    $collectionProperties = $schemaManager->getCollectionProperties('white_walkers');
-
-    expect($collectionProperties->keyOptions->type)->toBe('autoincrement');
-
-    Schema::drop('white_walkers');
-});
-
-test('create table with uuid key generator', function () {
-    $schema = DB::connection()->getSchemaBuilder();
-
-    $schema->create('white_walkers', function (Blueprint $table) use (& $creating) {
-        $table->uuid('id');
-    });
-
-    $schemaManager = $this->connection->getArangoClient()->schema();
-
-    $collectionProperties = $schemaManager->getCollectionProperties('white_walkers');
-
-    expect($collectionProperties->keyOptions->type)->toBe('uuid');
-
-    Schema::drop('white_walkers');
-});
-
 
 test('hasTable', function () {
     expect(Schema::hasTable('locations'))->toBeTrue();

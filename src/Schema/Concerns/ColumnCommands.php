@@ -6,7 +6,7 @@ namespace LaravelFreelancerNL\Aranguent\Schema\Concerns;
 
 use Illuminate\Support\Fluent;
 
-trait Columns
+trait ColumnCommands
 {
     /**
      * Indicate that the given attributes should be renamed.
