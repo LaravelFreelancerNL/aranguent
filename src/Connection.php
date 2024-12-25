@@ -27,7 +27,10 @@ class Connection extends IlluminateConnection
     use ManagesTransactions;
     use RunsQueries;
 
-    protected ?ArangoClient $arangoClient = null;
+    /**
+     * @var ArangoClient|null
+     */
+    protected $arangoClient;
 
     /**
      * The ArangoDB driver name.
