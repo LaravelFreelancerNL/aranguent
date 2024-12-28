@@ -123,6 +123,41 @@ trait CompilesDataManipulations
     }
 
     /**
+     * Compile an insert statement using a subquery into SQL.
+     *
+     * @param  IlluminateQueryBuilder  $query
+     * @param  array<mixed>  $columns
+     * @param  string  $sql
+     * @return string
+     */
+    public function compileInsertOrIgnoreUsing(IlluminateQueryBuilder $query, array $columns, string $sql)
+    {
+        $table = $this->wrapTable($query->from);
+
+        $insertDoc = '';
+        if (empty($columns) || $columns === ['*']) {
+            $insertDoc = 'docDoc';
+        }
+
+
+        if ($insertDoc === '') {
+            $insertValues = [];
+            foreach ($columns as $column) {
+                $insertValues[$column] = $this->normalizeColumnReferences($query, $column, 'docs');
+            }
+            $insertDoc = $this->generateAqlObject($insertValues);
+        }
+
+        $aql = /** @lang AQL */ 'LET docs = ' . $sql
+            . ' FOR docDoc IN docs'
+            . ' INSERT ' . $insertDoc . ' INTO ' . $table
+            . ' OPTIONS { ignoreErrors: true }'
+            . ' RETURN NEW._key';
+
+        return $aql;
+    }
+
+    /**
      * @param array<mixed> $values
      * @return string
      */

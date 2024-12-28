@@ -136,3 +136,30 @@ test('insertUsing', function () {
 
     expect($user->surname)->toBe('Baelish');
 });
+
+test('insertOrIgnoreUsing', function () {
+    // Let's give Baelish a user, what could possibly go wrong? Everyone trusts him...
+    $baelishes = DB::table('characters')
+        ->where('surname', 'Baelish');
+
+    DB::table('users')->insertOrIgnoreUsing(['name', 'surname'], $baelishes);
+
+    $user = DB::table('users')->where("surname", "=", "Baelish")->first();
+
+    expect($user->surname)->toBe('Baelish');
+});
+
+test("insertOrIgnoreUsing doesn't error on duplicates", function () {
+    // Let's give Baelish a user, what could possibly go wrong? Everyone trusts him...
+    $baelish = DB::table('characters')
+        ->where('surname', 'Baelish');
+
+    DB::table('users')->insertUsing(['name', 'surname'], $baelish);
+
+    // Let's do it again.
+    DB::table('users')->insertOrIgnoreUsing(['name', 'surname'], $baelish);
+
+    $user = DB::table('users')->where("surname", "=", "Baelish")->first();
+
+    expect($user->surname)->toBe('Baelish');
+})->only();
