@@ -29,6 +29,7 @@ trait CompilesJoins
 
                 return [$table, $alias];
             }
+
         }
 
         $table = (string) $this->wrapTable($join->table);

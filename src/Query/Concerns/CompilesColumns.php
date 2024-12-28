@@ -172,7 +172,6 @@ trait CompilesColumns
 
         $references = explode('.', $column);
 
-
         $tableAlias = $query->getTableAlias($references[0]);
 
         if (isset($tableAlias)) {
@@ -184,6 +183,7 @@ trait CompilesColumns
             array_unshift($references, $tableAlias);
         }
 
+        // geen tableAlias, table is parent...waarom geen tableAlias?
         if ($tableAlias === null  && array_key_exists($table, $query->tableAliases)) {
             array_unshift($references, $query->tableAliases[$table]);
         }

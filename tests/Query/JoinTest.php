@@ -110,3 +110,44 @@ test('leftJoinSub with selection of attributes', function () {
         'coordinate',
     ]);
 });
+
+test('joinLateral', function () {
+    $controlledLocations = DB::table('locations')
+        ->whereColumn('locations.led_by', '==', 'characters.id')
+        ->limit(3);
+
+    $leadingLadies = DB::table('characters')
+        ->joinLateral(
+            $controlledLocations,
+            'controlled_territory',
+        )
+        ->orderBy('name')
+        ->get();
+
+    expect($leadingLadies)->toHaveCount(6);
+});
+
+
+test('joinLateral with selected fields', function () {
+    $controlledLocations = DB::table('locations')
+        ->select('id as location_id', 'name as location_name')
+        ->whereColumn('locations.led_by', '==', 'characters.id')
+        ->orderBy('name')
+        ->limit(3);
+
+    $leadingLadies = DB::table('characters')
+        ->select('id', 'name', 'controlled_territory.location_name as territory_name')
+        ->joinLateral(
+            $controlledLocations,
+            'controlled_territory',
+        )
+        ->orderBy('name')
+        ->get();
+
+    expect($leadingLadies)->toHaveCount(6);
+
+    expect(($leadingLadies[1])->name)->toBe('Cersei');
+    expect(($leadingLadies[2])->name)->toBe('Daenerys');
+    expect(($leadingLadies[2])->territory_name)->toBe('Astapor');
+    expect(($leadingLadies[5])->name)->toBe('Sansa');
+});

@@ -182,4 +182,28 @@ trait BuildsJoins
         return new JoinClause($parentQuery, $type, $table);
     }
 
+    /**
+     * Add a lateral join clause to the query.
+     *
+     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string  $query
+     * @param  string  $as
+     * @param  string  $type
+     * @return $this
+     */
+    public function joinLateral($query, string $as, string $type = 'inner')
+    {
+        assert($query instanceof Builder);
+
+        $query->importTableAliases($this);
+        $query->importTableAliases([$as => $as]);
+        $this->importTableAliases($query);
+
+        [$query] = $this->createSub($query);
+
+        $expression = $query . ' as ' . $this->grammar->wrapTable($as);
+
+        $this->joins[] = $this->newJoinLateralClause($this, $type, new Expression($expression));
+
+        return $this;
+    }
 }
