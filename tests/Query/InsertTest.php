@@ -162,4 +162,4 @@ test("insertOrIgnoreUsing doesn't error on duplicates", function () {
     $user = DB::table('users')->where("surname", "=", "Baelish")->first();
 
     expect($user->surname)->toBe('Baelish');
-})->only();
+});
