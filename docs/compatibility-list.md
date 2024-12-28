@@ -65,7 +65,7 @@ Union orders / Union aggregates / Union groupBy
 Expression / raw
 
 ### Joins
-crossJoin / join / joinSub? / leftJoin / leftJoinSub?
+crossJoin / join / joinSub / lateralJoin / leftJoin / leftJoinSub
 
 #### Unsupported join clauses
 rightJoin / rightJoinSub / joinWhere?
@@ -103,7 +103,7 @@ limit / offset / take / skip
 when
 
 ### Insert statements
-insert / insertOrIgnore / insertUsing / insertGetId
+insert / insertOrIgnore / insertUsing / insertOrIgnoreUsing / insertGetId
 
 ### Update statements
 update / updateOrInsert / upsert /
@@ -183,14 +183,14 @@ updateExistingPivot /
 
 ## <a name="artisan"></a> Artisan commands
 The following database-related artisan commands are supported:
-make:model / db / db:wipe / 
-make:migration / migrate:install / migrate /
+db / db:monitor / db:show / db:table / db:wipe /
+make:migration / make:model / migrate:install / migrate /
 migrate:fresh / migrate:refresh / migrate:reset / migrate:rollback / 
 migrate:status / convert:migrations 
 
 The following database-related artisan commands are NOT support at this time:
 
-db:monitor / db:show / db:table / schema:dump
+schema:dump
 
 ## <a name="testing"></a> Testing
 
@@ -206,16 +206,6 @@ castAsJson (dummy method)
 
 ## <a name="database-connection"></a> Database connection
 escape
-
-## Console commands
-The following database related console commands are compatible with vanilla Laravel:
-
-db:monitor / db:seed / db:wipe
-make:migrate / migrate / 
-migrate:fresh / migrate:install / migrate:refresh / migrate:reset / migrate:rollback / migrate:status
-
-### Incompatible console commands
-db:show / db:table
 
 ## <a name="known-incompatibilities"></a> Known incompatibilities
 Not all features can be made compatible. Known issues are listed below:
@@ -241,8 +231,9 @@ These methods don't work as ArangoDB requires you to declare the locking mechani
 ### Raw SQL
 Any raw SQL needs to be replaced by raw AQL.
 
-### Separate read and write connections
-Aranguent currently doesn't support the combination of a separate read and write connection  
+### Database replication: separate read and write connections
+ArangoDB offers a cluster setup for high availability instead of replication and as such
+doesn't support the combination of a separate read and write connection.  
 
 ### Transactions
 [At the beginning of a transaction you must declare collections that are used in (write) statements.](transactions.md)
