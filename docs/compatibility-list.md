@@ -58,9 +58,6 @@ groupByRaw
 ### Unions
 union / unionAll
 
-#### Unsupported union clauses
-Union orders / Union aggregates / Union groupBy
-
 ### Expressions
 Expression / raw
 
@@ -68,7 +65,7 @@ Expression / raw
 crossJoin / join / joinSub / lateralJoin / leftJoin / leftJoinSub
 
 #### Unsupported join clauses
-rightJoin / rightJoinSub / joinWhere?
+rightJoin / rightJoinSub / rightJoinWhere / joinWhere? / leftJoinWhere?
 
 ### Where clauses
 where / orWhere / whereNot / orWhereNot / whereColumn / whereExists
