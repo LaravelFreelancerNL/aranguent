@@ -109,7 +109,7 @@ class ShowModelCommand extends IlluminateShowModelCommand
                 '%s %s',
                 $attribute['name'],
                 collect(['computed', 'increments', 'unique', 'nullable', 'fillable', 'hidden', 'appended'])
-                    ->filter(fn($property) => $attribute[$property])
+                    ->filter(fn($property) => (isset($attribute[$property])) ? $attribute[$property] : false)
                     ->map(fn($property) => sprintf('<fg=gray>%s</>', $property))
                     ->implode('<fg=gray>,</> '),
             ));

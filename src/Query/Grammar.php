@@ -175,6 +175,10 @@ class Grammar extends IlluminateQueryGrammar
                 continue;
             }
 
+            if ($component === 'aggregate' && $query->unions !== null) {
+                continue;
+            }
+
             if (isset($query->$component)) {
                 $method = 'compile' . ucfirst($component);
 
@@ -202,7 +206,7 @@ class Grammar extends IlluminateQueryGrammar
         // can build the query and concatenate all the pieces together as one.
         $original = $query->columns;
 
-        if (empty($query->columns)) {
+        if (empty($query->columns) || $query->unions !== null) {
             $query->columns = ['*'];
         }
 
@@ -216,14 +220,11 @@ class Grammar extends IlluminateQueryGrammar
             ),
         );
 
-        //        if ($query->unions && $query->aggregate) {
-        //            return $this->compileUnionAggregate($query);
-        //        }
+        $query->columns = $original;
+
         if ($query->unions) {
             return $this->compileUnions($query, $aql);
         }
-
-        $query->columns = $original;
 
         if ($query->groupVariables !== null) {
             $query->cleanGroupVariables();
