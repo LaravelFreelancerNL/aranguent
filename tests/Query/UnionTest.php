@@ -77,3 +77,63 @@ test('union limit offset', function () {
     expect(($results->first())->name)->toBe('Robert');
     expect(($results->last())->name)->toBe('Roose');
 });
+
+test('union aggregate average', function () {
+    $charactersWithoutAge = DB::table('characters')
+        ->where('surname', 'Stark');
+
+    $averageAge = DB::table('characters')
+        ->where('surname', 'Lannister')
+        ->union($charactersWithoutAge)
+        ->avg('age');
+
+    expect($averageAge)->toBe(27.375);
+});
+
+test('union aggregate count', function () {
+    $charactersWithoutAge = DB::table('characters')
+        ->where('surname', 'Stark');
+
+    $averageAge = DB::table('characters')
+        ->where('surname', 'Lannister')
+        ->union($charactersWithoutAge)
+        ->count();
+
+    expect($averageAge)->toBe(10);
+});
+
+test('union aggregate min', function () {
+    $charactersWithoutAge = DB::table('characters')
+        ->where('surname', 'Stark');
+
+    $averageAge = DB::table('characters')
+        ->where('surname', 'Lannister')
+        ->union($charactersWithoutAge)
+        ->min('age');
+
+    expect($averageAge)->toBe(10);
+});
+
+test('union aggregate max', function () {
+    $charactersWithoutAge = DB::table('characters')
+        ->where('surname', 'Stark');
+
+    $averageAge = DB::table('characters')
+        ->where('surname', 'Lannister')
+        ->union($charactersWithoutAge)
+        ->max('age');
+
+    expect($averageAge)->toBe(41);
+});
+
+test('union aggregate sum', function () {
+    $charactersWithoutAge = DB::table('characters')
+        ->where('surname', 'Stark');
+
+    $averageAge = DB::table('characters')
+        ->where('surname', 'Lannister')
+        ->union($charactersWithoutAge)
+        ->sum('age');
+
+    expect($averageAge)->toBe(219);
+});

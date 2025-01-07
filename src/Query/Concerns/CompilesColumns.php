@@ -12,6 +12,39 @@ use LaravelFreelancerNL\Aranguent\Query\Builder;
 trait CompilesColumns
 {
     /**
+     * @param mixed[] $returnAttributes
+     * @param mixed[] $returnDocs
+     * @param Builder $query
+     * @return mixed[]
+     */
+    public function processEmptyReturnValues(array $returnAttributes, array $returnDocs, Builder $query): array
+    {
+        if (empty($returnAttributes) && empty($returnDocs)) {
+            $returnDocs[] = (string) $query->getTableAlias($query->from);
+
+            if ($query->joins !== null) {
+                $returnDocs = $this->mergeJoinResults($query, $returnDocs);
+            }
+        }
+        return $returnDocs;
+    }
+
+    /**
+     * @param Builder $query
+     * @param mixed[] $returnDocs
+     * @param mixed[] $returnAttributes
+     * @return mixed[]
+     */
+    public function processAggregateReturnValues(Builder $query, array $returnDocs, array $returnAttributes): array
+    {
+        if ($query->aggregate !== null && $query->unions === null) {
+            $returnDocs = [];
+            $returnAttributes = ['aggregate' => 'aggregateResult'];
+        }
+        return [$returnDocs, $returnAttributes];
+    }
+
+    /**
      * Compile the "select *" portion of the query.
      *
      * @param IlluminateQueryBuilder $query
@@ -235,19 +268,10 @@ trait CompilesColumns
         assert($query instanceof Builder);
 
         // If nothing was specifically requested, we return everything.
-        if (empty($returnAttributes) && empty($returnDocs)) {
-            $returnDocs[] = (string) $query->getTableAlias($query->from);
-
-            if ($query->joins !== null) {
-                $returnDocs = $this->mergeJoinResults($query, $returnDocs);
-            }
-        }
+        $returnDocs = $this->processEmptyReturnValues($returnAttributes, $returnDocs, $query);
 
         // Aggregate functions only return the aggregate, so we can clear out everything else.
-        if ($query->aggregate !== null) {
-            $returnDocs = [];
-            $returnAttributes = ['aggregate' => 'aggregateResult'];
-        }
+        list($returnDocs, $returnAttributes) = $this->processAggregateReturnValues($query, $returnDocs, $returnAttributes);
 
         // Return a single value for certain subqueries
         if (

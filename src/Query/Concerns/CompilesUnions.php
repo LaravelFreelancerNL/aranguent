@@ -39,8 +39,6 @@ trait CompilesUnions
         $aql = 'LET ' . $unionResultsId . ' = ' . $unions
             . ' FOR ' . $unionDocId . ' IN ' . $unionResultsId;
 
-        // Union groups
-
         if (!empty($query->unionOrders)) {
             $aql .= ' ' . $this->compileOrders($query, $query->unionOrders, $unionResultsId);
         }
@@ -53,7 +51,17 @@ trait CompilesUnions
             $aql .= ' ' . $this->compileLimit($query, $query->unionLimit);
         }
 
-        // Union aggregates?
+        if ($query->aggregate !== null) {
+            $originalFrom = $query->from;
+            $query->from = $unionResultsId;
+
+            $aql .= ' ' . $this->compileAggregate($query, $query->aggregate);
+
+            $query->from = $originalFrom;
+
+            return $aql . ' RETURN { `aggregate`: aggregateResult }';
+        }
+
         return $aql . ' RETURN ' . $unionDocId;
     }
 
