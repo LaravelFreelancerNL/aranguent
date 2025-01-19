@@ -111,7 +111,7 @@ update with join
 delete / truncate
 
 ### Debugging
-dd  / dump / toSql / ddRawSql / dumpRawSql / toRawSql
+dd  / dump / toSql / ddRawSql? / dumpRawSql / toRawSql?
 
 ## <a name="eloquent"></a>Eloquent
 The methods listed below are **specific** to Eloquent.
@@ -120,17 +120,17 @@ in the chapter above._
 
 ### Model CRUD
 all / first / firstWhere / firstOr / firstOrFail /
-firstOrCreate / firstOrNew? / 
-find / findOr / fresh? / refresh? /  
-create / createOrFirst / fill / save / update / updateOrCreate /
-upsert / replicate / delete / destroy / truncate / softDeletes / 
-trashed? / restore? / withTrashed? / forceDelete
-isDirty? / isClean / wasChanged / getOriginal /
-pruning / query scopes? / saveQuietly / deleteQuietly /
-forceDeleteQuietly / restoreQuietly
+firstOrCreate / firstOrNew / 
+find / findOr? / fresh / refresh / 
+create / createOrFirst / fill? / save / update / updateOrCreate /
+upsert / replicate? / delete / destroy / truncate / softDeletes? / 
+trashed? / restore? / withTrashed? / forceDelete /
+isDirty? / isClean? / wasChanged? / getOriginal? /
+pruning? / query scopes? / saveQuietly? / deleteQuietly? /
+forceDeleteQuietly? / restoreQuietly?
 
 #### Model comparison
-is / isNot
+is? / isNot?
 
 ### Relationships
 - One To One
@@ -142,30 +142,35 @@ is / isNot
 
 belongsTo / belongsToMany / 
 morphOne / morphTo / morphMany / morphMany / morphedByMany / 
-ofMany / latestOfMany / oldestOfMany
-hasOne / hasMany / hasX / hasOneThrough / hasManyThrough / 
-throughX /
-whereBelongsTo /
-as / 
-withTimestamps /
+ofMany? / latestOfMany? / oldestOfMany? /
+has / hasOne / hasMany / hasOneThrough? / hasManyThrough? / 
+through? / whereBelongsTo? / 
 
 #### Pivot functions
-withPivot / 
-wherePivot / wherePivotIn /wherePivotNotIn /
-wherePivotBetween / wherePivotNotBetween /
-wherePivotNull / wherePivotNotNull / orderByPivot /
-using
+as? / withPivot? / 
+wherePivot? / wherePivotIn? /wherePivotNotIn? /
+wherePivotBetween? / wherePivotNotBetween? /
+wherePivotNull? / wherePivotNotNull? / orderByPivot? /
+using? / withTimestamps? 
 
-enforceMorphMap / getMorphClass / getMorphedModel / resolveRelationUsing
+enforceMorphMap? / getMorphClass? / getMorphedModel? / resolveRelationUsing?
 
-#### Query relationships
-has / orHas / whereHas / whereRelation / doesntHave /
-whereDoesntHave / whereHasMorph / whereDoesntHaveMorph
+#### Querying Relationship Existence
+has / orHas / whereHas / orWhereHas / whereRelation / orWhereRelation / 
+whereMorphRelation / orWhereMorphRelation
+
+#### Querying Relationship Absence
+doesntHave / orDoesntHave /
+whereDoesntHave / orWhereDoesntHave / whereDoesntHaveRelation / orWhereDoesntHaveRelation /
+whereMorphDoesntHaveRelation / orWhereMorphDoesntHaveRelation
+
+#### Querying Morph To Relationships
+whereHasMorph / orWhereHasMorph / whereDoesntHaveMorph / orWhereDoesntHaveMorph / whereMorphedTo? / whereNotMorphedTo?
 
 #### Aggregating related models
-withCount / loadCount /
-withSum / loadSum / withExists / morphWithCount /loadMorphCount /
-loadMorphCount
+withCount / loadCount? /
+withSum? / loadSum? / withExists / morphWithCount? /loadMorphCount? /
+loadMorphCount?
 
 #### Eager loading
 with / without / withOnly / constrain /

@@ -80,6 +80,10 @@ trait HandlesAliases
             $table = 'Expression' . spl_object_id($table);
         }
 
+        if ($this->isTableAlias($table)) {
+            return $table;
+        }
+
         if (!isset($this->tableAliases[$table])) {
             return null;
         }
